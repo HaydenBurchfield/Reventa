@@ -1006,7 +1006,7 @@ body {
   height: var(--bottom-h);
   background: var(--black);
   border-top: 1px solid #1a1a1a;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-around;
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -1547,4 +1547,5 @@ body {
   .form-row { grid-template-columns: 1fr; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   .modal-title { font-size: 1.2rem; }
+  #bottom-nav { display: flex;}
 }
