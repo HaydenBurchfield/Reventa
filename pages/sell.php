@@ -4,23 +4,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>THRIFT — Sell</title>
+<title>ReVenta — Sell</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
 <nav id="top-nav">
-  <a href="index.php" class="nav-logo">THRIFT<span>.</span></a>
+  <a href="index.php" class="nav-logo">ReVenta<span>.</span></a>
   <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
   <div class="nav-links">
-    <a href="index.php" class="nav-tab-link">Home</a>
-    <a href="explore.php" class="nav-tab-link">Explore</a>
-    <a href="messages.php" class="nav-tab-link">Messages</a>
-    <a href="profile.php" class="nav-tab-link">Profile</a>
+    <a href="../index.php" class="nav-tab-link">Home</a>
+    <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
+    <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
+    <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
   </div>
-  <a href="sell.php"><button class="btn-sell active-sell">+ Sell</button></a>
+  <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
 </nav>
+
+<main id="app">
+  <div class="explore-header">
+    <h2>Explore</h2>
+    <div class="filter-row">
+      <select class="filter-select" id="sort-select">
+        <option value="newest">Newest First</option>
+        <option value="price-low">Price: Low → High</option>
+        <option value="price-high">Price: High → Low</option>
+      </select>
+      <select class="filter-select" id="condition-select">
+        <option value="all">All Conditions</option>
+        <option value="like-new">Like New</option>
+        <option value="very-good">Very Good</option>
+        <option value="good">Good</option>
+      </select>
+    </div>
+  </div>
+  <div class="categories"><div class="categories-scroll" id="explore-filters">
+    <div class="cat-pill active" data-cat="all">All</div><div class="cat-pill" data-cat="tops">Tops</div><div class="cat-pill" data-cat="bottoms">Bottoms</div><div class="cat-pill" data-cat="dresses">Dresses</div><div class="cat-pill" data-cat="outerwear">Outerwear</div><div class="cat-pill" data-cat="shoes">Shoes</div><div class="cat-pill" data-cat="accessories">Accessories</div><div class="cat-pill" data-cat="vintage">Vintage</div><div class="cat-pill" data-cat="luxury">Luxury</div><div class="cat-pill" data-cat="bags">Bags</div>
+  </div></div>
+  <div class="product-grid" id="explore-grid"></div>
+</main>
+
 
 <main id="app">
   <div class="sell-page">
