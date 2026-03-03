@@ -1,0 +1,63 @@
+<?php ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>THRIFT — Messages</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav id="top-nav">
+  <a href="index.php" class="nav-logo">THRIFT<span>.</span></a>
+  <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+  <div class="nav-links">
+    <a href="index.php" class="nav-tab-link">Home</a>
+    <a href="explore.php" class="nav-tab-link">Explore</a>
+    <a href="messages.php" class="nav-tab-link active">Messages</a>
+    <a href="profile.php" class="nav-tab-link">Profile</a>
+  </div>
+  <a href="sell.php"><button class="btn-sell">+ Sell</button></a>
+</nav>
+
+<main id="app">
+  <div class="section-header" style="padding-top:2rem"><h2>Messages</h2></div>
+  <div class="messages-list">
+    <div class="message-item unread">
+      <div class="msg-avatar"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&q=80" alt=""></div>
+      <div class="msg-body"><div class="msg-name">@stylebymai <span class="msg-time">2m ago</span></div><div class="msg-preview">Hey! Is the jacket still available? 👀</div></div>
+      <div class="msg-badge">1</div>
+    </div>
+    <div class="message-item">
+      <div class="msg-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt=""></div>
+      <div class="msg-body"><div class="msg-name">@reworkedkev <span class="msg-time">1h ago</span></div><div class="msg-preview">Thanks for your purchase! Shipped today 📦</div></div>
+    </div>
+    <div class="message-item">
+      <div class="msg-avatar"><img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=80&q=80" alt=""></div>
+      <div class="msg-body"><div class="msg-name">@thriftqueenx <span class="msg-time">3h ago</span></div><div class="msg-preview">Would you take $45 for it?</div></div>
+    </div>
+    <div class="message-item">
+      <div class="msg-avatar"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&q=80" alt=""></div>
+      <div class="msg-body"><div class="msg-name">@vintagejonas <span class="msg-time">Yesterday</span></div><div class="msg-preview">Love the fit! Just left you a review ⭐</div></div>
+    </div>
+  </div>
+</main>
+
+<nav id="bottom-nav">
+  <a class="bottom-item" href="index.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="bottom-label">Home</div></a>
+  <a class="bottom-item" href="explore.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="bottom-label">Explore</div></a>
+  <a class="bottom-item sell-btn" href="sell.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bottom-label">Sell</div></a>
+  <a class="bottom-item" href="likes.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="bottom-label">Likes</div></a>
+  <a class="bottom-item active" href="messages.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="bottom-label">Messages</div></a>
+  <a class="bottom-item" href="profile.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="bottom-label">Profile</div></a>
+</nav>
+
+<script>
+  document.getElementById('search-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.location.href = `explore.php?q=${encodeURIComponent(e.target.value)}`;
+  });
+</script>
+</body>
+</html>
