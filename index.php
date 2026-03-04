@@ -1,7 +1,15 @@
 <?php 
 
 require_once __DIR__ . '/php/objects/User.php';
+require_once __DIR__ . '/php/objects/Condition.php';
+require_once __DIR__ . '/php/objects/Category.php';
 session_start();  
+
+$condition = new Condition();
+$conditions = $condition->getAllConditions();
+
+$Category = new Category();
+$categories = $Category->getAllCategories();
 
 ?>
 <!DOCTYPE html>
@@ -25,6 +33,7 @@ session_start();
 
     <?php if (isset($_SESSION['user_id'])): ?>
       <a href="pages/profile.php" class="nav-tab-link">Profile</a>
+      <a href="/php/Utils/Logout.php" class="nav-tab-link">Logout</a>
     <?php else : ?>
       <a href="pages/login.php" class="nav-tab-link">Login</a>
     <?php endif; ?>
@@ -45,8 +54,8 @@ session_start();
       </div>
     </div>
   </div>
-  <div class="categories"><div class="categories-scroll" id="category-filters">
-    <div class="cat-pill active" data-cat="all">All</div><div class="cat-pill" data-cat="tops">Tops</div><div class="cat-pill" data-cat="bottoms">Bottoms</div><div class="cat-pill" data-cat="dresses">Dresses</div><div class="cat-pill" data-cat="outerwear">Outerwear</div><div class="cat-pill" data-cat="shoes">Shoes</div><div class="cat-pill" data-cat="accessories">Accessories</div><div class="cat-pill" data-cat="vintage">Vintage</div><div class="cat-pill" data-cat="streetwear">Streetwear</div><div class="cat-pill" data-cat="luxury">Luxury</div><div class="cat-pill" data-cat="bags">Bags</div>
+    <div class="categories"><div class="categories-scroll" id="explore-filters">
+      <?php  foreach ($categories as $cat) { echo "<div class='cat-pill' data-cat='{$cat->id}'>{$cat->name}</div>"; } ?>
   </div></div>
   <div class="section-header"><h2>Trending Now</h2><a href="pages/explore.php">View all →</a></div>
   <div class="product-grid" id="home-grid"></div>
