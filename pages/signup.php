@@ -68,16 +68,30 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reventa</title>
-    <link rel="stylesheet" href="assets/css/signup.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ReVenta — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body class="auth-page">
-    <div class="auth-container">
+    <nav id="top-nav">
+      <a href="index.php" class="nav-logo">ReVenta<span>.</span></a>
+      <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+      <div class="nav-links">
+        <a href="../index.php" class="nav-tab-link">Home</a>
+        <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
+        <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
+        <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+      </div>
+      <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
+    </nav>
+    <div class="auth-container" id="signup_auth-container">
         <div class="auth-card">
             <h1>Create Account</h1>
             <p class="subtitle">Join our community today</p>
+            <br>
             
             <?php if (!empty($message)): ?>
                 <div class="message <?php echo $messageType; ?>">
@@ -141,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <input type="password" id="confirm_password" name="confirm_password" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-primary" id="signup">Sign Up</button>
             </form>
 
             <div class="auth-footer">
