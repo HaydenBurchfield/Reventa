@@ -3,9 +3,9 @@ class DatabaseConnection {
     private $host = "localhost";
     private $username = "root";
     private $password = "password";
-    private $database = "pay_zilla";
+    private $database = "reventa";
 
-    public $connection;
+    private $connection;
 
     public function __construct() {
         $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
@@ -15,6 +15,14 @@ class DatabaseConnection {
         }
         
         $this->connection->set_charset("utf8mb4");
+    }
+
+    public function connect() {
+        return $this->connection;
+    }
+
+    public function getConnection() {
+        return $this->connection;
     }
 
     public function closeConnection() {
