@@ -47,16 +47,31 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reventa</title>
-    <link rel="stylesheet" href="assets/css/login.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ReVenta — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body class="auth-page">
+    <nav id="top-nav">
+      <a href="index.php" class="nav-logo">ReVenta<span>.</span></a>
+      <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+      <div class="nav-links">
+        <a href="../index.php" class="nav-tab-link">Home</a>
+        <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
+        <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
+        <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+      </div>
+      <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
+    </nav>
     <div class="auth-container">
         <div class="auth-card">
             <h1>Welcome Back</h1>
+            <br>
             <p class="subtitle">Login to your account</p>
+            <br>
             
             <?php if (!empty($message)): ?>
                 <div class="message <?php echo $messageType; ?>">
@@ -69,14 +84,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
+                <br>
 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
-                    <small><a href="forgot-password.php" style="color: #667eea; text-decoration: none; font-weight: 600; float: right; margin-top: 5px;">Forgot your password?</a></small>
+                    <small><a href="forgot-password.php" style="color: #ff0000; text-decoration: none; font-weight: 600; float: right; margin-top: 5px;">Forgot your password?</a></small>
                 </div>
+                <br>
 
-                <button type="submit" class="btn btn-primary">Log In</button>
+                <button type="submit" class="btn btn-primary" id="login">Log In</button>
             </form>
 
             <div class="auth-footer">
