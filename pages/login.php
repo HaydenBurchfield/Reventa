@@ -1,5 +1,5 @@
 <?php
-require_once 'User.php';
+require_once __DIR__ . '/../php/objects/User.php';
 session_start();
 
 if (isset($_SESSION['user_id'])) {
