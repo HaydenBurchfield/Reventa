@@ -8,7 +8,9 @@ class User {
     public $phone_number;
     public $adress;
     public $email;
+    public $birthday;
     public $password;
+    public $gender;
     public $state;
     private $db;
     
@@ -24,10 +26,10 @@ class User {
             return false;
         }
         $conn = $this->db->connect();
-        $sql = "INSERT INTO users (username, password, email, state, create_date) VALUES (?, ?, ?, ?, NOW())";
+        $sql = "INSERT INTO user (username, password, email, state_id, birthday, full_name, phone_number, address, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
-        $stmt->bind_param("ssssi", $this->username, $hashedPassword, $this->email, $this->state);
+        $stmt->bind_param("sssisss", $this->username, $hashedPassword, $this->email, $this->state, $this->birthday, $this->full_name, $this->phone_number, $this->adress, $this->gender);
         $success = $stmt->execute();
         if ($success) $this->id = $stmt->insert_id;
         $stmt->close();
@@ -36,7 +38,7 @@ class User {
 
     public function getUserById($id) {
         $conn = $this->db->connect();
-        $query = "SELECT * FROM users WHERE id = ?";
+        $query = "SELECT * FROM user WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -64,7 +66,7 @@ class User {
         
         $conn = $this->db->connect();
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET username = ?, email = ?, password = ?, state = ? WHERE id = ?";
+        $sql = "UPDATE user SET username = ?, email = ?, password = ?, state = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssii", $this->username, $this->email, $hashedPassword, $this->state, $this->id);
         $success = $stmt->execute();
@@ -72,21 +74,21 @@ class User {
         return $success;
     }
 
-    public function getAllUsers() {
+    public function getAlluser() {
         $conn = $this->db->connect();
-        $query = "SELECT id, username, state FROM users ORDER BY id DESC";
+        $query = "SELECT id, username, state FROM user ORDER BY id DESC";
         $result = $conn->query($query);
-        $users = [];
+        $user = [];
         while ($row = $result->fetch_assoc()) {
-            $users[] = $row;
+            $user[] = $row;
         }
-        return $users;
+        return $user;
     }
 
     public static function exists($email, $username) {
         $db = new DatabaseConnection();
         $conn = $db->connect();
-        $sql = "SELECT id FROM users WHERE email = ? OR username = ?";
+        $sql = "SELECT id FROM user WHERE email = ? OR username = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $email, $username);
         $stmt->execute();
@@ -99,7 +101,7 @@ class User {
 
     public function validateUser($email, $password) {
         $conn = $this->db->connect();
-        $query = "SELECT * FROM users WHERE email = ?";
+        $query = "SELECT * FROM user WHERE email = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -114,22 +116,22 @@ class User {
         return false;
     }
 
-    public static function searchUsers($searchTerm) {
+    public static function searchuser($searchTerm) {
         $db = new DatabaseConnection();
         $conn = $db->connect();
-        $sql = "SELECT * FROM users WHERE username LIKE ? OR email LIKE ?";
+        $sql = "SELECT * FROM user WHERE username LIKE ? OR email LIKE ?";
         $stmt = $conn->prepare($sql);
         $searchPattern = "%$searchTerm%";
         $stmt->bind_param("ss", $searchPattern, $searchPattern);
         $stmt->execute();
         $result = $stmt->get_result();
-        $users = [];
+        $user = [];
         while ($row = $result->fetch_assoc()) {
-            $users[] = $row;
+            $user[] = $row;
         }
         $stmt->close();
         $db->closeConnection();
-        return $users;
+        return $user;
     }
 }
 ?>

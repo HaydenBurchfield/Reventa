@@ -1,4 +1,22 @@
-<?php ?>
+<?php 
+
+require_once '../php/objects/User.php';
+require_once '../php/objects/Condition.php';
+require_once '../php/objects/Category.php';
+session_start();  
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$condition = new Condition();
+$conditions = $condition->getAllConditions();
+
+$Category = new Category();
+$categories = $Category->getAllCategories();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +29,7 @@
 <body>
 
 <nav id="top-nav">
-  <a href="index.php" class="nav-logo">ReVenta<span>.</span></a>
+  <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
   <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
   <div class="nav-links">
     <a href="../index.php" class="nav-tab-link">Home</a>
@@ -32,10 +50,7 @@
         <option value="price-high">Price: High → Low</option>
       </select>
       <select class="filter-select" id="condition-select">
-        <option value="all">All Conditions</option>
-        <option value="like-new">Like New</option>
-        <option value="very-good">Very Good</option>
-        <option value="good">Good</option>
+        <?php foreach ($conditions as $cond) { echo "<option value='{$cond->id}'>{$cond->name}</option>"; } ?>
       </select>
     </div>
   </div>
@@ -72,18 +87,20 @@
           <label>Category</label>
           <select class="form-input form-select">
             <option>Select category</option>
-            <option>Tops</option><option>Bottoms</option><option>Dresses</option>
-            <option>Outerwear</option><option>Shoes</option><option>Accessories</option><option>Bags</option>
+            <?php 
+            foreach ($categories as $cat) {
+              echo "<option value='{$cat->id}'>{$cat->name}</option>";
+            }
+            ?>
           </select>
         </div>
       </div>
       <div class="form-group">
         <label>Condition</label>
         <div class="condition-pills">
-          <div class="cond-pill active">Like New</div>
-          <div class="cond-pill">Very Good</div>
-          <div class="cond-pill">Good</div>
-          <div class="cond-pill">Fair</div>
+          <?php foreach ($conditions as $cond): ?>
+            <div class="cond-pill" data-cond="<?= $cond->id ?>"><?= $cond->name ?></div>
+          <?php endforeach; ?>
         </div>
       </div>
       <div class="form-group">
