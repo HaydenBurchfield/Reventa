@@ -1,4 +1,15 @@
-<?php ?>
+<?php 
+
+require_once '../php/objects/User.php';
+session_start();  
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +22,7 @@
 <body>
 
 <nav id="top-nav">
-  <a href="index.php" class="nav-logo">ReVenta<span>.</span></a>
+  <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
   <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
   <div class="nav-links">
     <a href="../index.php" class="nav-tab-link">Home</a>

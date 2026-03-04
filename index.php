@@ -1,4 +1,9 @@
-<?php ?>
+<?php 
+
+require_once __DIR__ . '/php/objects/User.php';
+session_start();  
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +22,13 @@
     <a href="index.php" class="nav-tab-link active">Home</a>
     <a href="pages/explore.php" class="nav-tab-link">Explore</a>
     <a href="pages/messages.php" class="nav-tab-link">Messages</a>
-    <a href="pages/profile.php" class="nav-tab-link">Profile</a>
+
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <a href="pages/profile.php" class="nav-tab-link">Profile</a>
+    <?php else : ?>
+      <a href="pages/login.php" class="nav-tab-link">Login</a>
+    <?php endif; ?>
+
   </div>
   <a href="pages/sell.php"><button class="btn-sell">+ Sell</button></a>
 </nav>
