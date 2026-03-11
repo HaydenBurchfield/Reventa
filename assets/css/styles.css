@@ -938,13 +938,7 @@ body {
   color: var(--mid);
   margin-bottom: 1rem;
 }
-@media (max-width: 768px) {
-  .profile-stats {
-    flex-direction: column;
-    gap: .8rem;
-  }
-  
-}
+
 .profile-stats {
   display: flex;
   gap: 22rem;
@@ -1557,5 +1551,11 @@ body {
   .form-row { grid-template-columns: 1fr; }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   .modal-title { font-size: 1.2rem; }
-  #bottom-nav { display: flex;}
+  #bottom-nav { 
+    display: flex;
+  }
+  .profile-stats {
+    flex-direction: row;
+    gap: 4rem;
+  }
 }
