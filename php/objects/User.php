@@ -10,10 +10,14 @@ class User {
     public $email;
     public $birthday;
     public $password;
-    public $gender;
     public $state;
+<<<<<<< HEAD
     public $profile_picture;
     public $bio;
+=======
+    public $likes;
+    public $dislikes;
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
     private $db;
 
     public function __construct() {
@@ -25,18 +29,26 @@ class User {
         if (strlen($this->username) > 50 || strlen($this->email) > 100) return false;
 
         $conn = $this->db->connect();
+<<<<<<< HEAD
         $sql  = "INSERT INTO user (username, password, email, state_id, birthday, full_name, phone_number, address, gender)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+=======
+        $sql = "INSERT INTO user (username, password, email, state_id, birthday, full_name, phone_number, address, likes, dislikes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
         $stmt = $conn->prepare($sql);
         if (!$stmt) { error_log("Prepare failed: " . $conn->error); return false; }
 
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+<<<<<<< HEAD
         $stateId = (int)$this->state;
         $stmt->bind_param("sssisssss",
             $this->username, $hashedPassword, $this->email,
             $stateId, $this->birthday, $this->full_name,
             $this->phone_number, $this->adress, $this->gender
         );
+=======
+        $stmt->bind_param("sssissisii", $this->username, $hashedPassword, $this->email, $this->state, $this->birthday, $this->full_name, $this->phone_number, $this->adress, $this->likes, $this->dislikes);
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
         $success = $stmt->execute();
         if ($success) $this->id = $stmt->insert_id;
         $stmt->close();

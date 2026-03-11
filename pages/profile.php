@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 require_once '../config.php';
 require_once '../php/objects/User.php';
@@ -8,6 +9,23 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+=======
+<?php 
+
+  require_once '../php/objects/User.php';
+  session_start();  
+
+  // $name = $_SESSION['username'] ?? null;
+  // $user = new User();
+  // if ($name) {
+  //   $user->populate($_SESSION['user_id']);
+  // } else {
+  //   header('Location: login.php');
+  //   exit();
+  // }
+  
+
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
 
 $user = new User();
 $user->populate($_SESSION['user_id']);
@@ -104,7 +122,7 @@ function renderCards(array $listings, bool $sold = false): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ReVenta — Profile</title>
+<title>THRIFT — Profile</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <style>
@@ -179,6 +197,7 @@ function renderCards(array $listings, bool $sold = false): string {
 </head>
 <body>
 <nav id="top-nav">
+<<<<<<< HEAD
   <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
   <div class="nav-search">
     <form method="GET" action="explore.php" style="margin:0;width:100%">
@@ -193,10 +212,22 @@ function renderCards(array $listings, bool $sold = false): string {
     <a href="../php/Utils/Logout.php" class="nav-tab-link">Logout</a>
   </div>
   <a href="sell.php"><button class="btn-sell">+ Sell</button></a>
+=======
+  <a href="index.php" class="nav-logo">THRIFT<span>.</span></a>
+  <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+  <div class="nav-links">
+    <a href="index.php" class="nav-tab-link">Home</a>
+    <a href="./pages/explore.php" class="nav-tab-link">Explore</a>
+    <a href="./pages/messages.php" class="nav-tab-link">Messages</a>
+    <a href="./pages/profile.php" class="nav-tab-link active">Profile</a>
+  </div>
+  <a href="./pages/sell.php"><button class="btn-sell">+ Sell</button></a>
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
 </nav>
 
 <main id="app">
   <div class="profile-cover"></div>
+<<<<<<< HEAD
 
   <form class="edit-form-wrap <?= ($success || $error) ? 'open' : '' ?>" id="edit-form"
         method="POST" enctype="multipart/form-data" action="profile.php">
@@ -252,8 +283,22 @@ function renderCards(array $listings, bool $sold = false): string {
       <button class="btn-edit-profile <?= ($success || $error) ? 'active' : '' ?>" id="edit-toggle">
         <?= ($success || $error) ? 'Done' : 'Edit Profile' ?>
       </button>
+=======
+  <div class="profile-info">
+    <div class="profile-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt=""></div>
+    <div class="profile-meta">
+      <h3>@closetbyluna</h3>
+      <p>Vintage obsessed. Based in NYC. 🌿</p>
+      <div class="profile-stats" >
+        <div class="stat"><span>309</span>Items</div>
+        <div class="stat"><span>1.2k</span>Followers</div>
+        <div class="stat"><span>98%</span>Rating</div>
+      </div>
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
     </div>
+    <button class="btn-edit-profile">Edit Profile</button>
   </div>
+<<<<<<< HEAD
 
   <div class="profile-tabs">
     <div class="profile-tab active" data-ptab="selling">Selling (<?= count($activeListings) ?>)</div>
@@ -262,6 +307,14 @@ function renderCards(array $listings, bool $sold = false): string {
   <div class="product-grid" id="profile-grid">
     <?= renderCards($activeListings, false) ?>
   </div>
+=======
+  <div class="profile-tabs">
+    <div class="profile-tab active" data-ptab="selling">Selling</div>
+    <div class="profile-tab" data-ptab="sold">Sold</div>
+    <div class="profile-tab" data-ptab="reviews">Reviews</div>
+  </div>
+  <div class="product-grid" id="profile-grid"></div>
+>>>>>>> 1cb1bce006fb28434e3c44135a3f2f5fb1b609a4
 </main>
 
 <nav id="bottom-nav">
