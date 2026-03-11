@@ -3,13 +3,18 @@
 require_once __DIR__ . '/php/objects/User.php';
 require_once __DIR__ . '/php/objects/Condition.php';
 require_once __DIR__ . '/php/objects/Category.php';
+require_once __DIR__ . '/php/objects/Listing.php';
 session_start();  
 
-$condition = new Condition();
+$condition  = new Condition();
 $conditions = $condition->getAllConditions();
 
-$Category = new Category();
+$Category   = new Category();
 $categories = $Category->getAllCategories();
+
+// Load recent listings for the homepage grid
+$listingObj   = new Listing();
+$recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
 
 ?>
 <!DOCTYPE html>
@@ -20,12 +25,40 @@ $categories = $Category->getAllCategories();
 <title>ReVenta — Buy & Sell Fashion</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
+<style>
+  /* ── Product grid ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 14px;
+    padding: 14px 16px 20px;
+  }
+  .product-card {
+    background: #fff; border-radius: 12px; overflow: hidden;
+    cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    transition: transform .15s, box-shadow .15s;
+    text-decoration: none; display: block; color: inherit;
+  }
+  .product-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+  .card-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #f0f0f0; display: block; }
+  .card-placeholder { width: 100%; aspect-ratio: 1/1; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 30px; }
+  .card-body   { padding: 10px 12px 12px; }
+  .card-title  { font-weight: 500; font-size: 14px; margin: 0 0 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-price  { font-weight: 700; font-size: 15px; }
+  .card-meta   { font-size: 11px; color: #999; margin-top: 3px; }
+
+  .empty-state { grid-column:1/-1; text-align:center; padding:50px 20px; color:#aaa; }
+  .empty-state .empty-icon { font-size:36px; margin-bottom:8px; }
+  .empty-state p { margin:0; font-size:14px; }
+</style>
 </head>
 <body>
 
 <nav id="top-nav">
   <div class="nav-logo">ReVenta<span>.</span></div>
-  <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+  <form method="GET" action="pages/explore.php" class="nav-search" style="margin:0">
+    <input type="text" name="q" id="search-input" placeholder="Search items, brands, sellers...">
+  </form>
   <div class="nav-links">
     <a href="index.php" class="nav-tab-link active">Home</a>
     <a href="pages/explore.php" class="nav-tab-link">Explore</a>
@@ -37,7 +70,6 @@ $categories = $Category->getAllCategories();
     <?php else : ?>
       <a href="pages/login.php" class="nav-tab-link">Login</a>
     <?php endif; ?>
-
   </div>
   <a href="pages/sell.php"><button class="btn-sell">+ Sell</button></a>
 </nav>
@@ -54,14 +86,59 @@ $categories = $Category->getAllCategories();
       </div>
     </div>
   </div>
-    <div class="categories"><div class="categories-scroll" id="explore-filters">
-      <?php  foreach ($categories as $cat) { echo "<div class='cat-pill' data-cat='{$cat->id}'>{$cat->name}</div>"; } ?>
-  </div></div>
+
+  <!-- Category filter pills -->
+  <div class="categories">
+    <div class="categories-scroll" id="home-cats">
+      <div class="cat-pill active" data-cat="">All</div>
+      <?php foreach ($categories as $cat): ?>
+        <div class="cat-pill" data-cat="<?= $cat->id ?>"><?= htmlspecialchars($cat->name) ?></div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+
   <div class="section-header"><h2>Trending Now</h2><a href="pages/explore.php">View all →</a></div>
-  <div class="product-grid" id="home-grid"></div>
+
+  <!-- Product grid – populated by PHP on load, then refreshed via JS when filter changes -->
+  <div class="product-grid" id="home-grid">
+    <?php if (empty($recentListings)): ?>
+      <div class="empty-state">
+        <div class="empty-icon">🛍️</div>
+        <p>No listings yet. <a href="pages/sell.php" style="color:#111;font-weight:600">Be the first to sell!</a></p>
+      </div>
+    <?php else: ?>
+      <?php foreach ($recentListings as $item): ?>
+        <a class="product-card" href="pages/listing.php?id=<?= $item['id'] ?>">
+          <?php if (!empty($item['cover_photo'])): ?>
+            <img class="card-img"
+                 src="<?= htmlspecialchars($item['cover_photo']) ?>"
+                 alt="<?= htmlspecialchars($item['name']) ?>"
+                 loading="lazy">
+          <?php else: ?>
+            <div class="card-placeholder">📦</div>
+          <?php endif; ?>
+          <div class="card-body">
+            <div class="card-title"><?= htmlspecialchars($item['name']) ?></div>
+            <div class="card-price">$<?= number_format((float)$item['price'], 2) ?></div>
+            <div class="card-meta">
+              <?= htmlspecialchars($item['condition_name'] ?? '') ?>
+              <?php if (!empty($item['seller_username'])): ?> · <?= htmlspecialchars($item['seller_username']) ?><?php endif; ?>
+            </div>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+
   <div style="height:2.5rem"></div>
-  <div class="promo-banner"><div class="promo-text"><span class="tag">Limited Time</span><h3>Zero Fees<br>This Week</h3><p>List anything, keep everything. No fees on your first 10 sales.</p></div></div>
-  <div class="seller-section"><h2>Top Sellers</h2><div class="sellers-row" id="sellers-row"></div></div>
+
+  <div class="promo-banner">
+    <div class="promo-text">
+      <span class="tag">Limited Time</span>
+      <h3>Zero Fees<br>This Week</h3>
+      <p>List anything, keep everything. No fees on your first 10 sales.</p>
+    </div>
+  </div>
 </main>
 
 <nav id="bottom-nav">
@@ -73,25 +150,47 @@ $categories = $Category->getAllCategories();
   <a class="bottom-item" href="pages/profile.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="bottom-label">Profile</div></a>
 </nav>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/modal.js"></script>
-<script src="assets/js/app.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    renderHome();
-    renderSellers();
-    document.getElementById('category-filters')?.addEventListener('click', e => {
-      const p = e.target.closest('.cat-pill');
-      if (!p) return;
-      document.querySelectorAll('#category-filters .cat-pill').forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
-      renderHome(p.dataset.cat);
-    });
-    const si = document.getElementById('search-input');
-    si?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') window.location.href = `explore.php?q=${encodeURIComponent(si.value)}`;
-    });
-  });
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderGrid(listings) {
+  const grid = document.getElementById('home-grid');
+  if (!listings.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>No listings in this category yet.</p></div>';
+    return;
+  }
+  grid.innerHTML = listings.map(item => {
+    const img = item.cover_photo
+      ? `<img class="card-img" src="${escHtml(item.cover_photo)}" alt="${escHtml(item.name)}" loading="lazy">`
+      : `<div class="card-placeholder">📦</div>`;
+    const meta = [item.condition_name, item.seller_username].filter(Boolean).join(' · ');
+    return `<a class="product-card" href="pages/listing.php?id=${item.id}">
+      ${img}
+      <div class="card-body">
+        <div class="card-title">${escHtml(item.name)}</div>
+        <div class="card-price">$${parseFloat(item.price).toFixed(2)}</div>
+        <div class="card-meta">${escHtml(meta)}</div>
+      </div></a>`;
+  }).join('');
+}
+
+// Category pill filter (AJAX)
+document.getElementById('home-cats').addEventListener('click', e => {
+  const pill = e.target.closest('.cat-pill');
+  if (!pill) return;
+  document.querySelectorAll('#home-cats .cat-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+
+  const catId = pill.dataset.cat;
+  const url   = 'php/api/listings.php?limit=24&sort=newest' + (catId ? `&category_id=${catId}` : '');
+
+  fetch(url)
+    .then(r => r.json())
+    .then(renderGrid)
+    .catch(() => {});
+});
 </script>
 </body>
 </html>
