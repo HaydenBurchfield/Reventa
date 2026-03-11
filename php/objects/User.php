@@ -10,8 +10,9 @@ class User {
     public $email;
     public $birthday;
     public $password;
-    public $gender;
     public $state;
+    public $likes;
+    public $dislikes;
     private $db;
     
     public function __construct() {
@@ -26,10 +27,10 @@ class User {
             return false;
         }
         $conn = $this->db->connect();
-        $sql = "INSERT INTO user (username, password, email, state_id, birthday, full_name, phone_number, address, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO user (username, password, email, state_id, birthday, full_name, phone_number, address, likes, dislikes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
-        $stmt->bind_param("sssisss", $this->username, $hashedPassword, $this->email, $this->state, $this->birthday, $this->full_name, $this->phone_number, $this->adress, $this->gender);
+        $stmt->bind_param("sssissisii", $this->username, $hashedPassword, $this->email, $this->state, $this->birthday, $this->full_name, $this->phone_number, $this->adress, $this->likes, $this->dislikes);
         $success = $stmt->execute();
         if ($success) $this->id = $stmt->insert_id;
         $stmt->close();

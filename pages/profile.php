@@ -1,12 +1,18 @@
 <?php 
 
-require_once '../php/objects/User.php';
-session_start();  
+  require_once '../php/objects/User.php';
+  session_start();  
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+  // $name = $_SESSION['username'] ?? null;
+  // $user = new User();
+  // if ($name) {
+  //   $user->populate($_SESSION['user_id']);
+  // } else {
+  //   header('Location: login.php');
+  //   exit();
+  // }
+  
+
 
 ?>
 <!DOCTYPE html>
@@ -14,45 +20,45 @@ if (!isset($_SESSION['user_id'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ReVenta — Profile</title>
+<title>THRIFT — Profile</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
 <nav id="top-nav">
-  <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
+  <a href="index.php" class="nav-logo">THRIFT<span>.</span></a>
   <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
   <div class="nav-links">
-    <a href="../index.php" class="nav-tab-link">Home</a>
-    <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
-    <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
-    <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+    <a href="index.php" class="nav-tab-link">Home</a>
+    <a href="./pages/explore.php" class="nav-tab-link">Explore</a>
+    <a href="./pages/messages.php" class="nav-tab-link">Messages</a>
+    <a href="./pages/profile.php" class="nav-tab-link active">Profile</a>
   </div>
-  <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
+  <a href="./pages/sell.php"><button class="btn-sell">+ Sell</button></a>
 </nav>
 
 <main id="app">
-  <div class="explore-header">
-    <h2>Explore</h2>
-    <div class="filter-row">
-      <select class="filter-select" id="sort-select">
-        <option value="newest">Newest First</option>
-        <option value="price-low">Price: Low → High</option>
-        <option value="price-high">Price: High → Low</option>
-      </select>
-      <select class="filter-select" id="condition-select">
-        <option value="all">All Conditions</option>
-        <option value="like-new">Like New</option>
-        <option value="very-good">Very Good</option>
-        <option value="good">Good</option>
-      </select>
+  <div class="profile-cover"></div>
+  <div class="profile-info">
+    <div class="profile-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80" alt=""></div>
+    <div class="profile-meta">
+      <h3>@closetbyluna</h3>
+      <p>Vintage obsessed. Based in NYC. 🌿</p>
+      <div class="profile-stats" >
+        <div class="stat"><span>309</span>Items</div>
+        <div class="stat"><span>1.2k</span>Followers</div>
+        <div class="stat"><span>98%</span>Rating</div>
+      </div>
     </div>
+    <button class="btn-edit-profile">Edit Profile</button>
   </div>
-  <div class="categories"><div class="categories-scroll" id="explore-filters">
-    <div class="cat-pill active" data-cat="all">All</div><div class="cat-pill" data-cat="tops">Tops</div><div class="cat-pill" data-cat="bottoms">Bottoms</div><div class="cat-pill" data-cat="dresses">Dresses</div><div class="cat-pill" data-cat="outerwear">Outerwear</div><div class="cat-pill" data-cat="shoes">Shoes</div><div class="cat-pill" data-cat="accessories">Accessories</div><div class="cat-pill" data-cat="vintage">Vintage</div><div class="cat-pill" data-cat="luxury">Luxury</div><div class="cat-pill" data-cat="bags">Bags</div>
-  </div></div>
-  <div class="product-grid" id="explore-grid"></div>
+  <div class="profile-tabs">
+    <div class="profile-tab active" data-ptab="selling">Selling</div>
+    <div class="profile-tab" data-ptab="sold">Sold</div>
+    <div class="profile-tab" data-ptab="reviews">Reviews</div>
+  </div>
+  <div class="product-grid" id="profile-grid"></div>
 </main>
 
 <nav id="bottom-nav">

@@ -31,7 +31,6 @@ body {
   min-height: 100vh;
 }
 
-/* NAV */
 #top-nav {
   position: fixed;
   top: 0;
@@ -904,12 +903,16 @@ body {
 }
 
 .profile-info {
+  display: flex;
+  flex-direction: column;
   padding: 0 2rem 1.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-avatar {
-  width: 84px;
-  height: 84px;
+  width: 194px;
+  height: 194px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--white);
@@ -935,10 +938,16 @@ body {
   color: var(--mid);
   margin-bottom: 1rem;
 }
-
+@media (max-width: 768px) {
+  .profile-stats {
+    flex-direction: column;
+    gap: .8rem;
+  }
+  
+}
 .profile-stats {
   display: flex;
-  gap: 2rem;
+  gap: 22rem;
   margin-bottom: 1rem;
 }
 
@@ -953,7 +962,7 @@ body {
 }
 
 .btn-edit-profile {
-  background: transparent;
+  background: #ad1313;
   border: 1.5px solid #ccc;
   border-radius: 20px;
   padding: 7px 20px;
@@ -962,6 +971,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: all .2s;
+  color: white;
 }
 
 .btn-edit-profile:hover {
