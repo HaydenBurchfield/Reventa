@@ -18,27 +18,25 @@ function sanitizeInput($data) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $email = !empty($_POST['email']) ? sanitizeInput($_POST['email']) : "";
+    $email    = !empty($_POST['email'])    ? sanitizeInput($_POST['email'])    : "";
     $password = !empty($_POST['password']) ? sanitizeInput($_POST['password']) : "";
 
     if (empty($email) || empty($password)) {
-        $message = "Please enter both email and password.";
+        $message     = "Please enter both email and password.";
         $messageType = "error";
     } else {
-        $userid = $user->validateUser($email, $password);
+        $user       = new User();                          // ← instantiate FIRST
+        $userRecord = $user->validateUser($email, $password); // ← then call method
 
-        if ($userid != 0) {
-            $user = new User();
-            $user->populate($userid);
-
-            $_SESSION['user_id'] = $user->id;
-            $_SESSION['email'] = $user->email;
-            $_SESSION['username'] = $user->username;
+        if ($userRecord !== false) {
+            $_SESSION['user_id']  = $userRecord['id'];
+            $_SESSION['email']    = $userRecord['email'];
+            $_SESSION['username'] = $userRecord['username'];
 
             header("Location: ../index.php");
             exit;
         } else {
-            $message = "Invalid email or password!";
+            $message     = "Invalid email or password!";
             $messageType = "error";
         }
     }
@@ -49,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ReVenta — Profile</title>
+<title>ReVenta — Login</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <link rel="stylesheet" href="../assets/css/login.css">
@@ -60,9 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
       <div class="nav-links">
         <a href="../index.php" class="nav-tab-link">Home</a>
-        <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
+        <a href="../pages/explore.php" class="nav-tab-link">Explore</a>
         <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
-        <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+        <a href="../pages/login.php" class="nav-tab-link active">Login</a>
       </div>
       <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
     </nav>

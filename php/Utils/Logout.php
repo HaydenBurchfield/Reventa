@@ -5,6 +5,6 @@ $_SESSION = array();
 
 setcookie("PHPSSID", time()-3600);
 session_destroy();
-header("Location: ../index.php");
+header("Location: ../../index.php");
 exit;
 ?>
