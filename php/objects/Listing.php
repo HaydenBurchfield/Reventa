@@ -42,7 +42,7 @@ class Listing {
     public function insert() {
         $sql  = "INSERT INTO listing (name, price, description, condition_id, category_id, seller_id, view_count) VALUES (?,?,?,?,?,?,?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sdsiis",
+        $stmt->bind_param("sdsiisi",
             $this->name, $this->price, $this->description,
             $this->condition_id, $this->category_id, $this->seller_id, $this->view_count
         );
