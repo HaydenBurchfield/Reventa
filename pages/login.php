@@ -58,9 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
       <div class="nav-links">
         <a href="../index.php" class="nav-tab-link">Home</a>
-        <a href="../pages/explore.php" class="nav-tab-link active">Explore</a>
+        <a href="../pages/explore.php" class="nav-tab-link">Explore</a>
         <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
-        <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+        <a href="../pages/login.php" class="nav-tab-link active">Login</a>
       </div>
       <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
     </nav>

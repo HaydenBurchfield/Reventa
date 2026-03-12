@@ -176,6 +176,7 @@ function sellerAvatar($item): string {
     <a href="messages.php" class="nav-tab-link">Messages</a>
     <?php if ($isLoggedIn): ?>
       <a href="profile.php"  class="nav-tab-link">Profile</a>
+      <a href="likes.php"    class="nav-tab-link">My Likes</a>
       <a href="../php/Utils/Logout.php" class="nav-tab-link">Logout</a>
     <?php else: ?>
       <a href="login.php"    class="nav-tab-link">Login</a>
@@ -242,6 +243,7 @@ function sellerAvatar($item): string {
         <p class="listing-desc"><?= nl2br(htmlspecialchars($item['description'])) ?></p>
       <?php endif; ?>
       <div class="listing-date">Listed <?= date('M j, Y', strtotime($item['created_at'])) ?></div>
+      <div class="listing-date">Views: <?= $item['view_count'] ?></div>
     </div>
 
     <!-- Seller Card -->

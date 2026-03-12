@@ -20,6 +20,15 @@ class User {
         $this->db = new DatabaseConnection();
     }
 
+
+    public static function getStates() {
+        $conn   = (new DatabaseConnection())->connect();
+        $result = $conn->query("SELECT id, name FROM state ORDER BY name");
+        $states = [];
+        while ($row = $result->fetch_assoc()) $states[] = $row;
+        return $states;
+    }
+
     public function insert() {
         if (self::exists($this->email, $this->username)) return false;
         if (strlen($this->username) > 50 || strlen($this->email) > 100) return false;

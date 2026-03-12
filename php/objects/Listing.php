@@ -11,6 +11,7 @@ class Listing {
     public $seller_id;
     public $is_sold    = 0;
     public $created_at;
+    public $view_count;
     private $db;
     private $conn;
 
@@ -19,12 +20,31 @@ class Listing {
         $this->conn = $this->db->getConnection();
     }
 
+    public function addView() {
+        $sql  = "UPDATE `reventa`.`listing` SET `view_count` = `view_count` + 1 WHERE (`id` = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $this->id);
+        $success = $stmt->execute();
+        if ($success) $this->id = $stmt->insert_id;
+        $stmt->close();
+        return $success;
+    }
+    public function getViewCount() {
+        $sql  = "SELECT view_count FROM listing WHERE id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $this->id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+        return $result['view_count'] ?? 0;
+    }
+
     public function insert() {
-        $sql  = "INSERT INTO listing (name, price, description, condition_id, category_id, seller_id) VALUES (?,?,?,?,?,?)";
+        $sql  = "INSERT INTO listing (name, price, description, condition_id, category_id, seller_id, view_count) VALUES (?,?,?,?,?,?,?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sdsiis",
             $this->name, $this->price, $this->description,
-            $this->condition_id, $this->category_id, $this->seller_id
+            $this->condition_id, $this->category_id, $this->seller_id, $this->view_count
         );
         $success = $stmt->execute();
         if ($success) $this->id = $stmt->insert_id;
@@ -137,6 +157,8 @@ class Listing {
         $listing = $stmt->get_result()->fetch_assoc();
         $stmt->close();
         if ($listing) $listing['photos'] = $this->getPhotos($id);
+        if ($listing) $this->addView();
+        if ($listing) $listing['view_count'] = $this->getViewCount();
         return $listing;
     }
 

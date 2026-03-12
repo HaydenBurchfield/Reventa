@@ -235,6 +235,7 @@ $meObj->populate($userId);
     <a href="explore.php"  class="nav-tab-link">Explore</a>
     <a href="messages.php" class="nav-tab-link active">Messages</a>
     <a href="profile.php"  class="nav-tab-link">Profile</a>
+    <a href="likes.php"    class="nav-tab-link">My Likes</a>
     <a href="../php/Utils/Logout.php" class="nav-tab-link">Logout</a>
   </div>
   <a href="sell.php"><button class="btn-sell">+ Sell</button></a>

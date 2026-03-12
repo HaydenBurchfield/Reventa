@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <a href="../pages/explore.php" class="nav-tab-link">Explore</a>
         <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
         <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+        <a href="../pages/likes.php" class="nav-tab-link">My Likes</a>
       </div>
       <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
     </nav>
@@ -131,8 +132,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                 <div class="form-group">
                     <label for="state">State</label>
-                    <input type="text" id="state" name="state"
-                           value="<?php echo htmlspecialchars($_POST['state'] ?? ''); ?>">
+                    <select id="state" name="state">
+                        <?php foreach (User::getStates() as $state): ?>
+                            <option value="<?php echo $state['id']; ?>" <?php echo (($_POST['state'] ?? '') == $state['id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($state['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+
+                    </select>
                 </div>
 
                 <div class="form-group">

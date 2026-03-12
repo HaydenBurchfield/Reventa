@@ -114,10 +114,11 @@ CREATE TABLE `listing` (
   `is_sold` tinyint(1) DEFAULT '0',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `category_id` int DEFAULT NULL,
+  `view_count` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `listing_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +127,7 @@ CREATE TABLE `listing` (
 
 LOCK TABLES `listing` WRITE;
 /*!40000 ALTER TABLE `listing` DISABLE KEYS */;
-INSERT INTO `listing` VALUES (1,'Test','5','Test',3,1,NULL,0,'2026-03-04 14:11:00',3),(2,'hayden','5','Test',2,1,NULL,0,'2026-03-04 14:11:43',3),(3,'Test','5','Test',3,1,NULL,0,'2026-03-11 13:41:46',2),(4,'Test','5','test',2,3,NULL,1,'2026-03-11 13:52:07',1);
+INSERT INTO `listing` VALUES (1,'Test','5','Test',3,1,NULL,0,'2026-03-04 14:11:00',3,NULL),(2,'hayden','5','Test',2,1,NULL,0,'2026-03-04 14:11:43',3,NULL),(3,'Test','5','Test',3,1,NULL,0,'2026-03-11 13:41:46',2,NULL),(4,'Test','5','test',2,3,NULL,1,'2026-03-11 13:52:07',1,NULL),(5,'hayden','123','312',2,4,NULL,0,'2026-03-12 12:17:21',3,NULL);
 /*!40000 ALTER TABLE `listing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +200,7 @@ CREATE TABLE `listing_photo` (
   PRIMARY KEY (`id`),
   KEY `listing_id` (`listing_id`),
   CONSTRAINT `listing_photo_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listing` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +209,7 @@ CREATE TABLE `listing_photo` (
 
 LOCK TABLES `listing_photo` WRITE;
 /*!40000 ALTER TABLE `listing_photo` DISABLE KEYS */;
-INSERT INTO `listing_photo` VALUES (1,2,'/uploads/listings/listing_2_69a883ef4859c7.94718400.png',0,'2026-03-04 14:11:43'),(2,3,'/uploads/listings/listing_3_69b1a95a7e3618.30695273.png',0,'2026-03-11 13:41:46'),(3,4,'/Reventa/uploads/listings/listing_4_69b1abc7706808.13246320.png',0,'2026-03-11 13:52:07');
+INSERT INTO `listing_photo` VALUES (1,2,'/uploads/listings/listing_2_69a883ef4859c7.94718400.png',0,'2026-03-04 14:11:43'),(2,3,'/uploads/listings/listing_3_69b1a95a7e3618.30695273.png',0,'2026-03-11 13:41:46'),(3,4,'/Reventa/uploads/listings/listing_4_69b1abc7706808.13246320.png',0,'2026-03-11 13:52:07'),(4,5,'/Reventa/uploads/listings/listing_5_69b2e711c11907.37696150.png',0,'2026-03-12 12:17:21'),(5,5,'/Reventa/uploads/listings/listing_5_69b2e711c210a5.49273576.png',1,'2026-03-12 12:17:21'),(6,5,'/Reventa/uploads/listings/listing_5_69b2e711c2e010.02761825.jpg',2,'2026-03-12 12:17:21'),(7,5,'/Reventa/uploads/listings/listing_5_69b2e711c3cb54.38967527.jpg',3,'2026-03-12 12:17:21');
 /*!40000 ALTER TABLE `listing_photo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +255,7 @@ CREATE TABLE `state` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,6 +264,7 @@ CREATE TABLE `state` (
 
 LOCK TABLES `state` WRITE;
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
+INSERT INTO `state` VALUES (2,'Alabama'),(3,'Alaska'),(4,'Arizona'),(5,'Arkansas'),(6,'California'),(7,'Colorado'),(8,'Connecticut'),(9,'Delaware'),(10,'Florida'),(11,'Georgia'),(12,'Hawaii'),(13,'Idaho'),(14,'Illinois'),(15,'Indiana'),(16,'Iowa'),(17,'Kansas'),(18,'Kentucky'),(19,'Louisiana'),(20,'Maine'),(21,'Maryland'),(22,'Massachusetts'),(23,'Michigan'),(24,'Minnesota'),(25,'Mississippi'),(26,'Missouri'),(27,'Montana'),(28,'Nebraska'),(29,'Nevada'),(30,'New Hampshire'),(31,'New Jersey'),(32,'New Mexico'),(33,'New York'),(34,'North Carolina'),(35,'North Dakota'),(36,'Ohio'),(37,'Oklahoma'),(38,'Oregon'),(39,'Pennsylvania'),(40,'Rhode Island'),(41,'South Carolina'),(42,'South Dakota'),(43,'Tennessee'),(44,'Texas'),(45,'Utah'),(46,'Vermont'),(47,'Virginia'),(48,'Washington'),(49,'West Virginia'),(50,'Wisconsin'),(51,'Wyoming');
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +290,7 @@ CREATE TABLE `user` (
   `bio` varchar(300) DEFAULT NULL,
   `gender` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +299,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'26burchfieldh@mydacc.org','6146146144','2026-03-06 00:00:00','Hayden','Hayden Burchfield','','$2y$10$4a1nfauUiHYxkQoOwPJgiuvG17MsyE7c9CKspQgHAnHWnXQXTORMC',0,NULL,'/uploads/avatars/avatar_1_69b19ee9acc5f.png','Test',NULL),(2,'bob@bob.com','0000000000','2025-04-15 00:00:00','Bob','hayden B','132 road','$2y$10$mLQ2nP1vAeqDQP7o7.siJOs72CCYBPvDeuJ4IR5F7a15RHH.eIxNu',0,NULL,NULL,NULL,'Male'),(3,'test@test.com','6146146144','2026-03-19 00:00:00','test','Test','test','$2y$10$Z4lQyXw4c6PDDhb/mRvDr.TzIs3Srk5O5TefWvkrRiqr77/rDdBWe',0,NULL,'/Reventa/uploads/avatars/avatar_3_1773251859.png','','Male');
+INSERT INTO `user` VALUES (1,'26burchfieldh@mydacc.org','6146146144','2026-03-06 00:00:00','Hayden','Hayden Burchfield','','$2y$10$4a1nfauUiHYxkQoOwPJgiuvG17MsyE7c9CKspQgHAnHWnXQXTORMC',0,NULL,'/uploads/avatars/avatar_1_69b19ee9acc5f.png','Test',NULL),(2,'bob@bob.com','0000000000','2025-04-15 00:00:00','Bob','hayden B','132 road','$2y$10$mLQ2nP1vAeqDQP7o7.siJOs72CCYBPvDeuJ4IR5F7a15RHH.eIxNu',0,NULL,NULL,NULL,'Male'),(3,'test@test.com','6146146144','2026-03-19 00:00:00','test','Test','test','$2y$10$Z4lQyXw4c6PDDhb/mRvDr.TzIs3Srk5O5TefWvkrRiqr77/rDdBWe',0,NULL,'/Reventa/uploads/avatars/avatar_3_1773251859.png','','Male'),(4,'26burchfieldh@mydacc.orgeee','6146146144','2026-04-06 00:00:00','Haydenee','Hayden Burchfield','test 1234','$2y$10$ow36GfUWkaAjbTpEbZtRZupc7CmORdrdDwK005iaVbADK0ppu.lTy',36,NULL,NULL,NULL,'Male'),(5,'test@test.com',NULL,NULL,NULL,NULL,NULL,'$2y$10$ow36GfUWkaAjbTpEbZtRZupc7CmORdrdDwK005iaVbADK0ppu.lTy',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -310,4 +312,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-11 13:58:56
+-- Dump completed on 2026-03-12 12:40:27

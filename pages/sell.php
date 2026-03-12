@@ -156,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="messages.php" class="nav-tab-link">Messages</a>
     <?php if (isset($_SESSION['user_id'])): ?>
       <a href="profile.php" class="nav-tab-link">Profile</a>
+      <a href="likes.php"    class="nav-tab-link">My Likes</a>
       <a href="../php/Utils/Logout.php" class="nav-tab-link">Logout</a>
     <?php else: ?>
       <a href="login.php"   class="nav-tab-link">Login</a>

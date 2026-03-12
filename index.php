@@ -66,7 +66,8 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
 
     <?php if (isset($_SESSION['user_id'])): ?>
       <a href="pages/profile.php" class="nav-tab-link">Profile</a>
-      <a href="/php/Utils/Logout.php" class="nav-tab-link">Logout</a>
+      <a href="pages/likes.php" class="nav-tab-link">My Likes</a>
+      <a href="php/Utils/Logout.php" class="nav-tab-link">Logout</a>
     <?php else : ?>
       <a href="pages/login.php" class="nav-tab-link">Login</a>
     <?php endif; ?>
