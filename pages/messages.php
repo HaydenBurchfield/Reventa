@@ -1,3 +1,102 @@
+<?php
+require_once '../php/objects/User.php';
+require_once '../php/objects/Chat.php';
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$userId  = $_SESSION['user_id'];
+$chatObj = new Chat();
+
+// ── Handle AJAX: send message ─────────────────────────────────
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+    header('Content-Type: application/json');
+    $data    = json_decode(file_get_contents('php://input'), true);
+    $chatId  = (int)($data['chat_id'] ?? 0);
+    $content = trim($data['content'] ?? '');
+
+    if (!$chatId || !$content) { echo json_encode(['ok'=>false,'error'=>'Missing data']); exit; }
+
+    // Verify user is a participant
+    $chat = $chatObj->getChatById($chatId, $userId);
+    if (!$chat) { echo json_encode(['ok'=>false,'error'=>'Not authorized']); exit; }
+
+    $newId = $chatObj->sendMessage($chatId, $userId, $content);
+    if ($newId) {
+        // Return the new message
+        $msgs = $chatObj->getMessagesSince($chatId, $newId - 1);
+        echo json_encode(['ok'=>true, 'messages'=>$msgs]);
+    } else {
+        echo json_encode(['ok'=>false,'error'=>'Send failed']);
+    }
+    exit;
+}
+
+// ── Handle AJAX: poll for new messages ───────────────────────
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['poll'])) {
+    header('Content-Type: application/json');
+    $chatId = (int)($_GET['chat_id'] ?? 0);
+    $lastId = (int)($_GET['last_id'] ?? 0);
+
+    $chat = $chatObj->getChatById($chatId, $userId);
+    if (!$chat) { echo json_encode(['ok'=>false]); exit; }
+
+    $msgs = $chatObj->getMessagesSince($chatId, $lastId);
+    echo json_encode(['ok'=>true,'messages'=>$msgs]);
+    exit;
+}
+
+// ── Load inbox ────────────────────────────────────────────────
+$chats         = $chatObj->getChatsForUser($userId);
+$activeChatId  = isset($_GET['chat']) ? (int)$_GET['chat'] : null;
+$activeChat    = null;
+$activeMessages = [];
+
+if ($activeChatId) {
+    $activeChat = $chatObj->getChatById($activeChatId, $userId);
+    if ($activeChat) {
+        $activeMessages = $chatObj->getMessages($activeChatId);
+    } else {
+        $activeChatId = null;
+    }
+}
+
+// If no chat selected and there are chats, select the first
+if (!$activeChatId && !empty($chats)) {
+    $activeChatId  = $chats[0]['id'];
+    $activeChat    = $chatObj->getChatById($activeChatId, $userId);
+    $activeMessages = $chatObj->getMessages($activeChatId);
+}
+
+function chatAvatar(array $chat, int $myId): string {
+    $isbuyer = $myId == $chat['buyer_id'];
+    $pic     = $isbuyer ? $chat['seller_avatar'] : $chat['buyer_avatar'];
+    $name    = $isbuyer ? $chat['seller_username'] : $chat['buyer_username'];
+    if ($pic) return htmlspecialchars($pic);
+    return 'https://ui-avatars.com/api/?name=' . urlencode($name??'U') . '&background=111&color=fff&size=60';
+}
+function chatName(array $chat, int $myId): string {
+    $isbuyer = $myId == $chat['buyer_id'];
+    return htmlspecialchars($isbuyer ? $chat['seller_username'] : $chat['buyer_username']);
+}
+function myAvatar(int $myId, ?string $pic): string {
+    if ($pic) return htmlspecialchars($pic);
+    return 'https://ui-avatars.com/api/?name=Me&background=111&color=fff&size=60';
+}
+function msgAvatar(array $msg): string {
+    if (!empty($msg['profile_picture'])) return htmlspecialchars($msg['profile_picture']);
+    return 'https://ui-avatars.com/api/?name=' . urlencode($msg['username']??'U') . '&background=eee&color=555&size=60';
+}
+
+// Current user's avatar
+$meObj = new User();
+$meObj->populate($userId);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

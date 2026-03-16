@@ -15,14 +15,8 @@ $user->populate($_SESSION['user_id']);
 $error   = '';
 $success = '';
 
-// ── Handle POST ───────────────────────────────────────────────
+// ── Handle POST — avatar upload only ─────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user->full_name    = trim($_POST['full_name']    ?? '');
-    $user->bio          = trim($_POST['bio']          ?? '');
-    $user->phone_number = trim($_POST['phone_number'] ?? '');
-    $user->adress       = trim($_POST['address']      ?? '');
-    // profile_picture already loaded by populate(); keep it unless new file uploaded
-
     if (!empty($_FILES['profile_picture']['name']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
         $file    = $_FILES['profile_picture'];
         $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -35,29 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dest     = AVATAR_DIR . $filename;
 
             if (move_uploaded_file($file['tmp_name'], $dest)) {
-                // Delete old avatar file
                 if (!empty($user->profile_picture)) {
-                    // Convert URL path back to filesystem path
                     $oldRelative = str_replace(AVATAR_URL, '', $user->profile_picture);
                     $oldPath     = AVATAR_DIR . basename($oldRelative);
                     if (file_exists($oldPath)) @unlink($oldPath);
                 }
                 $user->profile_picture = AVATAR_URL . $filename;
+                if ($user->updateProfile()) {
+                    $success = 'Photo updated!';
+                    $user->populate($_SESSION['user_id']);
+                } else {
+                    $error = 'Failed to save photo.';
+                }
             } else {
                 $error = 'Could not save image. Make sure uploads/avatars/ is writable (chmod 755).';
             }
         } else {
             $error = 'Invalid image. Max 5 MB, JPG/PNG/WEBP/GIF only.';
-        }
-    }
-
-    if (!$error) {
-        if ($user->updateProfile()) {
-            $_SESSION['username'] = $user->username;
-            $success = 'Profile updated!';
-            $user->populate($_SESSION['user_id']); // reload fresh from DB
-        } else {
-            $error = 'Failed to save. Please try again.';
         }
     }
 }
@@ -131,32 +119,14 @@ function renderCards(array $listings, bool $sold = false): string {
   .profile-stats { display:flex; gap:20px; margin-top:8px; }
   .stat span { font-weight:700; font-size:17px; display:block; }
   .stat { font-size:11px; color:#888; }
-  .btn-edit-profile {
-    padding:8px 18px; border-radius:20px; border:1.5px solid #ddd;
-    background:#fff; font-size:13px; font-weight:600; cursor:pointer;
-    white-space:nowrap; align-self:flex-start; margin-top:10px;
-    font-family:inherit; transition:all .15s;
+  .btn-settings-icon {
+    width:36px; height:36px; border-radius:50%; border:1.5px solid #e0e0e0;
+    background:#fff; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; align-self:flex-start; margin-top:10px;
+    text-decoration:none; color:#555; transition:all .15s; flex-shrink:0;
   }
-  .btn-edit-profile:hover, .btn-edit-profile.active { border-color:#111; background:#111; color:#fff; }
-  .edit-form-wrap {
-    display:none; background:#f9f9f9; border-radius:14px;
-    padding:20px 16px; margin:0 16px 16px; border:1px solid #e8e8e8;
-  }
-  .edit-form-wrap.open { display:block; }
-  .edit-form-wrap h4 { margin:0 0 14px; font-size:16px; }
-  .ef-group { margin-bottom:13px; }
-  .ef-group label { display:block; font-size:12px; font-weight:600; color:#666; margin-bottom:4px; }
-  .ef-input {
-    width:100%; padding:10px 12px; border:1.5px solid #e0e0e0; border-radius:9px;
-    font-size:14px; font-family:inherit; background:#fff;
-    box-sizing:border-box; outline:none; transition:border-color .15s;
-  }
-  .ef-input:focus { border-color:#111; }
-  .ef-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .ef-actions { display:flex; gap:10px; margin-top:6px; }
-  .btn-save { flex:1; padding:11px; background:#111; color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; }
-  .btn-cancel { padding:11px 18px; background:#fff; border:1.5px solid #ddd; border-radius:10px; font-size:14px; cursor:pointer; font-family:inherit; }
-  .alert { padding:10px 14px; border-radius:9px; font-size:13px; margin-bottom:12px; }
+  .btn-settings-icon:hover { border-color:#111; background:#111; color:#fff; }
+  .alert { padding:10px 14px; border-radius:9px; font-size:13px; margin:0 16px 12px; }
   .alert-success { background:#eafaf1; color:#1e8449; border:1px solid #a9dfbf; }
   .alert-error   { background:#ffeaea; color:#c0392b; border:1px solid #f5c6c6; }
   .profile-tabs { display:flex; border-bottom:1.5px solid #eee; padding:0 16px; gap:4px; }
@@ -179,17 +149,6 @@ function renderCards(array $listings, bool $sold = false): string {
 </head>
 <body>
 <nav id="top-nav">
-<<<<<<< HEAD
-  <a href="index.php" class="nav-logo">THRIFT<span>.</span></a>
-  <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
-  <div class="nav-links">
-    <a href="../index.php" class="nav-tab-link">Home</a>
-    <a href="../pages/explore.php" class="nav-tab-link">Explore</a>
-    <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
-    <a href="../pages/profile.php" class="nav-tab-link active">Profile</a>
-  </div>
-  <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
-=======
   <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
   <div class="nav-search">
     <form method="GET" action="explore.php" style="margin:0;width:100%">
@@ -205,42 +164,15 @@ function renderCards(array $listings, bool $sold = false): string {
     <a href="../php/Utils/Logout.php" class="nav-tab-link">Logout</a>
   </div>
   <a href="sell.php"><button class="btn-sell">+ Sell</button></a>
->>>>>>> b72e4f91c61898cee8b44f7973c3acc716f9c19a
 </nav>
 
 <main id="app">
   <div class="profile-cover"></div>
 
-  <form class="edit-form-wrap <?= ($success || $error) ? 'open' : '' ?>" id="edit-form"
-        method="POST" enctype="multipart/form-data" action="profile.php">
-    <h4>Edit Profile</h4>
-    <?php if ($success): ?><div class="alert alert-success"><?= htmlspecialchars($success) ?></div><?php endif; ?>
-    <?php if ($error):   ?><div class="alert alert-error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+  <?php if ($success): ?><div class="alert alert-success"><?= htmlspecialchars($success) ?></div><?php endif; ?>
+  <?php if ($error):   ?><div class="alert alert-error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+  <form method="POST" enctype="multipart/form-data" action="profile.php" id="avatar-form">
     <input type="file" name="profile_picture" id="avatar-input" accept="image/*">
-    <div class="ef-row">
-      <div class="ef-group">
-        <label>Full Name</label>
-        <input class="ef-input" type="text" name="full_name" value="<?= htmlspecialchars($user->full_name ?? '') ?>">
-      </div>
-      <div class="ef-group">
-        <label>Phone</label>
-        <input class="ef-input" type="text" name="phone_number" value="<?= htmlspecialchars($user->phone_number ?? '') ?>">
-      </div>
-    </div>
-    <div class="ef-group">
-      <label>Bio</label>
-      <input class="ef-input" type="text" name="bio" maxlength="300"
-             placeholder="Tell people about yourself…"
-             value="<?= htmlspecialchars($user->bio ?? '') ?>">
-    </div>
-    <div class="ef-group">
-      <label>Address</label>
-      <input class="ef-input" type="text" name="address" value="<?= htmlspecialchars($user->adress ?? '') ?>">
-    </div>
-    <div class="ef-actions">
-      <button type="submit" class="btn-save">Save Changes</button>
-      <button type="button" class="btn-cancel" id="cancel-edit">Cancel</button>
-    </div>
   </form>
 
   <div class="profile-info">
@@ -262,9 +194,9 @@ function renderCards(array $listings, bool $sold = false): string {
           <div class="stat"><span><?= count($soldListings) ?></span>Sold</div>
         </div>
       </div>
-      <button class="btn-edit-profile <?= ($success || $error) ? 'active' : '' ?>" id="edit-toggle">
-        <?= ($success || $error) ? 'Done' : 'Edit Profile' ?>
-      </button>
+      <a class="btn-settings-icon" href="settings.php" title="Settings" aria-label="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </a>
     </div>
   </div>
 
@@ -279,39 +211,15 @@ function renderCards(array $listings, bool $sold = false): string {
 
 <nav id="bottom-nav">
   <a class="bottom-item" href="../index.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="bottom-label">Home</div></a>
-<<<<<<< HEAD
-  <a class="bottom-item active" href="../pages/explore.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="bottom-label">Explore</div></a>
-  <a class="bottom-item" href="../pages/likes.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="bottom-label">Likes</div></a>
-  <a class="bottom-item" href="../pages/messages.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="bottom-label">Messages</div></a>
-  <a class="bottom-item" href="../pages/profile.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="bottom-label">Profile</div></a>
-=======
   <a class="bottom-item" href="explore.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="bottom-label">Explore</div></a>
   <a class="bottom-item sell-btn" href="sell.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="bottom-label">Sell</div></a>
   <a class="bottom-item" href="likes.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="bottom-label">Likes</div></a>
   <a class="bottom-item" href="messages.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="bottom-label">Messages</div></a>
-  <a class="bottom-item active" href="profile.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="bottom-label">Profile</div></a>
->>>>>>> b72e4f91c61898cee8b44f7973c3acc716f9c19a
-</nav>
+  <a class="bottom-item active" href="profile.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="bottom-label">Profile</div></a></nav>
 
 <script>
 const activeCards = <?= json_encode($activeListings) ?>;
 const soldCards   = <?= json_encode($soldListings) ?>;
-
-const editToggle = document.getElementById('edit-toggle');
-const editForm   = document.getElementById('edit-form');
-const cancelBtn  = document.getElementById('cancel-edit');
-
-editToggle.addEventListener('click', () => {
-  const isOpen = editForm.classList.toggle('open');
-  editToggle.classList.toggle('active', isOpen);
-  editToggle.textContent = isOpen ? 'Done' : 'Edit Profile';
-  if (isOpen) editForm.scrollIntoView({ behavior:'smooth', block:'nearest' });
-});
-cancelBtn.addEventListener('click', () => {
-  editForm.classList.remove('open');
-  editToggle.classList.remove('active');
-  editToggle.textContent = 'Edit Profile';
-});
 
 document.getElementById('avatar-input').addEventListener('change', function() {
   const file = this.files[0];
@@ -319,9 +227,7 @@ document.getElementById('avatar-input').addEventListener('change', function() {
   const reader = new FileReader();
   reader.onload = e => { document.getElementById('avatar-img').src = e.target.result; };
   reader.readAsDataURL(file);
-  editForm.classList.add('open');
-  editToggle.classList.add('active');
-  editToggle.textContent = 'Done';
+  document.getElementById('avatar-form').submit();
 });
 
 function escHtml(s) {
