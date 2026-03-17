@@ -15,11 +15,9 @@ $error   = '';
 $success = '';
 $section = $_GET['section'] ?? 'account';
 
-// ── Handle POST ───────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
-    // Account: username + email
     if ($action === 'account') {
         $newUsername = trim($_POST['username'] ?? '');
         $newEmail    = trim($_POST['email']    ?? '');
@@ -31,17 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (strlen($newUsername) > 50) {
             $error = 'Username must be 50 characters or fewer.';
         } else {
-            // Only check uniqueness if values changed
             $changed = ($newUsername !== $user->username || $newEmail !== $user->email);
             if ($changed && User::exists($newEmail, $newUsername)) {
                 $error = 'That username or email is already taken.';
             } else {
                 $user->username = $newUsername;
                 $user->email    = $newEmail;
-                // Keep existing password hash (update() re-hashes, so pass the stored hash)
-                // To avoid double-hashing, we use a raw query approach via the model's update():
-                // update() calls password_hash() again — so we need to store plaintext temporarily.
-                // Since we're not changing password here, skip update() and do a targeted query.
                 $conn = (new DatabaseConnection())->connect();
                 $stmt = $conn->prepare("UPDATE user SET username=?, email=? WHERE id=?");
                 $stmt->bind_param("ssi", $newUsername, $newEmail, $user->id);
@@ -58,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $section = 'account';
     }
 
-    // Password change
     if ($action === 'password') {
         $current  = $_POST['current_password']  ?? '';
         $newPass  = $_POST['new_password']       ?? '';
@@ -82,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $section = 'security';
     }
 
-    // Delete account
     if ($action === 'delete') {
         $confirmWord = trim($_POST['confirm_delete'] ?? '');
         if ($confirmWord !== 'DELETE') {
@@ -111,300 +102,557 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>ReVenta — Settings</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <style>
-/* ── Settings Layout ─────────────────────────────── */
-* { box-sizing: border-box; }
-
-.settings-wrap {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 0 0 100px;
-  font-family: 'DM Sans', sans-serif;
+/* ── Variables ───────────────────────────── */
+:root {
+  --black:     #0D0D0D;
+  --charcoal:  #2C2C2C;
+  --mid:       #6B6B6B;
+  --light:     #C0C0C0;
+  --border:    #E8E8E8;
+  --bg:        #F5F5F5;
+  --white:     #FFFFFF;
+  --success:   #1A7A40;
+  --success-bg:#EDF7F2;
+  --danger:    #C0392B;
+  --danger-bg: #FDF2F1;
 }
 
-/* Page header */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  font-family: 'Barlow', sans-serif;
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════════
+   MOBILE-FIRST BASE
+══════════════════════════════════════════ */
+
+.settings-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Top Header ─────────────────────────── */
 .settings-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 16px 8px;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--white);
+  border-bottom: 2px solid var(--black);
   position: sticky;
   top: 0;
-  background: #fff;
-  z-index: 10;
-  border-bottom: 1px solid #f0f0f0;
-}
-.settings-back {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid #e8e8e8;
-  background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  text-decoration: none;
-  color: #111;
-  flex-shrink: 0;
-  transition: background .15s, border-color .15s;
-}
-.settings-back:hover { background: #f5f5f5; border-color: #ccc; }
-.settings-header h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 26px;
-  letter-spacing: 0.04em;
-  margin: 0;
-  color: #111;
+  z-index: 30;
 }
 
-/* User identity strip */
+.settings-back {
+  width: 36px; height: 36px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  color: var(--black);
+  flex-shrink: 0;
+  transition: background .12s, color .12s;
+}
+.settings-back:hover { background: var(--black); color: var(--white); }
+
+.settings-header h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--black);
+  flex: 1;
+}
+
+/* ── Identity Strip ─────────────────────── */
 .settings-identity {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px 14px;
-  margin: 12px 16px;
-  background: #f7f7f7;
-  border-radius: 14px;
-}
-.settings-avatar {
-  width: 48px; height: 48px; border-radius: 50%;
-  object-fit: cover; flex-shrink: 0; border: 2px solid #e0e0e0;
-}
-.settings-identity-name { font-size: 15px; font-weight: 500; margin: 0 0 2px; color: #111; }
-.settings-identity-email { font-size: 12px; color: #888; margin: 0; }
-
-/* Nav pills */
-.settings-nav {
-  display: flex;
-  gap: 8px;
-  padding: 4px 16px 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.settings-nav::-webkit-scrollbar { display: none; }
-.settings-nav a {
-  flex-shrink: 0;
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  color: #555;
-  background: #f2f2f2;
-  transition: all .15s;
-  white-space: nowrap;
-}
-.settings-nav a.active { background: #111; color: #fff; }
-.settings-nav a:hover:not(.active) { background: #e5e5e5; }
-
-/* Section card */
-.settings-section {
-  margin: 0 16px 16px;
-  background: #fff;
-  border: 1px solid #ebebeb;
-  border-radius: 16px;
+  background: var(--white);
   overflow: hidden;
 }
-.settings-section-title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #999;
-  padding: 16px 18px 6px;
+
+.identity-bar {
+  width: 5px;
+  background: var(--charcoal);
+  align-self: stretch;
+  flex-shrink: 0;
 }
 
-/* Form elements */
-.sf-group {
-  padding: 6px 18px 14px;
+.identity-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  flex: 1;
 }
-.sf-group + .sf-group {
-  border-top: 1px solid #f5f5f5;
-  padding-top: 14px;
+
+.settings-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--charcoal);
 }
-.sf-label {
+
+.settings-identity-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color:black var(--white);
+  text-transform: uppercase;
+}
+
+.settings-identity-email {
   font-size: 12px;
+  color: var(--light);
+  margin-top: 2px;
+  font-weight: 300;
+}
+
+/* ── Mobile Nav ─────────────────────────── */
+.settings-nav {
+  display: flex;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+}
+.settings-nav::-webkit-scrollbar { display: none; }
+
+.settings-nav a {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--mid);
+  border-bottom: 3px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+.settings-nav a.active  { color: var(--black); border-bottom-color: var(--black); }
+.settings-nav a:hover:not(.active) { color: var(--charcoal); }
+
+/* ── Mobile Main ─────────────────────────── */
+.desktop-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-sidebar { display: none; }
+
+.desktop-main {
+  flex: 1;
+  padding: 16px 16px 100px;
+}
+
+/* ── Mobile Logout (fixed bottom) ─────────── */
+.logout-wrap {
+  position: fixed;
+  bottom: 60px; /* above bottom-nav */
+  left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  z-index: 25;
+}
+
+/* ══════════════════════════════════════════
+   DESKTOP (≥ 768px)
+══════════════════════════════════════════ */
+@media (min-width: 768px) {
+
+  /* Kill mobile bottom nav & fixed logout */
+  #bottom-nav   { display: none !important; }
+  .logout-wrap  { display: none; }
+
+  .settings-header {
+    position: sticky;
+    top: 0;
+    padding: 18px 40px;
+  }
+  .settings-header h1 { font-size: 30px; }
+
+  .settings-identity .identity-content { padding: 16px 40px; }
+
+  /* Hide mobile scrolling nav — sidebar takes over */
+  .settings-nav { display: none; }
+
+  /* Two-column body */
+  .desktop-layout {
+    flex-direction: row;
+    align-items: stretch;
+    flex: 1;
+  }
+
+  /* ── Sidebar ── */
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    min-width: 240px;
+    background: var(--white);
+    border-right: 1.5px solid var(--border);
+    position: sticky;
+    top: 83px; /* header height */
+    height: calc(100vh - 83px);
+    overflow: hidden;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--mid);
+    border-left: 3px solid transparent;
+    transition: all .12s;
+  }
+  .sidebar-nav a:hover:not(.active) {
+    background: var(--bg);
+    color: var(--charcoal);
+    border-left-color: var(--light);
+  }
+  .sidebar-nav a.active {
+    background: var(--bg);
+    color: var(--black);
+    border-left-color: var(--black);
+  }
+
+  .sidebar-nav .nav-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Logout locked to sidebar bottom */
+  .sidebar-logout {
+    border-top: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  .btn-logout {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--white);
+    color: var(--charcoal);
+    border: 1.5px solid var(--border);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .btn-logout:hover {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+
+  /* ── Main content ── */
+  .desktop-main {
+    flex: 1;
+    padding: 36px 48px;
+    max-width: 760px;
+    overflow-y: auto;
+  }
+}
+
+/* ══════════════════════════════════════════
+   SHARED COMPONENTS
+══════════════════════════════════════════ */
+
+/* ── Alerts ── */
+.s-alert {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  font-size: 13px;
   font-weight: 500;
-  color: #888;
-  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 4px solid;
+}
+.s-alert-success { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+.s-alert-error   { background: var(--danger-bg);  color: var(--danger);  border-color: var(--danger); }
+
+/* ── Section Card ── */
+.settings-section {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-top: 3px solid var(--black);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.settings-section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding: 14px 20px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.settings-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Form Groups ── */
+.sf-group { padding: 8px 20px 16px; }
+.sf-group + .sf-group { border-top: 1px solid var(--bg); padding-top: 14px; }
+
+.sf-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .sf-input {
   width: 100%;
-  padding: 10px 13px;
-  border: 1.5px solid #e8e8e8;
-  border-radius: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
   font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
-  color: #111;
-  background: #fafafa;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  color: var(--black);
+  background: var(--bg);
   outline: none;
   transition: border-color .15s, background .15s;
+  border-radius: 0;
 }
-.sf-input:focus { border-color: #111; background: #fff; }
-.sf-input::placeholder { color: #bbb; }
-.sf-hint {
-  font-size: 11px;
-  color: #bbb;
-  margin-top: 5px;
+.sf-input:focus {
+  border-color: var(--black);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(13,13,13,0.07);
 }
+.sf-input::placeholder { color: var(--light); }
 
-/* Password strength bar */
-.pw-strength-bar {
-  height: 3px;
-  border-radius: 2px;
-  background: #eee;
-  margin-top: 6px;
-  overflow: hidden;
-}
-.pw-strength-fill {
-  height: 100%;
-  border-radius: 2px;
-  width: 0;
-  transition: width .3s, background .3s;
-}
+.sf-hint { font-size: 11px; color: var(--light); margin-top: 6px; }
 
-/* Row item (toggle-style) */
+/* ── Password strength ── */
+.pw-strength-bar { height: 3px; background: var(--border); margin-top: 8px; overflow: hidden; }
+.pw-strength-fill { height: 100%; width: 0; transition: width .3s, background .3s; }
+
+/* ── Row items ── */
 .settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 14px 20px;
   cursor: pointer;
   transition: background .12s;
+  text-decoration: none;
+  color: inherit;
 }
-.settings-row:not(:last-child) { border-bottom: 1px solid #f5f5f5; }
-.settings-row:hover { background: #fafafa; }
-.settings-row:active { background: #f2f2f2; }
-.sr-left { display: flex; align-items: center; gap: 12px; }
+.settings-row:not(:last-child) { border-bottom: 1px solid var(--bg); }
+.settings-row:hover  { background: var(--bg); }
+.settings-row:active { background: #eeeeee; }
+
+.sr-left { display: flex; align-items: center; gap: 14px; }
+
 .sr-icon {
-  width: 32px; height: 32px; border-radius: 8px;
+  width: 34px; height: 34px;
   display: flex; align-items: center; justify-content: center;
   font-size: 15px; flex-shrink: 0;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
 }
-.sr-icon.gray   { background: #f2f2f2; }
-.sr-icon.red    { background: #fff0f0; }
-.sr-icon.blue   { background: #eff4ff; }
-.sr-icon.green  { background: #effff6; }
-.sr-icon.amber  { background: #fffbee; }
-.sr-text { font-size: 14px; font-weight: 400; color: #111; }
-.sr-sub  { font-size: 11px; color: #aaa; margin-top: 1px; }
-.sr-arrow { color: #ccc; font-size: 18px; line-height: 1; }
+.sr-icon.dark { background: var(--black); border-color: var(--black); }
 
-/* Save button */
+.sr-text { font-size: 14px; font-weight: 500; color: var(--black); }
+.sr-sub  { font-size: 11px; color: var(--mid); margin-top: 2px; }
+.sr-arrow { color: var(--light); font-size: 20px; line-height: 1; }
+
+/* ── Save button ── */
+.sf-footer { padding: 0 20px 18px; }
+
 .btn-save-settings {
   width: 100%;
   padding: 13px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--black);
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 15px;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: opacity .15s, transform .1s;
-  margin: 4px 0 0;
+  transition: opacity .15s;
+  border-radius: 0;
 }
-.btn-save-settings:hover  { opacity: .88; }
-.btn-save-settings:active { transform: scale(.98); }
+.btn-save-settings:hover  { opacity: .82; }
+.btn-save-settings:active { opacity: .7; }
 
-/* Danger button */
+/* ── Danger button ── */
 .btn-danger {
   width: 100%;
   padding: 13px;
-  background: #fff;
-  color: #d94040;
-  border: 1.5px solid #f5c5c5;
-  border-radius: 12px;
+  background: var(--white);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 15px;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: all .15s;
-  margin: 4px 0 0;
+  border-radius: 0;
 }
-.btn-danger:hover { background: #fff5f5; border-color: #e88; }
+.btn-danger:hover { background: var(--danger); color: var(--white); }
 
-/* Alerts */
-.s-alert {
-  margin: 0 16px 12px;
-  padding: 11px 14px;
-  border-radius: 11px;
-  font-size: 13px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* ── Deactivate button ── */
+.btn-deactivate {
+  padding: 7px 16px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--charcoal);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all .15s;
 }
-.s-alert-success { background: #f0fdf4; color: #1a7a40; border: 1px solid #bbf7d0; }
-.s-alert-error   { background: #fff5f5; color: #c0392b; border: 1px solid #fecaca; }
+.btn-deactivate:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-/* Section footer (inside card) */
-.sf-footer {
-  padding: 0 18px 16px;
-}
-
-/* Divider */
-.s-divider {
-  height: 1px;
-  background: #f0f0f0;
-  margin: 0 18px;
-}
-
-/* Delete confirm field */
-.delete-confirm-wrap {
-  display: none;
-  padding: 0 18px 16px;
-}
-.delete-confirm-wrap.open { display: block; }
-
-/* Logout */
-.btn-logout {
-  width: calc(100% - 32px);
-  margin: 0 16px;
-  padding: 13px;
-  background: #fff;
-  color: #555;
-  border: 1.5px solid #e8e8e8;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 400;
-  font-family: 'DM Sans', sans-serif;
+/* ── Mobile logout button ── */
+.btn-logout-mobile {
+  width: 100%;
+  padding: 12px;
+  background: var(--white);
+  color: var(--charcoal);
+  border: 1.5px solid var(--border);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
   text-decoration: none;
-  transition: background .15s;
+  transition: all .15s;
+  border-radius: 0;
 }
-.btn-logout:hover { background: #f7f7f7; }
+.btn-logout-mobile:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-/* Toggle switch */
+/* ── Divider ── */
+.s-divider { height: 1px; background: var(--bg); }
+
+/* ── Delete confirm ── */
+.delete-confirm-wrap { display: none; padding: 0 20px 18px; }
+.delete-confirm-wrap.open { display: block; }
+
+/* ── Toggle switch ── */
 .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
 .toggle input { opacity: 0; width: 0; height: 0; }
 .toggle-slider {
   position: absolute; inset: 0; cursor: pointer;
-  background: #ddd; border-radius: 24px; transition: .2s;
+  background: var(--border); transition: .2s; border-radius: 0;
 }
 .toggle-slider:before {
   content: ""; position: absolute;
   height: 18px; width: 18px; left: 3px; bottom: 3px;
-  background: white; border-radius: 50%; transition: .2s;
+  background: var(--white); transition: .2s; border-radius: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }
-.toggle input:checked + .toggle-slider { background: #111; }
+.toggle input:checked + .toggle-slider { background: var(--black); }
 .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 
-/* Version tag */
+/* ── Active badge ── */
+.badge-active {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  background: var(--black);
+  color: var(--white);
+}
+
+/* ── Version ── */
 .version-tag {
   text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 11px;
-  color: #ccc;
-  padding: 12px 0 4px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--light);
+  padding: 14px 0 4px;
+}
+
+/* ── Fade-up entry ── */
+.settings-section { animation: fadeUp .2s ease both; }
+.settings-section:nth-child(2) { animation-delay: .04s; }
+.settings-section:nth-child(3) { animation-delay: .08s; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -412,7 +660,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="settings-wrap">
 
-  <!-- Header -->
+  <!-- ── Top Header ── -->
   <div class="settings-header">
     <a class="settings-back" href="profile.php" aria-label="Back">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
@@ -420,282 +668,313 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Settings</h1>
   </div>
 
-  <!-- Identity strip -->
+  <!-- ── Identity Strip ── -->
   <div class="settings-identity">
-    <img class="settings-avatar"
-         src="<?php
-           $pic = $user->profile_picture ?? null;
-           echo $pic ? htmlspecialchars($pic)
-                     : 'https://ui-avatars.com/api/?name=' . urlencode($user->username ?: 'U') . '&background=111&color=fff&size=96';
-         ?>" alt="avatar">
-    <div>
-      <p class="settings-identity-name">@<?= htmlspecialchars($user->username ?? '') ?></p>
-      <p class="settings-identity-email"><?= htmlspecialchars($user->email ?? '') ?></p>
+    <div class="identity-bar"></div>
+    <div class="identity-content">
+      <img class="settings-avatar"
+           src="<?php
+             $pic = $user->profile_picture ?? null;
+             echo $pic ? htmlspecialchars($pic)
+                       : 'https://ui-avatars.com/api/?name=' . urlencode($user->username ?: 'U') . '&background=2C2C2C&color=fff&size=96';
+           ?>" alt="avatar">
+      <div>
+        <p class="settings-identity-name">@<?= htmlspecialchars($user->username ?? '') ?></p>
+        <p class="settings-identity-email"><?= htmlspecialchars($user->email ?? '') ?></p>
+      </div>
     </div>
   </div>
 
-  <!-- Nav -->
+  <!-- ── Mobile Tab Nav ── -->
   <nav class="settings-nav">
-    <a href="?section=account"   class="<?= $section==='account'  ?'active':'' ?>">Account</a>
-    <a href="?section=security"  class="<?= $section==='security' ?'active':'' ?>">Security</a>
-    <a href="?section=prefs"     class="<?= $section==='prefs'    ?'active':'' ?>">Preferences</a>
-    <a href="?section=danger"    class="<?= $section==='danger'   ?'active':'' ?>">Danger Zone</a>
+    <a href="?section=account"  class="<?= $section==='account'  ? 'active' : '' ?>">Account</a>
+    <a href="?section=security" class="<?= $section==='security' ? 'active' : '' ?>">Security</a>
+    <a href="?section=prefs"    class="<?= $section==='prefs'    ? 'active' : '' ?>">Preferences</a>
+    <a href="?section=danger"   class="<?= $section==='danger'   ? 'active' : '' ?>">Danger Zone</a>
   </nav>
 
-  <!-- Alerts -->
-  <?php if ($success): ?>
-    <div class="s-alert s-alert-success">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      <?= htmlspecialchars($success) ?>
-    </div>
-  <?php endif; ?>
-  <?php if ($error): ?>
-    <div class="s-alert s-alert-error">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <?= htmlspecialchars($error) ?>
-    </div>
-  <?php endif; ?>
+  <!-- ── Main Area ── -->
+  <div class="desktop-layout">
 
-  <!-- ═══════════════ ACCOUNT ═══════════════ -->
-  <?php if ($section === 'account'): ?>
-  <form method="POST" action="settings.php?section=account">
-    <input type="hidden" name="action" value="account">
-
-    <div class="settings-section">
-      <p class="settings-section-title">Login Info</p>
-
-      <div class="sf-group">
-        <div class="sf-label">Username</div>
-        <input class="sf-input" type="text" name="username"
-               value="<?= htmlspecialchars($user->username ?? '') ?>"
-               maxlength="50" autocomplete="username" spellcheck="false">
-        <p class="sf-hint">Only letters, numbers, underscores. Shown publicly.</p>
+    <!-- ── Desktop Sidebar ── -->
+    <aside class="desktop-sidebar">
+      <nav class="sidebar-nav">
+        <a href="?section=account"  class="<?= $section==='account'  ? 'active' : '' ?>">
+          <span class="nav-icon">👤</span> Account
+        </a>
+        <a href="?section=security" class="<?= $section==='security' ? 'active' : '' ?>">
+          <span class="nav-icon">🔒</span> Security
+        </a>
+        <a href="?section=prefs"    class="<?= $section==='prefs'    ? 'active' : '' ?>">
+          <span class="nav-icon">⚙️</span> Preferences
+        </a>
+        <a href="?section=danger"   class="<?= $section==='danger'   ? 'active' : '' ?>">
+          <span class="nav-icon">⚠️</span> Danger Zone
+        </a>
+      </nav>
+      <!-- Logout locked to sidebar bottom -->
+      <div class="sidebar-logout">
+        <a class="btn-logout" href="../logout.php">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log out
+        </a>
       </div>
+    </aside>
 
-      <div class="sf-group">
-        <div class="sf-label">Email address</div>
-        <input class="sf-input" type="email" name="email"
-               value="<?= htmlspecialchars($user->email ?? '') ?>"
-               maxlength="100" autocomplete="email">
-      </div>
+    <!-- ── Content ── -->
+    <div class="desktop-main">
 
-      <div class="sf-footer">
-        <button type="submit" class="btn-save-settings">Save changes</button>
-      </div>
-    </div>
-  </form>
-
-  <div class="settings-section">
-    <p class="settings-section-title">Profile</p>
-    <a class="settings-row" href="profile.php" style="text-decoration:none">
-      <div class="sr-left">
-        <div class="sr-icon blue">👤</div>
-        <div>
-          <div class="sr-text">Edit profile</div>
-          <div class="sr-sub">Name, bio, photo, address</div>
+      <!-- Alerts -->
+      <?php if ($success): ?>
+        <div class="s-alert s-alert-success">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <?= htmlspecialchars($success) ?>
         </div>
-      </div>
-      <span class="sr-arrow">›</span>
-    </a>
-  </div>
-
-  <!-- ═══════════════ SECURITY ═══════════════ -->
-  <?php elseif ($section === 'security'): ?>
-  <form method="POST" action="settings.php?section=security">
-    <input type="hidden" name="action" value="password">
-
-    <div class="settings-section">
-      <p class="settings-section-title">Change Password</p>
-
-      <div class="sf-group">
-        <div class="sf-label">Current password</div>
-        <input class="sf-input" type="password" name="current_password"
-               autocomplete="current-password" placeholder="••••••••">
-      </div>
-
-      <div class="sf-group">
-        <div class="sf-label">
-          New password
-          <span id="pw-strength-label" style="font-size:11px;color:#aaa;font-weight:400"></span>
+      <?php endif; ?>
+      <?php if ($error): ?>
+        <div class="s-alert s-alert-error">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <?= htmlspecialchars($error) ?>
         </div>
-        <input class="sf-input" type="password" name="new_password"
-               id="new_password" autocomplete="new-password" placeholder="Min. 8 characters">
-        <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-bar"></div></div>
-      </div>
+      <?php endif; ?>
 
-      <div class="sf-group">
-        <div class="sf-label">Confirm new password</div>
-        <input class="sf-input" type="password" name="confirm_password"
-               id="confirm_password" autocomplete="new-password" placeholder="Repeat password">
-        <p class="sf-hint" id="pw-match-hint" style="color:#bbb"></p>
-      </div>
+      <!-- ═══ ACCOUNT ═══ -->
+      <?php if ($section === 'account'): ?>
 
-      <div class="sf-footer">
-        <button type="submit" class="btn-save-settings">Update password</button>
-      </div>
-    </div>
-  </form>
-
-  <div class="settings-section">
-    <p class="settings-section-title">Sessions</p>
-    <div class="settings-row" style="cursor:default">
-      <div class="sr-left">
-        <div class="sr-icon green">🔒</div>
-        <div>
-          <div class="sr-text">Current session</div>
-          <div class="sr-sub">Logged in as <?= htmlspecialchars($user->username ?? '') ?></div>
+      <form method="POST" action="settings.php?section=account">
+        <input type="hidden" name="action" value="account">
+        <div class="settings-section">
+          <p class="settings-section-title">Login Info</p>
+          <div class="sf-group">
+            <div class="sf-label">Username</div>
+            <input class="sf-input" type="text" name="username"
+                   value="<?= htmlspecialchars($user->username ?? '') ?>"
+                   maxlength="50" autocomplete="username" spellcheck="false">
+            <p class="sf-hint">Only letters, numbers, underscores. Shown publicly.</p>
+          </div>
+          <div class="sf-group">
+            <div class="sf-label">Email address</div>
+            <input class="sf-input" type="email" name="email"
+                   value="<?= htmlspecialchars($user->email ?? '') ?>"
+                   maxlength="100" autocomplete="email">
+          </div>
+          <div class="sf-footer">
+            <button type="submit" class="btn-save-settings">Save changes</button>
+          </div>
         </div>
-      </div>
-      <span style="font-size:11px;padding:4px 10px;background:#f0fdf4;color:#1a7a40;border-radius:20px;font-weight:500">Active</span>
-    </div>
-  </div>
-
-  <!-- ═══════════════ PREFERENCES ═══════════════ -->
-  <?php elseif ($section === 'prefs'): ?>
-  <div class="settings-section">
-    <p class="settings-section-title">Notifications</p>
-    <div class="settings-row">
-      <div class="sr-left">
-        <div class="sr-icon blue">🔔</div>
-        <div>
-          <div class="sr-text">New messages</div>
-          <div class="sr-sub">When someone messages you</div>
-        </div>
-      </div>
-      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-    </div>
-    <div class="settings-row">
-      <div class="sr-left">
-        <div class="sr-icon amber">❤️</div>
-        <div>
-          <div class="sr-text">Likes on listings</div>
-          <div class="sr-sub">When someone likes your item</div>
-        </div>
-      </div>
-      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-    </div>
-    <div class="settings-row">
-      <div class="sr-left">
-        <div class="sr-icon green">🛒</div>
-        <div>
-          <div class="sr-text">Sale completed</div>
-          <div class="sr-sub">When your item sells</div>
-        </div>
-      </div>
-      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-    </div>
-    <div class="settings-row" style="border-top:1px solid #f5f5f5">
-      <div class="sr-left">
-        <div class="sr-icon gray">📧</div>
-        <div>
-          <div class="sr-text">Email digest</div>
-          <div class="sr-sub">Weekly summary of activity</div>
-        </div>
-      </div>
-      <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
-    </div>
-  </div>
-
-  <div class="settings-section">
-    <p class="settings-section-title">Display</p>
-    <div class="settings-row">
-      <div class="sr-left">
-        <div class="sr-icon gray">🌙</div>
-        <div>
-          <div class="sr-text">Dark mode</div>
-          <div class="sr-sub">Easy on the eyes at night</div>
-        </div>
-      </div>
-      <label class="toggle"><input type="checkbox" id="dark-toggle"><span class="toggle-slider"></span></label>
-    </div>
-  </div>
-
-  <div class="settings-section">
-    <p class="settings-section-title">About</p>
-    <a class="settings-row" href="#" style="text-decoration:none">
-      <div class="sr-left">
-        <div class="sr-icon gray">📄</div>
-        <div><div class="sr-text">Privacy policy</div></div>
-      </div>
-      <span class="sr-arrow">›</span>
-    </a>
-    <a class="settings-row" href="#" style="text-decoration:none">
-      <div class="sr-left">
-        <div class="sr-icon gray">📋</div>
-        <div><div class="sr-text">Terms of service</div></div>
-      </div>
-      <span class="sr-arrow">›</span>
-    </a>
-    <a class="settings-row" href="#" style="text-decoration:none">
-      <div class="sr-left">
-        <div class="sr-icon gray">💬</div>
-        <div><div class="sr-text">Send feedback</div></div>
-      </div>
-      <span class="sr-arrow">›</span>
-    </a>
-  </div>
-  <p class="version-tag">ReVenta v1.0</p>
-
-  <!-- ═══════════════ DANGER ZONE ═══════════════ -->
-  <?php elseif ($section === 'danger'): ?>
-  <div class="settings-section">
-    <p class="settings-section-title">Danger Zone</p>
-
-    <div class="settings-row" id="deactivate-row" style="cursor:default">
-      <div class="sr-left">
-        <div class="sr-icon amber">⏸️</div>
-        <div>
-          <div class="sr-text">Deactivate account</div>
-          <div class="sr-sub">Hide your profile temporarily</div>
-        </div>
-      </div>
-      <button onclick="alert('Contact support to deactivate your account.')"
-              style="padding:6px 14px;border-radius:20px;border:1.5px solid #f5c5c5;background:#fff;color:#d94040;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;">
-        Deactivate
-      </button>
-    </div>
-
-    <div class="s-divider" style="margin:0"></div>
-
-    <div class="settings-row" id="delete-toggle-row" onclick="toggleDelete()" style="border-bottom:none">
-      <div class="sr-left">
-        <div class="sr-icon red">🗑️</div>
-        <div>
-          <div class="sr-text" style="color:#d94040;font-weight:500">Delete account</div>
-          <div class="sr-sub">Permanent — cannot be undone</div>
-        </div>
-      </div>
-      <span class="sr-arrow" id="delete-arrow">›</span>
-    </div>
-
-    <div class="delete-confirm-wrap" id="delete-confirm">
-      <form method="POST" action="settings.php?section=danger">
-        <input type="hidden" name="action" value="delete">
-        <p style="font-size:13px;color:#888;margin:0 0 10px;line-height:1.5">
-          This will permanently delete your account, all listings, and all data.
-          Type <strong style="color:#111">DELETE</strong> to confirm.
-        </p>
-        <input class="sf-input" type="text" name="confirm_delete"
-               placeholder="Type DELETE here" style="margin-bottom:10px"
-               autocomplete="off" spellcheck="false">
-        <button type="submit" class="btn-danger">Yes, delete my account forever</button>
       </form>
-    </div>
-  </div>
 
-  <?php endif; ?>
+      <div class="settings-section">
+        <p class="settings-section-title">Profile</p>
+        <a class="settings-row" href="profile.php">
+          <div class="sr-left">
+            <div class="sr-icon">👤</div>
+            <div>
+              <div class="sr-text">Edit profile</div>
+              <div class="sr-sub">Name, bio, photo, address</div>
+            </div>
+          </div>
+          <span class="sr-arrow">›</span>
+        </a>
+      </div>
 
-  <!-- Logout button (always visible) -->
-  <div style="margin-top: 8px;">
-    <a class="btn-logout" href="../logout.php">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <!-- ═══ SECURITY ═══ -->
+      <?php elseif ($section === 'security'): ?>
+
+      <form method="POST" action="settings.php?section=security">
+        <input type="hidden" name="action" value="password">
+        <div class="settings-section">
+          <p class="settings-section-title">Change Password</p>
+          <div class="sf-group">
+            <div class="sf-label">Current password</div>
+            <input class="sf-input" type="password" name="current_password"
+                   autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <div class="sf-group">
+            <div class="sf-label">
+              New password
+              <span id="pw-strength-label" style="font-size:11px;color:var(--mid);font-weight:400;text-transform:none;letter-spacing:0"></span>
+            </div>
+            <input class="sf-input" type="password" name="new_password"
+                   id="new_password" autocomplete="new-password" placeholder="Min. 8 characters">
+            <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-bar"></div></div>
+          </div>
+          <div class="sf-group">
+            <div class="sf-label">Confirm new password</div>
+            <input class="sf-input" type="password" name="confirm_password"
+                   id="confirm_password" autocomplete="new-password" placeholder="Repeat password">
+            <p class="sf-hint" id="pw-match-hint"></p>
+          </div>
+          <div class="sf-footer">
+            <button type="submit" class="btn-save-settings">Update password</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="settings-section">
+        <p class="settings-section-title">Sessions</p>
+        <div class="settings-row" style="cursor:default">
+          <div class="sr-left">
+            <div class="sr-icon dark">🔒</div>
+            <div>
+              <div class="sr-text">Current session</div>
+              <div class="sr-sub">Logged in as <?= htmlspecialchars($user->username ?? '') ?></div>
+            </div>
+          </div>
+          <span class="badge-active">Active</span>
+        </div>
+      </div>
+
+      <!-- ═══ PREFERENCES ═══ -->
+      <?php elseif ($section === 'prefs'): ?>
+
+      <div class="settings-section">
+        <p class="settings-section-title">Notifications</p>
+        <div class="settings-row">
+          <div class="sr-left">
+            <div class="sr-icon">🔔</div>
+            <div>
+              <div class="sr-text">New messages</div>
+              <div class="sr-sub">When someone messages you</div>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div class="sr-left">
+            <div class="sr-icon">❤️</div>
+            <div>
+              <div class="sr-text">Likes on listings</div>
+              <div class="sr-sub">When someone likes your item</div>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div class="sr-left">
+            <div class="sr-icon">🛒</div>
+            <div>
+              <div class="sr-text">Sale completed</div>
+              <div class="sr-sub">When your item sells</div>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div class="sr-left">
+            <div class="sr-icon">📧</div>
+            <div>
+              <div class="sr-text">Email digest</div>
+              <div class="sr-sub">Weekly summary of activity</div>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <p class="settings-section-title">Display</p>
+        <div class="settings-row">
+          <div class="sr-left">
+            <div class="sr-icon">🌙</div>
+            <div>
+              <div class="sr-text">Dark mode</div>
+              <div class="sr-sub">Easy on the eyes at night</div>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="dark-toggle"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <p class="settings-section-title">About</p>
+        <a class="settings-row" href="#">
+          <div class="sr-left">
+            <div class="sr-icon">📄</div>
+            <div><div class="sr-text">Privacy policy</div></div>
+          </div>
+          <span class="sr-arrow">›</span>
+        </a>
+        <a class="settings-row" href="#">
+          <div class="sr-left">
+            <div class="sr-icon">📋</div>
+            <div><div class="sr-text">Terms of service</div></div>
+          </div>
+          <span class="sr-arrow">›</span>
+        </a>
+        <a class="settings-row" href="#">
+          <div class="sr-left">
+            <div class="sr-icon">💬</div>
+            <div><div class="sr-text">Send feedback</div></div>
+          </div>
+          <span class="sr-arrow">›</span>
+        </a>
+      </div>
+      <p class="version-tag">ReVenta · v1.0</p>
+
+      <!-- ═══ DANGER ZONE ═══ -->
+      <?php elseif ($section === 'danger'): ?>
+
+      <div class="settings-section">
+        <p class="settings-section-title">Danger Zone</p>
+
+        <div class="settings-row" style="cursor:default">
+          <div class="sr-left">
+            <div class="sr-icon">⏸️</div>
+            <div>
+              <div class="sr-text">Deactivate account</div>
+              <div class="sr-sub">Hide your profile temporarily</div>
+            </div>
+          </div>
+          <button class="btn-deactivate" onclick="alert('Contact support to deactivate your account.')">
+            Pause
+          </button>
+        </div>
+
+        <div class="s-divider"></div>
+
+        <div class="settings-row" id="delete-toggle-row" onclick="toggleDelete()" style="border-bottom:none">
+          <div class="sr-left">
+            <div class="sr-icon dark">🗑️</div>
+            <div>
+              <div class="sr-text" style="color:var(--danger);font-weight:600">Delete account</div>
+              <div class="sr-sub">Permanent — cannot be undone</div>
+            </div>
+          </div>
+          <span class="sr-arrow" id="delete-arrow">›</span>
+        </div>
+
+        <div class="delete-confirm-wrap" id="delete-confirm">
+          <form method="POST" action="settings.php?section=danger">
+            <input type="hidden" name="action" value="delete">
+            <p style="font-size:13px;color:var(--mid);margin:0 0 12px;line-height:1.6">
+              This will permanently delete your account, all listings, and all data.
+              Type <strong style="color:var(--black)">DELETE</strong> to confirm.
+            </p>
+            <input class="sf-input" type="text" name="confirm_delete"
+                   placeholder="Type DELETE here" style="margin-bottom:12px"
+                   autocomplete="off" spellcheck="false">
+            <button type="submit" class="btn-danger">Yes, delete my account forever</button>
+          </form>
+        </div>
+      </div>
+
+      <?php endif; ?>
+
+    </div><!-- /desktop-main -->
+  </div><!-- /desktop-layout -->
+
+  <!-- Mobile: logout fixed above bottom nav -->
+  <div class="logout-wrap">
+    <a class="btn-logout-mobile" href="../logout.php">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Log out
     </a>
   </div>
 
 </div><!-- /settings-wrap -->
 
-<!-- Bottom nav (matching profile.php) -->
+<!-- Mobile bottom nav -->
 <nav id="bottom-nav">
   <a class="bottom-item" href="../index.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="bottom-label">Home</div></a>
   <a class="bottom-item" href="explore.php"><div class="bottom-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="bottom-label">Explore</div></a>
@@ -716,15 +995,15 @@ if (newPw) {
   newPw.addEventListener('input', function() {
     const v = this.value;
     let score = 0;
-    if (v.length >= 8)  score++;
-    if (/[A-Z]/.test(v)) score++;
-    if (/[0-9]/.test(v)) score++;
-    if (/[^A-Za-z0-9]/.test(v)) score++;
-    const widths = ['0%', '25%', '50%', '75%', '100%'];
-    const colors = ['#eee','#e74c3c','#e67e22','#f1c40f','#2ecc71'];
+    if (v.length >= 8)           score++;
+    if (/[A-Z]/.test(v))         score++;
+    if (/[0-9]/.test(v))         score++;
+    if (/[^A-Za-z0-9]/.test(v))  score++;
+    const widths = ['0%','25%','50%','75%','100%'];
+    const colors = ['#eee','#999','#777','#444','#0D0D0D'];
     const labels = ['','Weak','Fair','Good','Strong'];
-    if (bar) { bar.style.width = widths[score]; bar.style.background = colors[score]; }
-    if (label) label.textContent = labels[score];
+    if (bar)   { bar.style.width = widths[score]; bar.style.background = colors[score]; }
+    if (label)   label.textContent = labels[score];
   });
 }
 if (confPw) {
@@ -732,9 +1011,9 @@ if (confPw) {
     if (!hint || !newPw) return;
     if (this.value === '') { hint.textContent = ''; return; }
     if (this.value === newPw.value) {
-      hint.textContent = '✓ Passwords match'; hint.style.color = '#2ecc71';
+      hint.textContent = '✓ Passwords match'; hint.style.color = '#1A7A40';
     } else {
-      hint.textContent = '✗ Passwords do not match'; hint.style.color = '#e74c3c';
+      hint.textContent = '✗ Passwords do not match'; hint.style.color = '#C0392B';
     }
   });
 }
@@ -747,12 +1026,28 @@ function toggleDelete() {
   if (arrow) arrow.textContent = open ? '⌄' : '›';
 }
 
-// Dark mode (UI-only toggle for preference section)
+// Dark mode toggle (UI-only)
 const darkToggle = document.getElementById('dark-toggle');
 if (darkToggle) {
   darkToggle.addEventListener('change', function() {
-    document.body.style.background = this.checked ? '#111' : '';
-    document.body.style.color      = this.checked ? '#eee' : '';
+    const r = document.documentElement;
+    if (this.checked) {
+      r.style.setProperty('--bg',     '#161616');
+      r.style.setProperty('--white',  '#1E1E1E');
+      r.style.setProperty('--border', '#2E2E2E');
+      r.style.setProperty('--black',  '#F5F5F5');
+      r.style.setProperty('--charcoal','#CCCCCC');
+      r.style.setProperty('--mid',    '#888888');
+      document.body.style.background = '#111';
+    } else {
+      r.style.setProperty('--bg',     '#F5F5F5');
+      r.style.setProperty('--white',  '#FFFFFF');
+      r.style.setProperty('--border', '#E8E8E8');
+      r.style.setProperty('--black',  '#0D0D0D');
+      r.style.setProperty('--charcoal','#2C2C2C');
+      r.style.setProperty('--mid',    '#6B6B6B');
+      document.body.style.background = '';
+    }
   });
 }
 </script>
