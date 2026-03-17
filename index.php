@@ -29,12 +29,12 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
   /* ── Product grid ── */
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
     gap: 14px;
     padding: 14px 16px 20px;
   }
   .product-card {
-    background: #fff; border-radius: 12px; overflow: hidden;
+    background: #ffffff; border-radius: 12px; overflow: hidden;
     cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,.08);
     transition: transform .15s, box-shadow .15s;
     text-decoration: none; display: block; color: inherit;
@@ -55,7 +55,7 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
 <body>
 
 <nav id="top-nav">
-  <div class="nav-logo">ReVenta<span>.</span></div>
+  <div class="nav-logo"><img src="assets/img/logo.png" alt="ReVenta Logo" id="logo"></div>
   <form method="GET" action="pages/explore.php" class="nav-search" style="margin:0">
     <input type="text" name="q" id="search-input" placeholder="Search items, brands, sellers...">
   </form>
@@ -89,16 +89,11 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
   </div>
 
   <!-- Category filter pills -->
-  <div class="categories">
-    <div class="categories-scroll" id="home-cats">
-      <div class="cat-pill active" data-cat="">All</div>
-      <?php foreach ($categories as $cat): ?>
-        <div class="cat-pill" data-cat="<?= $cat->id ?>"><?= htmlspecialchars($cat->name) ?></div>
-      <?php endforeach; ?>
-    </div>
-  </div>
+  
 
-  <div class="section-header"><h2>Trending Now</h2><a href="pages/explore.php">View all →</a></div>
+  <div class="section-header">
+    <h2>For You</h2>
+  </div>
 
   <!-- Product grid – populated by PHP on load, then refreshed via JS when filter changes -->
   <div class="product-grid" id="home-grid">
@@ -132,12 +127,39 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
   </div>
 
   <div style="height:2.5rem"></div>
-
-  <div class="promo-banner">
-    <div class="promo-text">
-      <span class="tag">Limited Time</span>
-      <h3>Zero Fees<br>This Week</h3>
-      <p>List anything, keep everything. No fees on your first 10 sales.</p>
+  <div class="section-header">
+    <h2>Shop by category</h2>
+  </div>
+  <div class="category-section">
+    <div class="category-con">
+      <img src="./assets/img/Men.jpg" alt="Men">
+      <div style="height:2.5rem"></div>
+      <h1>Men</h1>
+    </div>
+    <div class="category-con">
+      <img src="./assets/img/Women.jpg" alt="Women">
+      <div style="height:2.5rem"></div>
+    </div>
+    <div class="category-con">
+      <img src="./assets/img/Plus-Size.jpg" alt="Plus Size">
+    </div>
+    <div class="category-con">
+      <img src="./assets/img/Accessories.jpg" alt="Accessories">
+      <div style="height:2.5rem"></div>
+      <h1>Accessories</h1>
+    </div>
+    <div class="category-con">
+      <img src="./assets/img/Sports.jpg" alt="Sports">
+      <div style="height:2.5rem"></div>
+      <h1>Shoes</h1>
+    </div>
+    <div class="category-con">
+      <img src="./assets/img/Sports2.jpg" alt="Sports">
+      <div style="height:2.5rem"></div>
+      <h1>Sports</h1>
+    </div>
+    <div class="category-con">
+      <h1>%Sales</h1>
     </div>
   </div>
 </main>
