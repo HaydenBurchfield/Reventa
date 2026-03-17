@@ -129,58 +129,106 @@ $meObj->populate($userId);
 
 <main id="app">
 
-  <!-- ── Inbox Sidebar ───────────────────────────────────────── -->
+  <!-- Inbox Sidebar -->
   <div class="inbox-sidebar" id="inbox-sidebar">
     <div class="inbox-header">Messages</div>
-                  <a class="chat-row active"
-           href="messages.php?chat=3"
-           data-chat="3">
-          <img class="chat-row-avatar"
-               src="https://ui-avatars.com/api/?name=Haydenee&background=111&color=fff&size=60"
-               alt="">
-          <div class="chat-row-body">
-            <div class="chat-row-name">Haydenee</div>
-                          <div class="chat-row-listing">📦 hayden · $123.00</div>
-                        <div class="chat-row-preview">wejlj</div>
-          </div>
-                      <div class="chat-row-time">Mar 12</div>
-                  </a>
-            </div>
 
-  <!-- ── Chat Pane ──────────────────────────────────────────── -->
-  <div class="chat-pane" id="chat-pane">
+    <?php if (empty($chats)): ?>
+      <div style="padding:40px 20px;text-align:center;color:#aaa;font-size:14px;">
+        No conversations yet.<br>
+        <a href="explore.php" style="color:#111;font-weight:500;text-decoration:none">Browse listings →</a>
+      </div>
+    <?php else: ?>
+      <?php foreach ($chats as $chat):
+        $isActive     = ($chat['id'] == $activeChatId);
+        $otherName    = chatName($chat, $userId);
+        $otherAvatar  = chatAvatar($chat, $userId);
+        $preview      = htmlspecialchars(mb_strimwidth($chat['last_message'] ?? '', 0, 60, '…'));
+        $listingLabel = '';
+        if (!empty($chat['listing_name'])) {
+          $listingLabel = htmlspecialchars($chat['listing_name']);
+          if ($chat['listing_price'] !== null) $listingLabel .= ' · $' . number_format((float)$chat['listing_price'], 2);
+        }
+        $timeStr = '';
+        if (!empty($chat['last_message_at'])) {
+          $ts      = strtotime($chat['last_message_at']);
+          $timeStr = (date('Y-m-d') === date('Y-m-d', $ts)) ? date('g:i A', $ts) : date('M j', $ts);
+        }
+      ?>
+      <a class="chat-row <?= $isActive ? 'active' : '' ?>"
+         href="messages.php?chat=<?= (int)$chat['id'] ?>"
+         data-chat="<?= (int)$chat['id'] ?>">
+        <img class="chat-row-avatar" src="<?= $otherAvatar ?>" alt="">
+        <div class="chat-row-body">
+          <div class="chat-row-name"><?= $otherName ?></div>
+          <?php if ($listingLabel): ?><div class="chat-row-listing">📦 <?= $listingLabel ?></div><?php endif; ?>
+          <?php if ($preview): ?><div class="chat-row-preview"><?= $preview ?></div><?php endif; ?>
+        </div>
+        <?php if ($timeStr): ?><div class="chat-row-time"><?= $timeStr ?></div><?php endif; ?>
+      </a>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
 
-    
+  <!-- Chat Pane -->
+  <div class="chat-pane <?= $activeChatId ? 'mobile-open' : '' ?>" id="chat-pane">
+
+    <?php if ($activeChat): ?>
+
     <!-- Chat header -->
     <div class="chat-header">
-      <button class="chat-back" id="chat-back">‹ Back</button>
-      <img class="chat-header-avatar"
-           src="https://ui-avatars.com/api/?name=Haydenee&background=111&color=fff&size=60"
-           alt="">
+      <a class="chat-back" id="chat-back" href="messages.php">&#8249; Back</a>
+      <?php
+        $headerAvatar = chatAvatar($activeChat, $userId);
+        $headerName   = chatName($activeChat, $userId);
+        $otherId      = ($userId == $activeChat['buyer_id']) ? $activeChat['seller_id'] : $activeChat['buyer_id'];
+      ?>
+      <img class="chat-header-avatar" src="<?= $headerAvatar ?>" alt="">
       <div>
-        <div class="chat-header-name">Haydenee</div>
-        <div class="chat-header-sub">Active now</div>
+        <div class="chat-header-name"><?= $headerName ?></div>
+        <a href="profile.php?id=<?= (int)$otherId ?>" style="text-decoration:none">
+          <div class="chat-header-sub">View profile</div>
+        </a>
       </div>
     </div>
 
     <!-- Listing bar -->
-        <a class="chat-listing-bar" href="listing.php?id=5">
-              <img class="listing-thumb" src="/Reventa/uploads/listings/listing_5_69b2e711c11907.37696150.png" alt="">
-            <div class="listing-bar-info">
-        <div class="listing-bar-name">hayden</div>
+    <?php if (!empty($activeChat['listing_id'])): ?>
+    <a class="chat-listing-bar" href="listing.php?id=<?= (int)$activeChat['listing_id'] ?>">
+      <?php if (!empty($activeChat['listing_photo'])): ?>
+        <img class="listing-thumb" src="<?= htmlspecialchars($activeChat['listing_photo']) ?>" alt="">
+      <?php else: ?>
+        <div class="listing-thumb" style="background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:20px;">📦</div>
+      <?php endif; ?>
+      <div class="listing-bar-info">
+        <div class="listing-bar-name"><?= htmlspecialchars($activeChat['listing_name'] ?? '') ?></div>
         <div class="listing-bar-price">
-          $123.00                  </div>
+          <?= $activeChat['listing_price'] !== null ? '$' . number_format((float)$activeChat['listing_price'], 2) : '' ?>
+          <?php if (!empty($activeChat['listing_is_sold'])): ?>
+            <span style="margin-left:6px;font-size:11px;background:#111;color:#fff;padding:2px 7px;border-radius:10px;">SOLD</span>
+          <?php endif; ?>
+        </div>
       </div>
       <span style="margin-left:auto;color:#aaa">›</span>
     </a>
-    
+    <?php endif; ?>
+
     <!-- Messages -->
     <div class="chat-messages" id="chat-messages">
-                                  <div class="msg-row mine" data-msg-id="5">
-                        <div class="msg-bubble">wejlj</div>
-            <div class="msg-time">12:52 PM</div>
-          </div>
-                  </div>
+      <?php foreach ($activeMessages as $msg):
+        $mine       = ($msg['sender_id'] == $userId);
+        $msgAvatar  = msgAvatar($msg);
+        $msgTime    = date('g:i A', strtotime($msg['created_at']));
+      ?>
+        <div class="msg-row <?= $mine ? 'mine' : 'theirs' ?>" data-msg-id="<?= (int)$msg['id'] ?>">
+          <?php if (!$mine): ?>
+            <img class="msg-avatar" src="<?= $msgAvatar ?>" alt="">
+          <?php endif; ?>
+          <div class="msg-bubble"><?= nl2br(htmlspecialchars($msg['content'])) ?></div>
+          <div class="msg-time"><?= $msgTime ?></div>
+        </div>
+      <?php endforeach; ?>
+    </div>
 
     <!-- Composer -->
     <div class="chat-composer">
@@ -194,7 +242,14 @@ $meObj->populate($userId);
       </button>
     </div>
 
-    
+    <?php else: ?>
+    <!-- No chat selected (desktop empty state) -->
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#bbb;gap:12px;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <p style="font-size:14px;margin:0">Select a conversation</p>
+    </div>
+    <?php endif; ?>
+
   </div>
 
 </main>
@@ -209,21 +264,19 @@ $meObj->populate($userId);
 </nav>
 
 <script>
-const CHAT_ID   = 3;
-const MY_ID     = 5;
-const MY_AVATAR = "https:\/\/ui-avatars.com\/api\/?name=Me&background=111&color=fff&size=60";
+const CHAT_ID   = <?= $activeChatId ? (int)$activeChatId : 'null' ?>;
+const MY_ID     = <?= (int)$userId ?>;
+const MY_AVATAR = <?= json_encode(myAvatar($userId, $meObj->profile_picture)) ?>;
 
 const messagesDiv = document.getElementById('chat-messages');
 const composer    = document.getElementById('composer');
 const sendBtn     = document.getElementById('send-btn');
 
-// ── Scroll to bottom ──────────────────────────────────────────
 function scrollBottom() {
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 scrollBottom();
 
-// ── Build message HTML ────────────────────────────────────────
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -233,9 +286,10 @@ function fmtTime(dt) {
   return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }
 function buildMsgHtml(msg) {
-  const mine = msg.sender_id == MY_ID;
-  const avatar = mine ? MY_AVATAR : (msg.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(msg.username||'?')}&background=eee&color=555&size=60`);
-  const avatarHtml = mine ? '' : `<img class="msg-avatar" src="${escHtml(avatar)}" alt="">`;
+  const mine      = msg.sender_id == MY_ID;
+  const avatarUrl = mine ? MY_AVATAR
+    : (msg.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(msg.username||'?')}&background=eee&color=555&size=60`);
+  const avatarHtml = mine ? '' : `<img class="msg-avatar" src="${escHtml(avatarUrl)}" alt="">`;
   return `<div class="msg-row ${mine?'mine':'theirs'}" data-msg-id="${msg.id}">
     ${avatarHtml}
     <div class="msg-bubble">${nl2br(msg.content)}</div>
@@ -243,28 +297,27 @@ function buildMsgHtml(msg) {
   </div>`;
 }
 
-// ── Get last visible message ID ───────────────────────────────
 function lastMsgId() {
+  if (!messagesDiv) return 0;
   const rows = messagesDiv.querySelectorAll('[data-msg-id]');
   if (!rows.length) return 0;
-  return +rows[rows.length-1].dataset.msgId;
+  const id = rows[rows.length-1].dataset.msgId;
+  return isNaN(+id) ? 0 : +id;
 }
 
-// ── Send message ──────────────────────────────────────────────
 async function sendMessage() {
+  if (!CHAT_ID || !composer) return;
   const content = composer.value.trim();
   if (!content) return;
   composer.value = '';
   composer.style.height = '';
   sendBtn.disabled = true;
 
-  // Optimistic UI
-  const tmpId = Date.now();
-  const tmpHtml = `<div class="msg-row mine" data-msg-id="tmp-${tmpId}">
+  const tmpId   = Date.now();
+  messagesDiv.insertAdjacentHTML('beforeend', `<div class="msg-row mine" data-msg-id="tmp-${tmpId}">
     <div class="msg-bubble">${nl2br(content)}</div>
     <div class="msg-time">Sending…</div>
-  </div>`;
-  messagesDiv.insertAdjacentHTML('beforeend', tmpHtml);
+  </div>`);
   scrollBottom();
 
   try {
@@ -275,34 +328,30 @@ async function sendMessage() {
     });
     const data = await res.json();
     if (data.ok && data.messages.length) {
-      // Replace temp
       const tmp = messagesDiv.querySelector(`[data-msg-id="tmp-${tmpId}"]`);
       if (tmp) tmp.outerHTML = buildMsgHtml(data.messages[0]);
       scrollBottom();
     }
-  } catch (e) {}
+  } catch(e) { console.error(e); }
   sendBtn.disabled = false;
 }
 
-sendBtn.addEventListener('click', sendMessage);
-composer.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-// Auto-resize textarea
-composer.addEventListener('input', () => {
-  composer.style.height = 'auto';
-  composer.style.height = Math.min(composer.scrollHeight, 120) + 'px';
-});
+if (sendBtn)  sendBtn.addEventListener('click', sendMessage);
+if (composer) {
+  composer.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+  composer.addEventListener('input', () => {
+    composer.style.height = 'auto';
+    composer.style.height = Math.min(composer.scrollHeight, 120) + 'px';
+  });
+}
 
-// ── Poll for new messages every 3 seconds ────────────────────
-let polling = true;
+let polling = !!CHAT_ID;
 async function poll() {
-  if (!polling) return;
+  if (!polling || !CHAT_ID) return;
   const last = lastMsgId();
-  if (typeof last === 'number' && last > 0) {
+  if (last > 0) {
     try {
       const res  = await fetch(`messages.php?poll=1&chat_id=${CHAT_ID}&last_id=${last}`, {
         headers: { 'X-Requested-With':'XMLHttpRequest' }
@@ -320,20 +369,16 @@ async function poll() {
   }
   setTimeout(poll, 3000);
 }
-setTimeout(poll, 3000);
+if (CHAT_ID) setTimeout(poll, 3000);
 window.addEventListener('beforeunload', () => { polling = false; });
 
-// ── Mobile: back button ───────────────────────────────────────
-document.getElementById('chat-back')?.addEventListener('click', () => {
-  document.getElementById('chat-pane').classList.remove('mobile-open');
+document.getElementById('chat-back')?.addEventListener('click', e => {
+  if (window.innerWidth <= 640) {
+    e.preventDefault();
+    document.getElementById('chat-pane').classList.remove('mobile-open');
+    history.pushState(null, '', 'messages.php');
+  }
 });
-
-// Auto-open chat pane on mobile if a chat is selected
-if (window.innerWidth <= 640 && CHAT_ID) {
-  document.getElementById('chat-pane').classList.add('mobile-open');
-}
-
-// Clicking a chat row on mobile opens the pane (full page reload is fine)
 </script>
 </body>
 </html>
