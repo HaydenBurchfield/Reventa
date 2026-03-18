@@ -265,6 +265,7 @@ body {
 .desktop-main {
   flex: 1;
   padding: 16px 16px 100px;
+  max-width: auto;
 }
 
 /* ── Mobile Logout (fixed bottom) ─────────── */
