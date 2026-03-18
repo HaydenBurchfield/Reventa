@@ -658,7 +658,18 @@ body {
 </style>
 </head>
 <body>
-
+<nav id="top-nav">
+      <div class="nav-logo"><a href="../index.php"><img src="../assets/img/logo.png" alt="ReVenta Logo" id="logo"></a></div>
+      <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
+      <div class="nav-links">
+        <a href="../index.php" class="nav-tab-link">Home</a>
+        <a href="../pages/explore.php" class="nav-tab-link">Explore</a>
+        <a href="../pages/messages.php" class="nav-tab-link">Messages</a>
+        <a href="../pages/profile.php" class="nav-tab-link">Profile</a>
+        <a href="../pages/likes.php" class="nav-tab-link">My Likes</a>
+      </div>
+      <a href="../pages/sell.php"><button class="btn-sell">+ Sell</button></a>
+    </nav>
 <div class="settings-wrap">
 
   <!-- ── Top Header ── -->

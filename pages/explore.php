@@ -102,7 +102,7 @@ function buildUrl(array $overrides = []): string {
 <body>
 
 <nav id="top-nav">
-  <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
+  <div class="nav-logo"><a href="../index.php"><img src="../assets/img/logo.png" alt="ReVenta Logo" id="logo"></a></div>
   <form method="GET" action="explore.php" class="nav-search" style="margin:0;">
     <?php if (!empty($filters['category_id'])): ?>
       <input type="hidden" name="category_id" value="<?= (int)$filters['category_id'] ?>">

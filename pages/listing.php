@@ -140,7 +140,7 @@ function sellerAvatar($item): string {
 <body>
 
 <nav id="top-nav">
-  <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
+  <div class="nav-logo"><a href="../index.php"><img src="../assets/img/logo.png" alt="ReVenta Logo" id="logo"></a></div>
   <div class="nav-search">
     <form method="GET" action="explore.php" style="margin:0;width:100%">
       <input type="text" name="q" placeholder="Search items, brands, sellers...">
