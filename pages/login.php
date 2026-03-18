@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </head>
 <body class="auth-page">
     <nav id="top-nav">
-      <a href="../index.php" class="nav-logo">ReVenta<span>.</span></a>
+      <div class="nav-logo"><a href="../index.php"><img src="../assets/img/logo.png" alt="ReVenta Logo" id="logo"></a></div>
       <div class="nav-search"><input type="text" id="search-input" placeholder="Search items, brands, sellers..."></div>
       <div class="nav-links">
         <a href="../index.php" class="nav-tab-link">Home</a>

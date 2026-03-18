@@ -55,7 +55,7 @@ $recentListings = $listingObj->getListings(['limit' => 24, 'sort' => 'newest']);
 <body>
 
 <nav id="top-nav">
-  <div class="nav-logo"><img src="assets/img/logo.png" alt="ReVenta Logo" id="logo"></div>
+  <div class="nav-logo"><a href="index.php"><img src="assets/img/logo.png" alt="ReVenta Logo" id="logo"></a></div>
   <form method="GET" action="pages/explore.php" class="nav-search" style="margin:0">
     <input type="text" name="q" id="search-input" placeholder="Search items, brands, sellers...">
   </form>
