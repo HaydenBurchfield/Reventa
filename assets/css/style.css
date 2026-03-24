@@ -242,7 +242,7 @@ nav {
   font-weight: 300;
   line-height: 0.92;
   letter-spacing: -0.02em;
-  color: red;
+  color: rgb(255, 0, 0);
   mix-blend-mode: multiply;
   animation: fadeUp 1s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
