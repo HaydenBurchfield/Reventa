@@ -1,3 +1,4 @@
 {
-    "chat.autopilot.enabled": true
+    "chat.autopilot.enabled": true,
+    "liveServer.settings.port": 5501
 }

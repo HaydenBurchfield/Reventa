@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explore — ReVènta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="explore.css">
+</head>
+<body class="page-body">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html" class="nav-sell">Sell+</a>
+    </div>
+
+    <a href="reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+
+    <div class="nav-right">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  </nav>
+  <!-- MOBILE NAV MENU -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html">Sell+</a>
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+  </div>
+
+  <!-- EXPLORE HEADER -->
+  <div class="explore-header">
+    <div class="category-tabs">
+      <a href="#" class="tab active" data-cat="women">Women</a>
+      <a href="#" class="tab" data-cat="men">Men</a>
+      <a href="#" class="tab" data-cat="kids">Kids</a>
+      <a href="#" class="tab" data-cat="all">All</a>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter</span>
+    <select class="filter-pill">
+      <option>Size</option>
+      <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+    </select>
+    <select class="filter-pill">
+      <option>Brand</option>
+      <option>Acne Studios</option>
+      <option>COS</option>
+      <option>Helmut Lang</option>
+      <option>Maison Margiela</option>
+      <option>Totême</option>
+    </select>
+    <select class="filter-pill">
+      <option>Condition</option>
+      <option>New with tags</option>
+      <option>Excellent</option>
+      <option>Good</option>
+      <option>Fair</option>
+    </select>
+    <select class="filter-pill">
+      <option>Price</option>
+      <option>Under $100</option>
+      <option>$100 – $300</option>
+      <option>$300 – $600</option>
+      <option>$600+</option>
+    </select>
+    <span class="filter-count" id="filterCount">Showing 8 items</span>
+  </div>
+
+  <!-- GRID -->
+  <div class="explore-grid-wrap">
+    <div class="explore-grid" id="exploreGrid">
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g1"></div>
+          <span class="explore-badge">New</span>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Totême</h4>
+          <p>Barrel-Leg Trousers</p>
+          <span class="explore-card-price">$210 <span class="original">$520</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g2"></div>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Acne Studios</h4>
+          <p>Distressed Denim Jacket</p>
+          <span class="explore-card-price">$340 <span class="original">$850</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g3"></div>
+          <span class="explore-badge">Rare</span>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Helmut Lang</h4>
+          <p>Sheer Drape Blouse</p>
+          <span class="explore-card-price">$185 <span class="original">$490</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g4"></div>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>COS</h4>
+          <p>Linen Wrap Dress</p>
+          <span class="explore-card-price">$92 <span class="original">$220</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g5"></div>
+          <span class="explore-badge sold">Sold</span>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Maison Margiela</h4>
+          <p>Tabi Ballet Flats</p>
+          <span class="explore-card-price">$580 <span class="original">$1,100</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g6"></div>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Lemaire</h4>
+          <p>Croissant Shoulder Bag</p>
+          <span class="explore-card-price">$420 <span class="original">$990</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g7"></div>
+          <span class="explore-badge">New</span>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>Arket</h4>
+          <p>Merino Rib Turtleneck</p>
+          <span class="explore-card-price">$68 <span class="original">$160</span></span>
+        </div>
+      </div>
+
+      <div class="explore-card">
+        <div class="explore-card-image">
+          <div class="explore-card-image-inner g8"></div>
+          <button class="wish-btn" onclick="toggleWish(this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
+          </button>
+        </div>
+        <div class="explore-card-info">
+          <h4>By Malene Birger</h4>
+          <p>Silk Slip Skirt</p>
+          <span class="explore-card-price">$115 <span class="original">$310</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LOAD MORE -->
+  <div class="load-more-wrap">
+    <button class="btn-load-more">Load More</button>
+  </div>
+
+  <script>
+    // Category tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    // Wishlist toggle
+    function toggleWish(btn) {
+      btn.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

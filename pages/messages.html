@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Messages — ReVènta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body class="msg-body">
+
+  <nav>
+    <div class="nav-left">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html" class="nav-sell">Sell+</a>
+    </div>
+
+    <a href="reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+
+    <div class="nav-right">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  </nav>
+  <!-- MOBILE NAV MENU -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html">Sell+</a>
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+  </div>
+
+  <div class="msg-layout">
+
+    <!-- ── LEFT SIDEBAR ── -->
+    <div class="msg-sidebar">
+      <div class="msg-sidebar-header">
+        <span class="msg-sidebar-title">Messages</span>
+      </div>
+
+      <div class="msg-thread-list">
+
+        <div class="msg-thread active" onclick="openThread(this, '@anna.w', 'Is this still available?')">
+          <div class="msg-thread-avatar">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" fill="white"/><ellipse cx="9" cy="14.5" rx="6.5" ry="3.5" fill="white"/></svg>
+          </div>
+          <div class="msg-thread-body">
+            <p class="msg-thread-name">@anna.w</p>
+            <p class="msg-thread-preview">ljdfkjsdfkjsdk;aldkjf;adlkf;aldfjaladsdjd;lkfjdfdkjf;kaldj</p>
+          </div>
+          <span class="msg-thread-time">Yesterday</span>
+        </div>
+
+        <div class="msg-thread" onclick="openThread(this, '@max.style', 'Would you take $300 for it?')">
+          <div class="msg-thread-avatar">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" fill="white"/><ellipse cx="9" cy="14.5" rx="6.5" ry="3.5" fill="white"/></svg>
+          </div>
+          <div class="msg-thread-body">
+            <p class="msg-thread-name">@max.style</p>
+            <p class="msg-thread-preview">ljdfkjsdfkjsdk;aldkjf;adlkf;aldfjaladsdjd;lkfjdfdkjf;kaldj</p>
+          </div>
+          <span class="msg-thread-time">Yesterday</span>
+        </div>
+
+        <div class="msg-thread" onclick="openThread(this, '@lucie.r', 'Can I see more photos?')">
+          <div class="msg-thread-avatar">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" fill="white"/><ellipse cx="9" cy="14.5" rx="6.5" ry="3.5" fill="white"/></svg>
+          </div>
+          <div class="msg-thread-body">
+            <p class="msg-thread-name">@lucie.r</p>
+            <p class="msg-thread-preview">ljdfkjsdfkjsdk;aldkjf;adlkf;aldfjaladsdjd;lkfjdfdkjf;kaldj</p>
+          </div>
+          <span class="msg-thread-time">Yesterday</span>
+        </div>
+
+        <div class="msg-thread" onclick="openThread(this, '@pierre.m', 'What size is this exactly?')">
+          <div class="msg-thread-avatar">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" fill="white"/><ellipse cx="9" cy="14.5" rx="6.5" ry="3.5" fill="white"/></svg>
+          </div>
+          <div class="msg-thread-body">
+            <p class="msg-thread-name">@pierre.m</p>
+            <p class="msg-thread-preview">ljdfkjsdfkjsdk;aldkjf;adlkf;aldfjaladsdjd;lkfjdfdkjf;kaldj</p>
+          </div>
+          <span class="msg-thread-time">Yesterday</span>
+        </div>
+
+        <div class="msg-thread" onclick="openThread(this, '@zoe.k', 'Thanks, I\'ll take it!')">
+          <div class="msg-thread-avatar">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.5" fill="white"/><ellipse cx="9" cy="14.5" rx="6.5" ry="3.5" fill="white"/></svg>
+          </div>
+          <div class="msg-thread-body">
+            <p class="msg-thread-name">@zoe.k</p>
+            <p class="msg-thread-preview">ljdfkjsdfkjsdk;aldkjf;adlkf;aldfjaladsdjd;lkfjdfdkjf;kaldj</p>
+          </div>
+          <span class="msg-thread-time">Yesterday</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── RIGHT CHAT ── -->
+    <div class="msg-chat">
+
+      <div class="msg-chat-header">
+        <button class="msg-back-btn" onclick="closeMobileChat()" aria-label="Back to conversations">
+          <svg viewBox="0 0 10 16" width="8" height="14" fill="none"><polyline points="9,1 1,8 9,15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="msg-chat-avatar">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.8" fill="white"/><ellipse cx="10" cy="16" rx="7" ry="4" fill="white"/></svg>
+        </div>
+        <span class="msg-chat-name" id="chatName">@anna.w</span>
+      </div>
+
+      <div class="msg-chat-messages" id="chatMessages">
+        <div class="msg-bubble them">Is this still available?</div>
+        <div class="msg-bubble me">Yes! Just listed it yesterday.</div>
+        <div class="msg-bubble them">Great — would you consider $380?</div>
+        <div class="msg-bubble me">I can do $400 but that's my lowest.</div>
+      </div>
+
+      <div class="msg-chat-input-row">
+        <input class="msg-input" id="msgInput" type="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendMsg()">
+        <button class="msg-send-btn" onclick="sendMsg()">Send</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const threads = {
+      '@anna.w':   ['Is this still available?', 'Yes! Just listed it yesterday.', 'Great — would you consider $380?', 'I can do $400 but that\'s my lowest.'],
+      '@max.style':['Would you take $300 for it?', 'Sorry, lowest I\'ll go is $340.'],
+      '@lucie.r':  ['Can I see more photos?', 'Sure, I\'ll add some shortly!'],
+      '@pierre.m': ['What size is this exactly?', 'It\'s tagged 38, fits like a medium.', 'Perfect, that works for me.'],
+      '@zoe.k':    ['Thanks, I\'ll take it!', 'Wonderful — I\'ll ship tomorrow.'],
+    };
+
+    const sidebar = document.querySelector('.msg-sidebar');
+    const chat    = document.querySelector('.msg-chat');
+    const isMobile = () => window.innerWidth <= 767;
+
+    function openThread(el, name, _preview) {
+      document.querySelectorAll('.msg-thread').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+
+      document.getElementById('chatName').textContent = name;
+      const msgs = document.getElementById('chatMessages');
+      msgs.innerHTML = '';
+      (threads[name] || []).forEach((text, i) => {
+        const div = document.createElement('div');
+        div.className = 'msg-bubble ' + (i % 2 === 0 ? 'them' : 'me');
+        div.textContent = text;
+        msgs.appendChild(div);
+      });
+      msgs.scrollTop = msgs.scrollHeight;
+
+      // On mobile: slide sidebar out, slide chat in
+      if (isMobile()) {
+        sidebar.classList.add('hidden');
+        chat.classList.add('visible');
+      }
+    }
+
+    function closeMobileChat() {
+      sidebar.classList.remove('hidden');
+      chat.classList.remove('visible');
+    }
+
+    function sendMsg() {
+      const inp = document.getElementById('msgInput');
+      const text = inp.value.trim();
+      if (!text) return;
+      const msgs = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = 'msg-bubble me';
+      div.textContent = text;
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+      inp.value = '';
+    }
+  </script>
+</body>
+</html>

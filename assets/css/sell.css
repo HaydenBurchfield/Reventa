@@ -1,0 +1,297 @@
+/* ── SELL PAGE ── */
+
+.page-body {
+  padding-top: 68px;
+  min-height: 100vh;
+  background: var(--white);
+}
+
+.sell-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 48px 96px;
+}
+
+/* ── LEFT: UPLOAD ── */
+.upload-zone {
+  border: 1.5px solid #c0c0c0;
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease;
+  background: var(--white);
+}
+
+.upload-zone:hover {
+  border-color: var(--black);
+  background: var(--off-white);
+}
+
+.upload-zone.drag-over {
+  border-color: var(--black);
+  background: var(--off-white);
+}
+
+.upload-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  opacity: 0.25;
+}
+
+.upload-btn {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--black);
+  border: 1px solid var(--black);
+  padding: 11px 28px;
+  background: var(--white);
+  cursor: pointer;
+  pointer-events: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.upload-hint {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #000000;
+  opacity: 0.8;
+}
+
+.upload-previews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+}
+
+.preview-thumb {
+  background: var(--off-white);
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* ── RIGHT: FORM ── */
+.sell-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 4px;
+}
+
+.form-section-label {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 10px;
+  margin-top: 32px;
+}
+
+.form-section-label:first-child {
+  margin-top: 0;
+}
+
+.field-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+
+.field-label:first-of-type {
+  margin-top: 0;
+}
+
+textarea,
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  background: var(--white);
+  border: 1px solid #d0d0d0;
+  padding: 12px 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.2s ease;
+  border-radius: 0;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.7;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--black);
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b6b6b'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ── PRICE + POST ROW ── */
+.price-post-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 32px;
+  align-items: end;
+}
+
+.price-input-wrap {
+  position: relative;
+}
+
+.price-currency {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--mid);
+  pointer-events: none;
+}
+
+.price-input-wrap input {
+  padding-left: 44px;
+}
+
+.btn-post {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--black);
+  border: none;
+  padding: 14px 0;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s;
+}
+
+.btn-post:hover {
+  opacity: 0.8;
+}
+
+/* ── PAGE HEADER ── */
+.sell-page-header {
+  padding: 48px 48px 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sell-page-header h1 {
+  font-family: var(--serif);
+  font-size: 42px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+}
+
+.sell-page-header p {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET  (≤ 1024px)
+   ══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .sell-page-header { padding: 36px 32px 0; }
+  .sell-wrapper {
+    gap: 40px;
+    padding: 40px 32px 64px;
+  }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤ 767px)
+   ══════════════════════════════════════ */
+@media (max-width: 767px) {
+  .page-body { padding-top: 60px; }
+
+  .sell-page-header {
+    padding: 24px 16px 0;
+  }
+
+  .sell-page-header h1 {
+    font-size: 28px;
+  }
+
+  .sell-page-header p {
+    font-size: 10px;
+  }
+
+  .sell-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 28px 16px 56px;
+  }
+
+  /* On mobile the upload zone doesn't need to be 3/4 aspect — cap it */
+  .upload-zone {
+    aspect-ratio: auto;
+    min-height: 260px;
+  }
+
+  .price-post-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .form-section-label { margin-top: 24px; }
+  .field-label { margin-top: 16px; }
+}

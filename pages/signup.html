@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up — ReVènta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body class="auth-body">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html" class="nav-sell">Sell+</a>
+    </div>
+
+    <a href="reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+
+    <div class="nav-right">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  </nav>
+  <!-- MOBILE NAV MENU -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html">Sell+</a>
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+  </div>
+
+  <div class="auth-card">
+
+    <div class="auth-logo">Re<span>V</span>ènta</div>
+
+    <div class="auth-field">
+      <label for="su-username">Username</label>
+      <input type="text" id="su-username" autocomplete="username">
+    </div>
+
+    <div class="auth-field">
+      <label for="su-email">Email</label>
+      <input type="email" id="su-email" autocomplete="email">
+    </div>
+
+    <div class="auth-field">
+      <label for="su-name">Name</label>
+      <input type="text" id="su-name" autocomplete="name">
+    </div>
+
+    <div class="auth-field">
+      <label for="su-password">Password</label>
+      <input type="password" id="su-password" autocomplete="new-password">
+    </div>
+
+    <div class="auth-field">
+      <label for="su-dob">Birth Date</label>
+      <input type="date" id="su-dob">
+    </div>
+
+    <div class="auth-links" style="margin-top: 8px;">
+      <span></span>
+      <a href="login.html" class="auth-link">Login</a>
+    </div>
+
+    <button class="btn-auth" onclick="handleSignup()">Login</button>
+
+  </div>
+
+  <script>
+    function handleSignup() {
+      const u = document.getElementById('su-username').value.trim();
+      const e = document.getElementById('su-email').value.trim();
+      if (!u || !e) { alert('Please fill in all required fields.'); return; }
+      alert('Account created! Welcome, ' + u + '.');
+    }
+  </script>
+</body>
+</html>

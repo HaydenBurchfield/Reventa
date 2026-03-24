@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell — ReVènta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="sell.css">
+</head>
+<body class="page-body">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html" class="nav-sell">Sell+</a>
+    </div>
+
+    <a href="reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+
+    <div class="nav-right">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  </nav>
+  <!-- MOBILE NAV MENU -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html">Sell+</a>
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="sell-page-header">
+    <h1>List an Item</h1>
+    <p>Upload photos &amp; details — go live in minutes</p>
+  </div>
+
+  <!-- SELL LAYOUT -->
+  <div class="sell-wrapper">
+
+    <!-- LEFT: UPLOAD ZONE -->
+    <div>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*" multiple>
+
+        <svg class="upload-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="32" rx="1" stroke="#0a0a0a" stroke-width="1.2"/>
+          <line x1="20" y1="13" x2="20" y2="27" stroke="#0a0a0a" stroke-width="1.2"/>
+          <polyline points="14,19 20,13 26,19" stroke="#0a0a0a" stroke-width="1.2" fill="none"/>
+        </svg>
+
+        <button class="upload-btn" type="button">Upload Photos</button>
+        <span class="upload-hint">JPG, PNG — up to 8 images</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="sell-form">
+
+      <label class="form-section-label">About the Piece</label>
+
+      <label class="field-label" for="desc">Description</label>
+      <textarea id="desc" placeholder="Describe the item — fabric, fit, any wear…"></textarea>
+
+      <label class="form-section-label">Info</label>
+
+      <label class="field-label" for="category">Category</label>
+      <select id="category">
+        <option value="" disabled selected></option>
+        <option>Women — Tops</option>
+        <option>Women — Bottoms</option>
+        <option>Women — Dresses</option>
+        <option>Women — Outerwear</option>
+        <option>Women — Accessories</option>
+        <option>Men — Tops</option>
+        <option>Men — Bottoms</option>
+        <option>Men — Outerwear</option>
+        <option>Men — Accessories</option>
+        <option>Kids</option>
+      </select>
+
+      <label class="field-label" for="brand">Brand</label>
+      <input type="text" id="brand" placeholder="e.g. Acne Studios">
+
+      <label class="field-label" for="condition">Condition</label>
+      <select id="condition">
+        <option value="" disabled selected></option>
+        <option>New with tags</option>
+        <option>Excellent</option>
+        <option>Good</option>
+        <option>Fair</option>
+      </select>
+
+      <!-- PRICE + POST -->
+      <div class="price-post-row">
+        <div class="price-input-wrap">
+          <span class="price-currency">US$</span>
+          <input type="number" id="price" placeholder="0.00" min="0" step="0.01">
+        </div>
+        <button class="btn-post" type="button" onclick="handlePost()">Post</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Drag-over highlight
+    const zone = document.getElementById('uploadZone');
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    document.getElementById('fileInput').addEventListener('change', e => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+      if (!files.length) return;
+      const arr = Array.from(files).slice(0, 8);
+      zone.innerHTML = '<div class="upload-previews"></div>';
+      const grid = zone.querySelector('.upload-previews');
+      arr.forEach(f => {
+        const url = URL.createObjectURL(f);
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'preview-thumb';
+        img.style.objectFit = 'cover';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        grid.appendChild(img);
+      });
+    }
+
+    function handlePost() {
+      const brand = document.getElementById('brand').value.trim();
+      const price = document.getElementById('price').value;
+      if (!brand || !price) {
+        alert('Please fill in Brand and Price before posting.');
+        return;
+      }
+      alert('Your listing has been posted!');
+    }
+  </script>
+</body>
+</html>

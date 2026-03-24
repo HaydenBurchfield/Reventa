@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — ReVènta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body class="auth-body">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html" class="nav-sell">Sell+</a>
+    </div>
+
+    <a href="reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+
+    <div class="nav-right">
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  </nav>
+  <!-- MOBILE NAV MENU -->
+  <div class="nav-mobile-menu" id="navMobileMenu">
+      <a href="mens.html">Men</a>
+      <a href="womens.html">Women</a>
+      <a href="kids.html">Kids</a>
+      <a href="sell.html">Sell+</a>
+      <a href="home.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="login.html">Login</a>
+      <a href="search.html">Search</a>
+  </div>
+
+  <div class="auth-card">
+
+    <!-- Avatar icon -->
+    <div class="auth-avatar">
+      <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="44" cy="44" r="44" fill="#0a0a0a"/>
+        <circle cx="44" cy="34" r="13" fill="white"/>
+        <ellipse cx="44" cy="72" rx="22" ry="14" fill="white"/>
+      </svg>
+    </div>
+
+    <div class="auth-field">
+      <label for="username">Username</label>
+      <input type="text" id="username" autocomplete="username" placeholder="">
+    </div>
+
+    <div class="auth-field">
+      <label for="password">Password</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="">
+    </div>
+
+    <div class="auth-links">
+      <a href="#" class="auth-link">Forgot Password</a>
+      <a href="signup.html" class="auth-link">Sign Up</a>
+    </div>
+
+    <button class="btn-auth" onclick="handleLogin()">Login</button>
+
+  </div>
+
+  <script>
+    function handleLogin() {
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      if (!u || !p) { alert('Please enter your username and password.'); return; }
+      alert('Welcome back, ' + u + '!');
+    }
+  </script>
+</body>
+</html>
