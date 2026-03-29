@@ -18,9 +18,7 @@
       <a href="/pages/kids.html">Kids</a>
       <a href="/pages/sell.html" class="nav-sell">Sell+</a>
     </div>
-
     <a href="/reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-
     <div class="nav-right">
       <a href="/pages/home.html">Home</a>
       <a href="/pages/explore.html">Explore</a>
@@ -28,12 +26,9 @@
       <a href="/pages/messages.html">Messages</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      <span></span><span></span><span></span>
+    </button>
   </nav>
-  <!-- MOBILE NAV MENU -->
   <div class="nav-mobile-menu" id="navMobileMenu">
     <a href="/pages/mens.html">Men</a>
     <a href="/pages/womens.html">Women</a>
@@ -52,7 +47,7 @@
   <div class="shop-grid-wrap">
     <div class="shop-grid">
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s2"></div><span class="shop-badge">New</span></div>
         <div class="shop-card-info">
           <h4>Totême</h4><p>Barrel-Leg Trousers</p>
@@ -60,7 +55,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s4"></div></div>
         <div class="shop-card-info">
           <h4>Acne Studios</h4><p>Distressed Denim Jacket</p>
@@ -68,7 +63,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s6"></div><span class="shop-badge">Rare</span></div>
         <div class="shop-card-info">
           <h4>Helmut Lang</h4><p>Sheer Drape Blouse</p>
@@ -76,7 +71,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s1"></div></div>
         <div class="shop-card-info">
           <h4>COS</h4><p>Linen Wrap Dress</p>
@@ -84,7 +79,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s3"></div></div>
         <div class="shop-card-info">
           <h4>Maison Margiela</h4><p>Tabi Ballet Flats</p>
@@ -92,7 +87,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s5"></div><span class="shop-badge">New</span></div>
         <div class="shop-card-info">
           <h4>Lemaire</h4><p>Croissant Shoulder Bag</p>
@@ -100,7 +95,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s7"></div></div>
         <div class="shop-card-info">
           <h4>Arket</h4><p>Merino Rib Turtleneck</p>
@@ -108,7 +103,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s8"></div></div>
         <div class="shop-card-info">
           <h4>By Malene Birger</h4><p>Silk Slip Skirt</p>
@@ -119,5 +114,88 @@
     </div>
   </div>
 
+  <script src="/assets/js/main.js"></script>
+  <script>
+    var WOMENS_PRODUCTS = [
+      {
+        brand: 'Totême', name: 'Barrel-Leg Trousers',
+        price: '$210', original: '$520',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@closet.marie',
+        gradient: 'linear-gradient(145deg, #dbd9d3 0%, #c2bfb9 100%)',
+        description: 'Barrel-leg trousers in a structured viscose-blend fabric. High rise, wide barrel silhouette tapering to ankle. Concealed zip closure. Light dry-cleaning scent. Tagged size 36 (XS–S). Measurements on request.'
+      },
+      {
+        brand: 'Acne Studios', name: 'Distressed Denim Jacket',
+        price: '$340', original: '$850',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M'],
+        seller: '@acne.collector',
+        gradient: 'linear-gradient(145deg, #e4e1da 0%, #cbc8c1 100%)',
+        description: 'Oversized denim jacket in mid-blue wash. Intentional distressing at collar, cuffs and pocket edges — part of the original design. Four pockets, snap-button closure. Tagged size XS, fits XS–M relaxed. Machine wash cold.'
+      },
+      {
+        brand: 'Helmut Lang', name: 'Sheer Drape Blouse',
+        price: '$185', original: '$490',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S'],
+        seller: '@archive.finds',
+        gradient: 'linear-gradient(145deg, #e0ddd6 0%, #c7c4bd 100%)',
+        description: 'Asymmetric drape blouse in silk-chiffon. Sheer panels at front and sleeve. Barely-there weight, no snags or pulls. Tagged size 2 (XS). Hand wash in cold water, dry flat.'
+      },
+      {
+        brand: 'COS', name: 'Linen Wrap Dress',
+        price: '$92', original: '$220',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@minimal.closet',
+        gradient: 'linear-gradient(145deg, #e2dfd8 0%, #c9c6bf 100%)',
+        description: 'Wrap dress in mid-weight linen in off-white. Adjustable tie waist, V-neck, flutter sleeves. Washed to remove stiffness — beautifully broken in. Tagged size S. Machine washable, iron while damp for best results.'
+      },
+      {
+        brand: 'Maison Margiela', name: 'Tabi Ballet Flats',
+        price: '$580', original: '$1,100',
+        condition: 'Excellent Condition',
+        sizes: ['36','37','38','39'],
+        seller: '@margiela.edit',
+        gradient: 'linear-gradient(145deg, #d8d5ce 0%, #bfbcb6 100%)',
+        description: 'Iconic Tabi split-toe ballet flats in smooth white leather. Minimal visible wear on inner sole — soles show light use consistent with careful wearing. Dust bag included. Tagged size 38.'
+      },
+      {
+        brand: 'Lemaire', name: 'Croissant Shoulder Bag',
+        price: '$420', original: '$990',
+        condition: 'Excellent Condition',
+        sizes: ['One Size'],
+        seller: '@lemaire.lover',
+        gradient: 'linear-gradient(145deg, #d4d2cb 0%, #bcb9b2 100%)',
+        description: 'Croissant bag in smooth vegetable-tanned leather, warm tan. Gold-tone single ring hardware. Interior zip pocket and open slot pocket. Light natural patina on base corners. Dust bag included. Approx. 30 × 20 × 10cm.'
+      },
+      {
+        brand: 'Arket', name: 'Merino Rib Turtleneck',
+        price: '$68', original: '$160',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@nordic.style',
+        gradient: 'linear-gradient(145deg, #dbd8d1 0%, #c2bfb8 100%)',
+        description: 'Fine-knit merino wool turtleneck in rib stitch, ivory. Rolled hem, relaxed body. No pilling or pulls. Tagged size S. Hand wash or gentle machine cold, dry flat.'
+      },
+      {
+        brand: 'By Malene Birger', name: 'Silk Slip Skirt',
+        price: '$115', original: '$310',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M'],
+        seller: '@silk.edit',
+        gradient: 'linear-gradient(145deg, #e6e3dc 0%, #cdcac3 100%)',
+        description: 'Bias-cut slip skirt in ivory silk-satin. Delicate lace trim at hem. Elasticated waist. No pulls or snags. Falls mid-calf on 170cm. Tagged size S. Hand wash only, do not tumble dry.'
+      }
+    ];
+
+    document.querySelectorAll('.shop-card').forEach(function (card, i) {
+      card.addEventListener('click', function () {
+        goToProduct(WOMENS_PRODUCTS[i]);
+      });
+    });
+  </script>
 </body>
 </html>

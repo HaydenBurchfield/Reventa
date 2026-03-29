@@ -18,9 +18,7 @@
       <a href="/pages/kids.html">Kids</a>
       <a href="/pages/sell.html" class="nav-sell">Sell+</a>
     </div>
-
     <a href="/reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-
     <div class="nav-right">
       <a href="/pages/home.html">Home</a>
       <a href="/pages/explore.html">Explore</a>
@@ -28,21 +26,18 @@
       <a href="/pages/messages.html">Messages</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      <span></span><span></span><span></span>
+    </button>
   </nav>
-  <!-- MOBILE NAV MENU -->
   <div class="nav-mobile-menu" id="navMobileMenu">
-      <a href="/pages/mens.html">Men</a>
-      <a href="/pages/womens.html">Women</a>
-      <a href="/pages/kids.html">Kids</a>
-      <a href="/pages/sell.html">Sell+</a>
-      <a href="/pages/home.html">Home</a>
-      <a href="/pages/explore.html">Explore</a>
-      <a href="/pages/profile.html">Profile</a>
-      <a href="/pages/messages.html">Messages</a>
+    <a href="/pages/mens.html">Men</a>
+    <a href="/pages/womens.html">Women</a>
+    <a href="/pages/kids.html">Kids</a>
+    <a href="/pages/sell.html">Sell+</a>
+    <a href="/pages/home.html">Home</a>
+    <a href="/pages/explore.html">Explore</a>
+    <a href="/pages/profile.html">Profile</a>
+    <a href="/pages/messages.html">Messages</a>
   </div>
 
   <div class="shop-header">
@@ -52,7 +47,7 @@
   <div class="shop-grid-wrap">
     <div class="shop-grid">
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s3"></div><span class="shop-badge">New</span></div>
         <div class="shop-card-info">
           <h4>Petit Bateau</h4><p>Striped Cotton Tee</p>
@@ -60,7 +55,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s1"></div></div>
         <div class="shop-card-info">
           <h4>Arket Mini</h4><p>Puffer Jacket</p>
@@ -68,7 +63,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s5"></div></div>
         <div class="shop-card-info">
           <h4>Bobo Choses</h4><p>Cord Pinafore Dress</p>
@@ -76,7 +71,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s7"></div></div>
         <div class="shop-card-info">
           <h4>Mini Rodini</h4><p>Organic Sweatpants</p>
@@ -84,7 +79,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s2"></div><span class="shop-badge">New</span></div>
         <div class="shop-card-info">
           <h4>Caramel Baby</h4><p>Linen Shorts</p>
@@ -92,7 +87,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s4"></div></div>
         <div class="shop-card-info">
           <h4>Bonpoint</h4><p>Wool Cardigan</p>
@@ -100,7 +95,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s6"></div></div>
         <div class="shop-card-info">
           <h4>Konges Sløjd</h4><p>Floral Print Blouse</p>
@@ -108,7 +103,7 @@
         </div>
       </div>
 
-      <div class="shop-card" onclick="location.href='product.html'">
+      <div class="shop-card">
         <div class="shop-card-image"><div class="shop-card-image-inner s8"></div></div>
         <div class="shop-card-info">
           <h4>Molo</h4><p>Raincoat</p>
@@ -119,5 +114,88 @@
     </div>
   </div>
 
+  <script src="/assets/js/main.js"></script>
+  <script>
+    var KIDS_PRODUCTS = [
+      {
+        brand: 'Petit Bateau', name: 'Striped Cotton Tee',
+        price: '$24', original: '$58',
+        condition: 'Excellent Condition',
+        sizes: ['4Y','6Y','8Y','10Y'],
+        seller: '@petits.finds',
+        gradient: 'linear-gradient(145deg, #d8d5ce 0%, #bfbcb6 100%)',
+        description: 'Classic marinière stripe tee in 100% organic cotton. Navy and white stripes, ribbed neckline. Worn twice. No fading, no marks. Tagged size 6 years.'
+      },
+      {
+        brand: 'Arket Mini', name: 'Puffer Jacket',
+        price: '$68', original: '$160',
+        condition: 'Excellent Condition',
+        sizes: ['2Y','4Y','6Y','8Y'],
+        seller: '@nordic.kids',
+        gradient: 'linear-gradient(145deg, #e2dfd8 0%, #c9c6bf 100%)',
+        description: 'Recycled-fill puffer jacket in forest green. Elasticated cuffs, two zip pockets, packable into hood pocket. Excellent condition — worn one season. Tagged size 4Y.'
+      },
+      {
+        brand: 'Bobo Choses', name: 'Cord Pinafore Dress',
+        price: '$52', original: '$120',
+        condition: 'Excellent Condition',
+        sizes: ['4Y','6Y','8Y'],
+        seller: '@bobo.edit',
+        gradient: 'linear-gradient(145deg, #d4d2cb 0%, #bcb9b2 100%)',
+        description: 'Fine-wale cord pinafore in dusty rose. Adjustable straps, front patch pocket, A-line shape. Light softening from washing. Tagged size 6Y. Machine wash gentle, 30°C.'
+      },
+      {
+        brand: 'Mini Rodini', name: 'Organic Sweatpants',
+        price: '$35', original: '$82',
+        condition: 'Excellent Condition',
+        sizes: ['2Y','4Y','6Y','8Y','10Y'],
+        seller: '@nordic.kids',
+        gradient: 'linear-gradient(145deg, #dbd8d1 0%, #c2bfb8 100%)',
+        description: 'GOTS-certified organic cotton sweatpants in off-white with contrast stitching. Elasticated waist, ribbed cuffs. No pilling, no marks. Tagged size 6Y.'
+      },
+      {
+        brand: 'Caramel Baby', name: 'Linen Shorts',
+        price: '$29', original: '$68',
+        condition: 'Excellent Condition',
+        sizes: ['2Y','4Y','6Y'],
+        seller: '@petits.finds',
+        gradient: 'linear-gradient(145deg, #dbd9d3 0%, #c2bfb9 100%)',
+        description: 'Linen-blend pull-on shorts in natural ecru. Elasticated waist, relaxed wide leg. Never worn. Tagged size 4Y. Hand or machine wash cold.'
+      },
+      {
+        brand: 'Bonpoint', name: 'Wool Cardigan',
+        price: '$72', original: '$185',
+        condition: 'Excellent Condition',
+        sizes: ['4Y','6Y','8Y'],
+        seller: '@bonpoint.edit',
+        gradient: 'linear-gradient(145deg, #e4e1da 0%, #cbc8c1 100%)',
+        description: 'Fine merino wool cardigan in oatmeal. Pearl buttons, ribbed hem and cuffs. No pilling or pulls. Tagged size 6Y. Hand wash cold, dry flat.'
+      },
+      {
+        brand: 'Konges Sløjd', name: 'Floral Print Blouse',
+        price: '$38', original: '$90',
+        condition: 'Excellent Condition',
+        sizes: ['4Y','6Y','8Y'],
+        seller: '@nordic.kids',
+        gradient: 'linear-gradient(145deg, #e0ddd6 0%, #c7c4bd 100%)',
+        description: 'GOTS organic cotton blouse in a delicate floral print on cream ground. Smocked yoke, puffed sleeves, button-back. Worn twice. Tagged size 6Y.'
+      },
+      {
+        brand: 'Molo', name: 'Raincoat',
+        price: '$55', original: '$130',
+        condition: 'Good Condition',
+        sizes: ['2Y','4Y','6Y','8Y','10Y'],
+        seller: '@petits.finds',
+        gradient: 'linear-gradient(145deg, #e6e3dc 0%, #cdcac3 100%)',
+        description: 'Waterproof raincoat in sunshine yellow. Sealed seams, adjustable hood, two front zip pockets. Minor scuff on right sleeve cuff, barely visible. Fully waterproof. Tagged size 6Y.'
+      }
+    ];
+
+    document.querySelectorAll('.shop-card').forEach(function (card, i) {
+      card.addEventListener('click', function () {
+        goToProduct(KIDS_PRODUCTS[i]);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -18,9 +18,7 @@
       <a href="/pages/kids.html">Kids</a>
       <a href="/pages/sell.html" class="nav-sell">Sell+</a>
     </div>
-
     <a href="/reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-
     <div class="nav-right">
       <a href="/pages/home.html">Home</a>
       <a href="/pages/explore.html">Explore</a>
@@ -28,32 +26,28 @@
       <a href="/pages/messages.html">Messages</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      <span></span><span></span><span></span>
+    </button>
   </nav>
-  <!-- MOBILE NAV MENU -->
   <div class="nav-mobile-menu" id="navMobileMenu">
-      <a href="/pages/mens.html">Men</a>
-      <a href="/pages/womens.html">Women</a>
-      <a href="/pages/kids.html">Kids</a>
-      <a href="/pages/sell.html">Sell+</a>
-      <a href="/pages/home.html">Home</a>
-      <a href="/pages/explore.html">Explore</a>
-      <a href="/pages/profile.html">Profile</a>
-      <a href="/pages/messages.html">Messages</a>
+    <a href="/pages/mens.html">Men</a>
+    <a href="/pages/womens.html">Women</a>
+    <a href="/pages/kids.html">Kids</a>
+    <a href="/pages/sell.html">Sell+</a>
+    <a href="/pages/home.html">Home</a>
+    <a href="/pages/explore.html">Explore</a>
+    <a href="/pages/profile.html">Profile</a>
+    <a href="/pages/messages.html">Messages</a>
   </div>
 
   <div class="product-layout">
 
     <!-- LEFT: IMAGE CAROUSEL -->
     <div class="product-carousel">
-
       <div class="product-carousel-track">
         <div class="carousel-slide active" style="background: linear-gradient(145deg,#e0ddd6 0%,#c8c5be 100%);"></div>
-        <div class="carousel-slide" style="background: linear-gradient(145deg,#d8d5ce 0%,#bfbcb5 100%);"></div>
-        <div class="carousel-slide" style="background: linear-gradient(145deg,#dbd9d2 0%,#c2bfb8 100%);"></div>
+        <div class="carousel-slide"        style="background: linear-gradient(160deg,#e0ddd6 0%,#c8c5be 100%);"></div>
+        <div class="carousel-slide"        style="background: linear-gradient(130deg,#e0ddd6 0%,#c8c5be 100%);"></div>
       </div>
 
       <button class="carousel-arrow prev" onclick="moveCarousel(-1)" aria-label="Previous">
@@ -69,10 +63,9 @@
 
       <div class="carousel-dots">
         <button class="carousel-dot active" onclick="goToSlide(0)"></button>
-        <button class="carousel-dot" onclick="goToSlide(1)"></button>
-        <button class="carousel-dot" onclick="goToSlide(2)"></button>
+        <button class="carousel-dot"        onclick="goToSlide(1)"></button>
+        <button class="carousel-dot"        onclick="goToSlide(2)"></button>
       </div>
-
     </div>
 
     <!-- RIGHT: DETAILS -->
@@ -84,15 +77,13 @@
       <p class="product-detail-price">$420 <span class="original">$1,200</span></p>
       <span class="product-condition-tag">Excellent Condition</span>
 
-      <!-- Size -->
       <span class="product-options-label">Size</span>
       <div class="size-options">
-        
         <button class="size-btn" onclick="selectSize(this)">M</button>
-        
       </div>
+
       <button class="btn-buy">Buy Now</button>
-      <button class="btn-wish">Make a Offer</button>
+      <button class="btn-wish">Make an Offer</button>
 
       <!-- Seller -->
       <div class="seller-card">
@@ -141,10 +132,12 @@
     </div>
   </div>
 
+  <script src="/assets/js/main.js"></script>
   <script>
-    let current = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots   = document.querySelectorAll('.carousel-dot');
+    /* ── Carousel ── */
+    var current = 0;
+    var slides  = document.querySelectorAll('.carousel-slide');
+    var dots    = document.querySelectorAll('.carousel-dot');
 
     function goToSlide(n) {
       slides[current].classList.remove('active');
@@ -156,20 +149,33 @@
 
     function moveCarousel(dir) { goToSlide(current + dir); }
 
+    /* ── Size selection ── */
     function selectSize(btn) {
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.size-btn').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
     }
 
-    function selectColor(swatch) {
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      swatch.classList.add('active');
-    }
-
+    /* ── Description accordion ── */
     function toggleDesc(btn) {
       btn.classList.toggle('open');
       btn.nextElementSibling.classList.toggle('open');
     }
+
+    /* ── Buy / Offer buttons ── */
+    document.querySelector('.btn-buy').addEventListener('click', function () {
+      var size = document.querySelector('.size-btn.active');
+      if (!size) { alert('Please select a size first.'); return; }
+      var name = document.querySelector('.product-name').textContent;
+      alert('Proceeding to checkout for ' + name + ' — size ' + size.textContent + '.');
+    });
+
+    document.querySelector('.btn-wish').addEventListener('click', function () {
+      var price = document.querySelector('.product-detail-price').firstChild.textContent.trim();
+      var offer = prompt('Enter your offer amount (listed at ' + price + '):');
+      if (offer) {
+        alert('Offer of $' + offer.replace(/[^0-9.]/g,'') + ' sent to the seller!');
+      }
+    });
   </script>
 </body>
 </html>

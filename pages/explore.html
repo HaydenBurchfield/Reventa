@@ -11,7 +11,6 @@
 </head>
 <body class="page-body">
 
-  <!-- NAV -->
   <nav>
     <div class="nav-left">
       <a href="/pages/mens.html">Men</a>
@@ -19,9 +18,7 @@
       <a href="/pages/kids.html">Kids</a>
       <a href="/pages/sell.html" class="nav-sell">Sell+</a>
     </div>
-
     <a href="/reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-
     <div class="nav-right">
       <a href="/pages/home.html">Home</a>
       <a href="/pages/explore.html">Explore</a>
@@ -29,24 +26,20 @@
       <a href="/pages/messages.html">Messages</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      <span></span><span></span><span></span>
+    </button>
   </nav>
-  <!-- MOBILE NAV MENU -->
   <div class="nav-mobile-menu" id="navMobileMenu">
-      <a href="/pages/mens.html">Men</a>
-      <a href="/pages/womens.html">Women</a>
-      <a href="/pages/kids.html">Kids</a>
-      <a href="/pages/sell.html">Sell+</a>
-      <a href="/pages/home.html">Home</a>
-      <a href="/pages/explore.html">Explore</a>
-      <a href="/pages/profile.html">Profile</a>
-      <a href="/pages/messages.html">Messages</a>
+    <a href="/pages/mens.html">Men</a>
+    <a href="/pages/womens.html">Women</a>
+    <a href="/pages/kids.html">Kids</a>
+    <a href="/pages/sell.html">Sell+</a>
+    <a href="/pages/home.html">Home</a>
+    <a href="/pages/explore.html">Explore</a>
+    <a href="/pages/profile.html">Profile</a>
+    <a href="/pages/messages.html">Messages</a>
   </div>
 
-  <!-- EXPLORE HEADER -->
   <div class="explore-header">
     <div class="category-tabs">
       <a href="#" class="tab active" data-cat="women">Women</a>
@@ -56,7 +49,6 @@
     </div>
   </div>
 
-  <!-- FILTER BAR -->
   <div class="filter-bar">
     <span class="filter-label">Filter</span>
     <select class="filter-pill">
@@ -88,7 +80,6 @@
     <span class="filter-count" id="filterCount">Showing 8 items</span>
   </div>
 
-  <!-- GRID -->
   <div class="explore-grid-wrap">
     <div class="explore-grid" id="exploreGrid">
 
@@ -96,7 +87,7 @@
         <div class="explore-card-image">
           <div class="explore-card-image-inner g1"></div>
           <span class="explore-badge">New</span>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -110,7 +101,7 @@
       <div class="explore-card">
         <div class="explore-card-image">
           <div class="explore-card-image-inner g2"></div>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -125,7 +116,7 @@
         <div class="explore-card-image">
           <div class="explore-card-image-inner g3"></div>
           <span class="explore-badge">Rare</span>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -139,7 +130,7 @@
       <div class="explore-card">
         <div class="explore-card-image">
           <div class="explore-card-image-inner g4"></div>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -154,7 +145,7 @@
         <div class="explore-card-image">
           <div class="explore-card-image-inner g5"></div>
           <span class="explore-badge sold">Sold</span>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -168,7 +159,7 @@
       <div class="explore-card">
         <div class="explore-card-image">
           <div class="explore-card-image-inner g6"></div>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -183,7 +174,7 @@
         <div class="explore-card-image">
           <div class="explore-card-image-inner g7"></div>
           <span class="explore-badge">New</span>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -197,7 +188,7 @@
       <div class="explore-card">
         <div class="explore-card-image">
           <div class="explore-card-image-inner g8"></div>
-          <button class="wish-btn" onclick="toggleWish(this)">
+          <button class="wish-btn" aria-label="Wishlist">
             <svg viewBox="0 0 24 24"><path d="M12 21C12 21 3 14.5 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 13 5.08C14.09 3.81 15.76 3 17.5 3C20.58 3 23 5.42 23 8.5C23 14.5 12 21 12 21Z"/></svg>
           </button>
         </div>
@@ -211,25 +202,110 @@
     </div>
   </div>
 
-  <!-- LOAD MORE -->
   <div class="load-more-wrap">
     <button class="btn-load-more">Load More</button>
   </div>
 
+  <script src="/assets/js/main.js"></script>
   <script>
-    // Category tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', e => {
+    var EXPLORE_PRODUCTS = [
+      {
+        brand: 'Totême', name: 'Barrel-Leg Trousers',
+        price: '$210', original: '$520',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@closet.marie',
+        gradient: 'linear-gradient(145deg, #e2e0db 0%, #c8c5be 100%)',
+        description: 'Barrel-leg trousers in structured viscose blend. High rise, wide barrel silhouette tapering to ankle. Concealed zip. Tagged size 36 (XS–S).'
+      },
+      {
+        brand: 'Acne Studios', name: 'Distressed Denim Jacket',
+        price: '$340', original: '$850',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M'],
+        seller: '@acne.collector',
+        gradient: 'linear-gradient(145deg, #dcdad4 0%, #c4c1bb 100%)',
+        description: 'Oversized denim jacket in mid-blue wash. Intentional distressing at collar and cuffs. Four pockets, snap-button closure. Tagged size XS, fits relaxed XS–M.'
+      },
+      {
+        brand: 'Helmut Lang', name: 'Sheer Drape Blouse',
+        price: '$185', original: '$490',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S'],
+        seller: '@archive.finds',
+        gradient: 'linear-gradient(145deg, #d8d6d0 0%, #c0bdb7 100%)',
+        description: 'Asymmetric drape blouse in silk-chiffon. Sheer panels at front and sleeve. No snags or pulls. Tagged size 2 (XS).'
+      },
+      {
+        brand: 'COS', name: 'Linen Wrap Dress',
+        price: '$92', original: '$220',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@minimal.closet',
+        gradient: 'linear-gradient(145deg, #e4e2dc 0%, #cac7c1 100%)',
+        description: 'Wrap dress in mid-weight linen in off-white. Adjustable tie waist, V-neck, flutter sleeves. Beautifully broken in. Tagged size S.'
+      },
+      {
+        brand: 'Maison Margiela', name: 'Tabi Ballet Flats',
+        price: '$580', original: '$1,100',
+        condition: 'Excellent Condition',
+        sizes: ['36','37','38','39'],
+        seller: '@margiela.edit',
+        gradient: 'linear-gradient(145deg, #d4d2cc 0%, #bcb9b3 100%)',
+        description: 'Iconic Tabi split-toe ballet flats in white leather. Minimal visible wear on inner sole. Dust bag included. Tagged size 38.'
+      },
+      {
+        brand: 'Lemaire', name: 'Croissant Shoulder Bag',
+        price: '$420', original: '$990',
+        condition: 'Excellent Condition',
+        sizes: ['One Size'],
+        seller: '@lemaire.lover',
+        gradient: 'linear-gradient(145deg, #e0dedb 0%, #c6c3be 100%)',
+        description: 'Croissant bag in smooth vegetable-tanned leather, warm tan. Gold-tone ring hardware. Interior zip and open slot pockets. Light patina on base corners. Dust bag included.'
+      },
+      {
+        brand: 'Arket', name: 'Merino Rib Turtleneck',
+        price: '$68', original: '$160',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M','L'],
+        seller: '@nordic.style',
+        gradient: 'linear-gradient(145deg, #dbd9d3 0%, #c3c0ba 100%)',
+        description: 'Fine-knit merino wool turtleneck in rib stitch, ivory. Rolled hem, relaxed body. No pilling or pulls. Tagged size S.'
+      },
+      {
+        brand: 'By Malene Birger', name: 'Silk Slip Skirt',
+        price: '$115', original: '$310',
+        condition: 'Excellent Condition',
+        sizes: ['XS','S','M'],
+        seller: '@silk.edit',
+        gradient: 'linear-gradient(145deg, #e6e4de 0%, #cccac4 100%)',
+        description: 'Bias-cut slip skirt in ivory silk-satin. Delicate lace trim at hem. Elasticated waist. Falls mid-calf on 170cm. No pulls or snags. Tagged size S.'
+      }
+    ];
+
+    /* Category tab switching */
+    document.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function (e) {
         e.preventDefault();
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
         tab.classList.add('active');
       });
     });
 
-    // Wishlist toggle
-    function toggleWish(btn) {
-      btn.classList.toggle('active');
-    }
+    /* Wishlist toggle — stop propagation so card click doesn't fire */
+    document.querySelectorAll('.wish-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        btn.classList.toggle('active');
+      });
+    });
+
+    /* Card click → product page */
+    document.querySelectorAll('.explore-card').forEach(function (card, i) {
+      card.addEventListener('click', function () {
+        goToProduct(EXPLORE_PRODUCTS[i]);
+      });
+    });
   </script>
 </body>
 </html>
