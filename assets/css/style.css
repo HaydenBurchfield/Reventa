@@ -441,6 +441,12 @@ nav {
   cursor: pointer;
 }
 
+#value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+}
 .product-image {
   aspect-ratio: 3/4;
   background: var(--off-white);
