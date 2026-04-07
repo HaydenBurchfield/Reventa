@@ -11,7 +11,6 @@
 </head>
 <body class="auth-body">
 
-  <!-- NAV -->
   <nav>
     <div class="nav-left">
       <a href="/pages/mens.html">Men</a>
@@ -19,9 +18,7 @@
       <a href="/pages/kids.html">Kids</a>
       <a href="/pages/sell.html" class="nav-sell">Sell+</a>
     </div>
-
     <a href="/reventa.html" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-
     <div class="nav-right">
       <a href="/pages/home.html">Home</a>
       <a href="/pages/explore.html">Explore</a>
@@ -29,12 +26,9 @@
       <a href="/pages/messages.html">Messages</a>
     </div>
     <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      <span></span><span></span><span></span>
+    </button>
   </nav>
-  <!-- MOBILE NAV MENU -->
   <div class="nav-mobile-menu" id="navMobileMenu">
     <a href="/pages/mens.html">Men</a>
     <a href="/pages/womens.html">Women</a>
@@ -77,19 +71,22 @@
 
     <div class="auth-links" style="margin-top: 8px;">
       <span></span>
-      <a href="login.html" class="auth-link">Login</a>
+      <a href="login.html" class="auth-link">Already have an account?</a>
     </div>
 
-    <button class="btn-auth" onclick="handleSignup()">Login</button>
+    <button class="btn-auth" onclick="handleSignup()">Create Account</button>
 
   </div>
 
+  <script src="/assets/js/main.js"></script>
   <script>
     function handleSignup() {
-      const u = document.getElementById('su-username').value.trim();
-      const e = document.getElementById('su-email').value.trim();
-      if (!u || !e) { alert('Please fill in all required fields.'); return; }
-      alert('Account created! Welcome, ' + u + '.');
+      var u = document.getElementById('su-username').value.trim();
+      var e = document.getElementById('su-email').value.trim();
+      var p = document.getElementById('su-password').value;
+      if (!u || !e) { alert('Please fill in your username and email.'); return; }
+      if (!p || p.length < 6) { alert('Password must be at least 6 characters.'); return; }
+      alert('Account created! Welcome to ReVènta, ' + u + '.');
     }
   </script>
 </body>
