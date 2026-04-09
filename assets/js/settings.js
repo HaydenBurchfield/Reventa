@@ -62,4 +62,40 @@ if (darkToggle) {
       document.body.style.background = '';
     }
   });
+  const ham  = document.getElementById('navHamburger');
+const menu = document.getElementById('navMobileMenu');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); menu.classList.toggle('open'); });
+
+/* ── Dark mode ── */
+const html         = document.documentElement;
+const darkToggle   = document.getElementById('darkModeToggle');
+const headerBtn    = document.getElementById('themeToggle');
+const themeIcon    = document.getElementById('themeIcon');
+const themeLabel   = document.getElementById('themeLabel');
+
+function applyTheme(dark) {
+  html.setAttribute('data-theme', dark ? 'dark' : 'light');
+  darkToggle.checked = dark;
+  themeIcon.textContent  = dark ? '☀' : '☾';
+  themeLabel.textContent = dark ? 'Light' : 'Dark';
+  localStorage.setItem('rv_theme', dark ? 'dark' : 'light');
+}
+
+/* Restore saved preference */
+const saved = localStorage.getItem('rv_theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(saved ? saved === 'dark' : prefersDark);
+
+darkToggle.addEventListener('change', () => applyTheme(darkToggle.checked));
+headerBtn.addEventListener('click',   () => applyTheme(html.getAttribute('data-theme') !== 'dark'));
+
+/* ── Size chips ── */
+document.querySelectorAll('.size-grid').forEach(grid => {
+  grid.querySelectorAll('.size-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      grid.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+});
 }
