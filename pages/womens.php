@@ -37,7 +37,7 @@ $listings   = $listingObj->getListings([
 <nav>
   <div class="nav-left">
     <a href="womens.php" class="active">Women</a>
-    <a href="wowomens.php">Women</a>
+    <a href="mens.php">Men</a>
     <a href="kids.php">Kids</a>
     <a href="sell.php" class="nav-sell">Sell+</a>
   </div>

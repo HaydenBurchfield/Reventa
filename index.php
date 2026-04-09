@@ -67,7 +67,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 
   <div class="hero-text">
     <h1 class="hero-headline">
-      Pre‑loved.<br><em>Re‑loved.</em>
+      Wear What<br><em>You Love</em>
     </h1>
     <div class="hero-sub">
       <p>Curated secondhand fashion.<br>Designer pieces, honest prices.</p>
@@ -88,6 +88,21 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
     <span>Arket</span><span class="dot">·</span>
     <span>A.P.C.</span><span class="dot">·</span>
     <span>Our Legacy</span><span class="dot">·</span>
+    <span>Nike</span><span class="dot">·</span>
+    <span>Adidas</span><span class="dot">·</span>
+    <span>Zara</span><span class="dot">·</span>
+    <span>H&M</span><span class="dot">·</span>
+    <span>Gucci</span><span class="dot">·</span>
+    <span>Levi's</span><span class="dot">·</span>
+    <span>Ralph Lauren</span><span class="dot">·</span>
+    <span>Supreme</span><span class="dot">·</span>
+    <span>Puma</span><span class="dot">·</span>
+    <span>New Balance</span><span class="dot">·</span>
+    <span>Carhartt</span><span class="dot">·</span>
+    <span>Stone Island</span><span class="dot">·</span>
+    <span>Versace</span><span class="dot">·</span>
+    <span>Balenciaga</span><span class="dot">·</span>
+    <span>Off-White</span><span class="dot">·</span>
     <!-- duplicate for seamless loop -->
     <span>Acne Studios</span><span class="dot">·</span>
     <span>Lemaire</span><span class="dot">·</span>
@@ -98,6 +113,21 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
     <span>Arket</span><span class="dot">·</span>
     <span>A.P.C.</span><span class="dot">·</span>
     <span>Our Legacy</span><span class="dot">·</span>
+    <span>Nike</span><span class="dot">·</span>
+    <span>Adidas</span><span class="dot">·</span>
+    <span>Zara</span><span class="dot">·</span>
+    <span>H&M</span><span class="dot">·</span>
+    <span>Gucci</span><span class="dot">·</span>
+    <span>Levi's</span><span class="dot">·</span>
+    <span>Ralph Lauren</span><span class="dot">·</span>
+    <span>Supreme</span><span class="dot">·</span>
+    <span>Puma</span><span class="dot">·</span>
+    <span>New Balance</span><span class="dot">·</span>
+    <span>Carhartt</span><span class="dot">·</span>
+    <span>Stone Island</span><span class="dot">·</span>
+    <span>Versace</span><span class="dot">·</span>
+    <span>Balenciaga</span><span class="dot">·</span>
+    <span>Off-White</span><span class="dot">·</span>
   </div>
 </div>
 

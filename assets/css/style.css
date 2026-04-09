@@ -159,7 +159,7 @@ nav {
 .hero-placeholder {
   position: absolute;
   inset: 0;
-  background-image: url("../img/backgroundImage.jpg");
+  background-image: url("../img/backgroundImage\ \(2\).jpg");
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
@@ -167,14 +167,6 @@ nav {
   justify-content: center;
 }
 
-.hero-placeholder-figure {
-  width: 340px;
-  height: 560px;
-  background: linear-gradient(180deg, #2a2a2a 0%, #111 60%, #0a0a0a 100%);
-  clip-path: polygon(20% 0%, 80% 0%, 95% 8%, 100% 100%, 0% 100%, 5% 8%);
-  animation: heroReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  box-shadow: 0 80px 160px rgba(0,0,0,0.4);
-}
 
 @keyframes heroReveal {
   from { opacity: 0; transform: scale(1.04); }
