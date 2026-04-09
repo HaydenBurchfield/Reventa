@@ -1,5 +1,5 @@
-<?php 
-require_once __DIR__ . '/../objects/Condition.php';
+<?php
+require_once __DIR__ . '/../Utils/DatabaseConnection.php';
 
 class Category {
     public $id;
@@ -12,26 +12,15 @@ class Category {
 
     public function getAllCategories() {
         $conn = $this->db->connect();
-        $query = "SELECT * FROM `category`";
+        $query = "SELECT * FROM `category` ORDER BY name ASC";
         $result = $conn->query($query);
         $categories = [];
         while ($row = $result->fetch_assoc()) {
-            $category = new Category();
-            $category->id = $row['id'];
-            $category->name = $row['name'];
-            $categories[] = $category;
+            $cat = new Category();
+            $cat->id   = $row['id'];
+            $cat->name = $row['name'];
+            $categories[] = $cat;
         }
         return $categories;
     }
 }
-
-
-
-
-
-
-
-
-
-
-?>
