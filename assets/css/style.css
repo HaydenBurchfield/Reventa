@@ -13,6 +13,13 @@
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Montserrat', sans-serif;
 }
+[data-theme="dark"] {
+  --white: #0a0a0a;
+  --off-white: #121212;
+  --black: #ffffff;
+  --mid: #aaaaaa;
+  --light: #2a2a2a;
+}
 
 html, body {
   height: 100%;
