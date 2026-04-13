@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 :root {
   --white: #ffffff;
   --off-white: #f5f4f2;
@@ -13,7 +14,8 @@
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Montserrat', sans-serif;
 }
-[data-theme="dark"] {
+
+:root[data-theme="dark"] {
   --white: #0a0a0a;
   --off-white: #121212;
   --black: #ffffff;
@@ -39,7 +41,7 @@ nav {
   justify-content: space-between;
   padding: 0 48px;
   height: 68px;
-  background: rgba(255,255,255,0.97);
+  background: rgba(255,255,255,0.97) var (black);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,0,0,0.06);
