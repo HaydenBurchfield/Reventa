@@ -135,21 +135,21 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 <!-- ── CATEGORIES ── -->
 <div class="categories reveal">
   <a href="pages/mens.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg category-bg-men"></div>
+    <div class="category-bg" style="background-image:url('assets/img/man-modified.jpg'); background-size:cover; background-position:center;"></div>
     <div class="category-label">
       <h3>Men</h3>
       <p>Explore collection</p>
     </div>
   </a>
   <a href="pages/womens.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg category-bg-women"></div>
+    <div class="category-bg" style="background-image:url('assets/img/woman-modified.jpg'); background-size:cover; background-position:center;"></div>
     <div class="category-label">
       <h3>Women</h3>
       <p>Explore collection</p>
     </div>
   </a>
   <a href="pages/kids.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg category-bg-kids"></div>
+    <div class="category-bg" style="background-image:url('assets/img/kids-modified.jpg'); background-size:cover; background-position:center;"></div>
     <div class="category-label">
       <h3>Kids</h3>
       <p>Explore collection</p>
