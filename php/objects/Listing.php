@@ -53,6 +53,10 @@ class Listing {
     }
 
     public function addPhoto($listingId, $photoUrl, $sortOrder = 0) {
+        // Normalize: always store with a leading slash for consistency
+        if ($photoUrl && strpos($photoUrl, '/') !== 0) {
+            $photoUrl = '/' . $photoUrl;
+        }
         $sql  = "INSERT INTO listing_photo (listing_id, photo_url, sort_order) VALUES (?,?,?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("isi", $listingId, $photoUrl, $sortOrder);

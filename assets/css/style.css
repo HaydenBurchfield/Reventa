@@ -307,21 +307,39 @@ nav {
   font-size: 28px;
   font-weight: 300;
   letter-spacing: 0.02em;
-  color: var(--black);
+  color: #ff0000;
   margin-bottom: 4px;
 }
 
-.category-card:last-child .category-label h3 { color: var(--white); }
+.category-card:last-child .category-label h3 {color: #ff0000;}
 
 .category-label p {
   font-size: 9px;
   font-weight: 300;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--mid);
+  color: #ffffff;
 }
 
-.category-card:last-child .category-label p { color: var(--light); }
+.category-sell-plus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif);
+  font-size: 90px;
+  font-weight: 200;
+  color: rgb(255, 255, 255);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.category-card:hover .category-sell-plus {
+  color: rgba(255,255,255,0.3);
+}
+
+.category-card:last-child .category-label p {color: #ffffff;}
 
 /* ── FEATURED ── */
 .featured { padding: 96px 48px; }
