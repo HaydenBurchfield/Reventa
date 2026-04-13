@@ -2,7 +2,18 @@
    ReVènta — main.js
    Hamburger nav  ·  Product routing  ·  Page loader
 ═══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+  const html = document.documentElement;
 
+  function applyTheme(dark) {
+    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+  }
+
+  const saved = localStorage.getItem('rv_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  applyTheme(saved ? saved === 'dark' : prefersDark);
+});
 document.addEventListener('DOMContentLoaded', function () {
 
   /* ── 1. Hamburger / Mobile Menu ─────────────────── */
