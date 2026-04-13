@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $ext  = pathinfo($_FILES['photos']['name'][$i], PATHINFO_EXTENSION);
                     $filename = uniqid('listing_') . '.' . $ext;
                     if (move_uploaded_file($tmp, $uploadDir . $filename)) {
-                        $listingObj->addPhoto($listingObj->id, 'uploads/listings/' . $filename, $sort++);
+                        $listingObj->addPhoto($listingObj->id, '/uploads/listings/' . $filename, $sort++);
                     }
                 }
             }
@@ -197,8 +197,20 @@ document.getElementById('fileInput').addEventListener('change', e => showPreview
 function showPreviews(files) {
   if (!files.length) return;
   const arr = Array.from(files).slice(0, 8);
-  zone.innerHTML = '<input type="file" name="photos[]" id="fileInput" accept="image/*" multiple style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;"><div class="upload-previews"></div>';
-  const grid = zone.querySelector('.upload-previews');
+
+  // Remove any existing preview grid without touching the file input
+  const existing = zone.querySelector('.upload-previews');
+  if (existing) existing.remove();
+
+  // Hide the upload prompt icons
+  zone.querySelector('.upload-icon')?.remove();
+  zone.querySelector('.upload-btn')?.remove();
+  zone.querySelector('.upload-hint')?.remove();
+
+  const grid = document.createElement('div');
+  grid.className = 'upload-previews';
+  zone.appendChild(grid);
+
   arr.forEach(f => {
     const url = URL.createObjectURL(f);
     const img = document.createElement('img');
@@ -207,7 +219,6 @@ function showPreviews(files) {
     img.style.cssText = 'object-fit:cover;width:100%;height:100%;';
     grid.appendChild(img);
   });
-  document.getElementById('fileInput').addEventListener('change', e => showPreviews(e.target.files));
 }
 
 const ham = document.getElementById('navHamburger');
