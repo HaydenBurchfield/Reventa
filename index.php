@@ -28,6 +28,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
   </div>
   <a href="index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
   <div class="nav-right">
+    <a href="index.php" class="active">Home</a>
     <a href="pages/explore.php">Explore</a>
     <?php if (isset($_SESSION['user_id'])): ?>
       <a href="pages/profile.php">Profile</a>
@@ -134,29 +135,28 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 <!-- ── CATEGORIES ── -->
 <div class="categories reveal">
   <a href="pages/mens.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg" style="background-image:url('assets/img/man-modified.jpg'); background-size:cover; background-position:center;"></div>
+    <div class="category-bg category-bg-men"></div>
     <div class="category-label">
       <h3>Men</h3>
       <p>Explore collection</p>
     </div>
   </a>
   <a href="pages/womens.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg" style="background-image:url('assets/img/woman-modified.jpg'); background-size:cover; background-position:center;"></div>
+    <div class="category-bg category-bg-women"></div>
     <div class="category-label">
       <h3>Women</h3>
       <p>Explore collection</p>
     </div>
   </a>
   <a href="pages/kids.php" class="category-card" style="text-decoration:none;">
-    <div class="category-bg" style="background-image:url('assets/img/kids2.0.jpg'); background-size:cover; background-position:center;"></div>
+    <div class="category-bg category-bg-kids"></div>
     <div class="category-label">
-      <h3 id="cat_piclable">Kids</h3>
-      <p id="cat_descption">Explore collection</p>
+      <h3>Kids</h3>
+      <p>Explore collection</p>
     </div>
   </a>
   <a href="pages/sell.php" class="category-card" style="text-decoration:none;">
     <div class="category-bg category-bg-sell"></div>
-    <div class="category-sell-plus">+</div>
     <div class="category-label">
       <h3>Sell</h3>
       <p>List your pieces</p>

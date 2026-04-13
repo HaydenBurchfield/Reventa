@@ -36,8 +36,8 @@ $listings   = $listingObj->getListings([
 
 <nav>
   <div class="nav-left">
-    <a href="womens.php" class="active">Women</a>
     <a href="mens.php">Men</a>
+    <a href="womens.php" class="active">Women</a>
     <a href="kids.php">Kids</a>
     <a href="sell.php" class="nav-sell">Sell+</a>
   </div>
@@ -50,6 +50,7 @@ $listings   = $listingObj->getListings([
       <a href="messages.php">Messages</a>
     <?php else: ?>
       <a href="login.php">Login</a>
+      <a href="signup.php">Sign Up</a>
     <?php endif; ?>
   </div>
   <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>

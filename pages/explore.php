@@ -64,6 +64,7 @@ function buildUrl(array $overrides = []): string {
       <a href="messages.php">Messages</a>
     <?php else: ?>
       <a href="login.php">Login</a>
+      <a href="signup.php">Sign Up</a>
     <?php endif; ?>
   </div>
   <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
