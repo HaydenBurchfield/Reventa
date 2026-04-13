@@ -52,15 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <nav>
   <div class="nav-left">
-    <a href="explore.php">Explore</a>
     <a href="mens.php">Men</a>
     <a href="womens.php">Women</a>
+    <a href="kids.php">Kids</a>
+    <a href="sell.php" class="nav-sell">Sell+</a>
   </div>
   <a href="../index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
   <div class="nav-right">
-    <a href="login.php" class="active">Login</a>
-    <a href="signup.php">Sign Up</a>
-    <a href="sell.php" class="nav-sell">Sell+</a>
+    <a href="../index.php">Home</a>
+    <a href="explore.php">Explore</a>
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <a href="profile.php">Profile</a>
+      <a href="messages.php">Messages</a>
+    <?php else: ?>
+      <a href="login.php" class="active">Login</a>
+      <a href="signup.php">Sign Up</a>
+    <?php endif; ?>
   </div>
   <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
 </nav>

@@ -36,13 +36,18 @@ $listings   = $listingObj->getListings([
 
 <nav>
   <div class="nav-left">
+    <a href="mens.php">Men</a>
+    <a href="womens.php">Women</a>
     <a href="kids.php" class="active">Kids</a>
+<<<<<<< HEAD
     <a href="womens.php">Women</a>
     <a href="mens.php">Men</a>
+=======
+>>>>>>> 12a164e66dcd7c42820da0489d1d23975ffec85d
     <a href="sell.php" class="nav-sell">Sell+</a>
   </div>
   <a href="../index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
-  <div class="nav-right">
+ <div class="nav-right">
     <a href="../index.php">Home</a>
     <a href="explore.php">Explore</a>
     <?php if (isset($_SESSION['user_id'])): ?>
@@ -50,6 +55,7 @@ $listings   = $listingObj->getListings([
       <a href="messages.php">Messages</a>
     <?php else: ?>
       <a href="login.php">Login</a>
+      <a href="signup.php">Sign Up</a>
     <?php endif; ?>
   </div>
   <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
