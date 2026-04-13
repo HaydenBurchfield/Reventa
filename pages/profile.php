@@ -152,6 +152,12 @@ $active     = array_filter($listings, fn($l) => !$l['is_sold']);
       <span style="font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:.08em;">
         @<?= htmlspecialchars($userObj->username) ?>
       </span>
+      <a href="settings.php" class="nav-settings" aria-label="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </a>
     </div>
     <div style="margin-top:6px;">
       <a href="likes.php" style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;" onmouseover="this.style.color='#0a0a0a';this.style.borderColor='#0a0a0a'" onmouseout="this.style.color='';this.style.borderColor=''">My Likes</a>

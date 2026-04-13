@@ -313,6 +313,19 @@ nav {
 
 .category-card:last-child .category-label h3 {color: #ff0000;}
 
+.nav-settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.3s ease;
+}
+
+.nav-settings:hover {
+  color: var(--mid);
+  transform: rotate(45deg);
+}
 .category-label p {
   font-size: 9px;
   font-weight: 300;

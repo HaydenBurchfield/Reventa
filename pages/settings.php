@@ -128,27 +128,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     <div class="settings-group-label">Security</div>
     <div class="settings-card">
       <div class="card-inner">
-        <div class="settings-card-title">Change Password</div>
-        <form method="POST" action="settings.php">
-          <input type="hidden" name="action" value="change_password">
-          <div class="sf-row">
-            <label class="sf-label" for="current_password">Current Password</label>
-            <input class="sf-input" type="password" id="current_password" name="current_password" required autocomplete="current-password">
-          </div>
-          <div class="sf-grid">
+        <div class="btn-row">
+          <button class="sf-btn sf-btn-ghost" id="change_password_btn" onclick="
+            document.getElementById('change_password_form').style.display='block';
+            this.style.display='none';
+          ">Change Password</button>
+        </div>
+        <div id="change_password_form" style="display:none;">
+          <div class="settings-card-title" style="margin-top:20px;">Change Password</div>
+          <form method="POST" action="settings.php">
+            <input type="hidden" name="action" value="change_password">
             <div class="sf-row">
-              <label class="sf-label" for="new_password">New Password</label>
-              <input class="sf-input" type="password" id="new_password" name="new_password" required autocomplete="new-password">
+              <label class="sf-label" for="current_password">Current Password</label>
+              <input class="sf-input" type="password" id="current_password" name="current_password" required autocomplete="current-password">
             </div>
-            <div class="sf-row">
-              <label class="sf-label" for="confirm_password">Confirm Password</label>
-              <input class="sf-input" type="password" id="confirm_password" name="confirm_password" required autocomplete="new-password">
+            <div class="sf-grid">
+              <div class="sf-row">
+                <label class="sf-label" for="new_password">New Password</label>
+                <input class="sf-input" type="password" id="new_password" name="new_password" required autocomplete="new-password">
+              </div>
+              <div class="sf-row">
+                <label class="sf-label" for="confirm_password">Confirm Password</label>
+                <input class="sf-input" type="password" id="confirm_password" name="confirm_password" required autocomplete="new-password">
+              </div>
             </div>
-          </div>
-          <div class="btn-row">
-            <button type="submit" class="sf-btn">Update Password</button>
-          </div>
-        </form>
+            <div class="btn-row">
+              <button type="submit" class="sf-btn">Update Password</button>
+              <button type="button" class="sf-btn sf-btn-ghost" onclick="
+                document.getElementById('change_password_form').style.display='none';
+                document.getElementById('change_password_btn').style.display='inline-block';
+              ">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -284,29 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
   </div>
 
-  <!-- ── Appearance ── -->
-  <div class="settings-group">
-    <div class="settings-group-label">Appearance</div>
-    <div class="settings-card">
-      <div class="toggle-row">
-        <div class="toggle-text">
-          <div class="toggle-title">Dark mode</div>
-          <div class="toggle-desc">Switch to a dark colour scheme</div>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="darkModeToggle">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="toggle-row">
-        <div class="toggle-text">
-          <div class="toggle-title">Compact listing view</div>
-          <div class="toggle-desc">Show more items per row when browsing</div>
-        </div>
-        <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
-      </div>
-    </div>
-  </div>
+
 
   <!-- ── Privacy ── -->
   <div class="settings-group">
