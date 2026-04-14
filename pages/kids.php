@@ -39,11 +39,6 @@ $listings   = $listingObj->getListings([
     <a href="mens.php">Men</a>
     <a href="womens.php">Women</a>
     <a href="kids.php" class="active">Kids</a>
-<<<<<<< HEAD
-    <a href="womens.php">Women</a>
-    <a href="mens.php">Men</a>
-=======
->>>>>>> 12a164e66dcd7c42820da0489d1d23975ffec85d
     <a href="sell.php" class="nav-sell">Sell+</a>
   </div>
   <a href="../index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>

@@ -157,6 +157,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
   </a>
   <a href="pages/sell.php" class="category-card" style="text-decoration:none;">
     <div class="category-bg category-bg-sell"></div>
+    <div class="category-sell-plus">+</div>
     <div class="category-label">
       <h3>Sell</h3>
       <p>List your pieces</p>
@@ -227,7 +228,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <div class="logo">Re<span>V</span>ènta</div>
+      <div class="logo">Re<span style="color: red;">V</span>ènta</div>
       <p>A curated marketplace for pre-loved designer fashion. Quality pieces, honest descriptions, fair prices.</p>
     </div>
     <div class="footer-col">

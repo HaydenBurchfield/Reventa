@@ -323,6 +323,23 @@ nav {
   text-decoration: none;
   transition: color 0.2s ease, transform 0.3s ease;
 }
+.category-sell-plus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif);
+  font-size: 80px;
+  font-weight: 200;
+  color: rgba(255,255,255,0.15);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.category-card:hover .category-sell-plus {
+  color: rgba(255,255,255,0.3);
+}
 
 .nav-settings:hover {
   color: var(--mid);
@@ -499,10 +516,10 @@ footer {
 
 .footer-col h5 {
   font-size: 9px;
-  font-weight: 400;
+  font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgb(255 0 0 / 50%);
   margin-bottom: 20px;
 }
 
@@ -511,7 +528,7 @@ footer {
   font-size: 12px;
   font-weight: 300;
   letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.6);
+  color: rgb(255 255 255 / 89%);
   text-decoration: none;
   margin-bottom: 10px;
   transition: color 0.2s;
