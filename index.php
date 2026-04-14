@@ -21,40 +21,42 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 <!-- ── NAV ── -->
 <nav>
   <div class="nav-left">
-    <a href="mens.php">Men</a>
-    <a href="womens.php">Women</a>
-    <a href="kids.php">Kids</a>
-    <a href="sell.php" class="nav-sell">Sell+</a>
+    <a href="pages/mens.php">Men</a>
+    <a href="pages/womens.php">Women</a>
+    <a href="pages/kids.php">Kids</a>
+    <a href="pages/sell.php" class="nav-sell">Sell+</a>
   </div>
-  <a href="../index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
+  <a href="index.php" class="nav-logo">Re<span id="theV">V</span>è<span>nta</span></a>
   <div class="nav-right">
-    <a href="../index.php">Home</a>
-    <a href="explore.php" class="active">Explore</a>
+    <a href="index.php" class="active">Home</a>
+    <a href="pages/explore.php">Explore</a>
     <?php if (isset($_SESSION['user_id'])): ?>
-      <a href="profile.php">Profile</a>
-      <a href="messages.php">Messages</a>
+      <a href="pages/profile.php">Profile</a>
+      <a href="pages/messages.php">Messages</a>
+      <a href="pages/likes.php">Likes</a>
     <?php else: ?>
-      <a href="login.php">Login</a>
-      <a href="signup.php">Sign Up</a>
+      <a href="pages/login.php">Login</a>
+      <a href="pages/signup.php">Sign Up</a>
     <?php endif; ?>
   </div>
-  <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 <div class="nav-mobile-menu" id="navMobileMenu">
-  <a href="../index.php">Home</a>
-  <a href="explore.php">Explore</a>
-  <a href="mens.php">Men</a>
-  <a href="womens.php">Women</a>
-  <a href="kids.php">Kids</a>
-  <a href="sell.php">Sell+</a>
+  <a href="pages/explore.php">Explore</a>
+  <a href="pages/mens.php">Men</a>
+  <a href="pages/womens.php">Women</a>
+  <a href="pages/kids.php">Kids</a>
+  <a href="pages/sell.php">Sell+</a>
   <?php if (isset($_SESSION['user_id'])): ?>
-    <a href="profile.php">Profile</a>
-    <a href="messages.php">Messages</a>
-    <a href="likes.php">My Likes</a>
-    <a href="../php/Utils/Logout.php">Logout</a>
+    <a href="pages/profile.php">Profile</a>
+    <a href="pages/messages.php">Messages</a>
+    <a href="pages/likes.php">My Likes</a>
+    <a href="php/Utils/Logout.php">Logout</a>
   <?php else: ?>
-    <a href="login.php">Login</a>
-    <a href="signup.php">Sign Up</a>
+    <a href="pages/login.php">Login</a>
+    <a href="pages/signup.php">Sign Up</a>
   <?php endif; ?>
 </div>
 
