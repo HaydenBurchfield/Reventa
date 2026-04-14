@@ -220,35 +220,6 @@ $active     = array_filter($listings, fn($l) => !$l['is_sold']);
     </div>
   <?php endif; ?>
 
-  <!-- Edit profile form -->
-  <div class="edit-section">
-    <div class="edit-section-title">Edit Profile</div>
-    <form method="POST" action="profile.php" enctype="multipart/form-data">
-      <div class="profile-form-row">
-        <div>
-          <label class="profile-form-label" for="full_name">Full Name</label>
-          <input class="profile-form-input" type="text" id="full_name" name="full_name"
-                 value="<?= htmlspecialchars($userObj->full_name ?? '') ?>">
-        </div>
-        <div>
-          <label class="profile-form-label" for="phone_number">Phone</label>
-          <input class="profile-form-input" type="text" id="phone_number" name="phone_number"
-                 value="<?= htmlspecialchars($userObj->phone_number ?? '') ?>">
-        </div>
-      </div>
-      <div style="margin-top:16px;">
-        <label class="profile-form-label" for="address">Address</label>
-        <input class="profile-form-input" type="text" id="address" name="address"
-               value="<?= htmlspecialchars($userObj->adress ?? '') ?>">
-      </div>
-      <div style="margin-top:16px;">
-        <label class="profile-form-label" for="bio">Bio</label>
-        <textarea class="profile-bio-input" id="bio" name="bio"><?= htmlspecialchars($userObj->bio ?? '') ?></textarea>
-      </div>
-      <button type="submit" class="profile-save-btn">Save Changes</button>
-    </form>
-  </div>
-
 </div>
 
 <script>
