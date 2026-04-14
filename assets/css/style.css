@@ -13,7 +13,40 @@
   --light: #d0d0d0;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Montserrat', sans-serif;
+  [data-theme="dark"] {
+  --white: #0a0a0a;
+  --off-white: #141414;
+  --black: #f5f4f2;
+  --mid: #9a9a9a;
+  --light: #2a2a2a;
 }
+
+/* Extra overrides that can't be handled by variables alone */
+[data-theme="dark"] nav {
+  background: rgba(10, 10, 10, 0.97);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .nav-mobile-menu {
+  background: #0a0a0a;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .marquee-strip {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .hero-cta {
+  border-color: var(--black);
+  color: var(--black);
+}
+
+[data-theme="dark"] .hero-cta:hover {
+  background: var(--black);
+  color: var(--white);
+}
+}
+
 
 
 html, body {

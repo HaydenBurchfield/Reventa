@@ -2,6 +2,7 @@
    ReVènta — main.js
    Hamburger nav  ·  Product routing  ·  Page loader
 ═══════════════════════════════════════════════════ */
+
 document.addEventListener('DOMContentLoaded', function () {
   const html = document.documentElement;
 
@@ -136,4 +137,5 @@ function loadProductPage() {
   if (p.brand && p.name) {
     document.title = p.brand + ' — ' + p.name + ' | ReVènta';
   }
+  
 }
