@@ -278,7 +278,7 @@ nav {
 
 .marquee-track {
   display: inline-flex;
-  animation: marquee 22s linear infinite;
+  animation: marquee 52s linear infinite;
 }
 
 .marquee-track span {
