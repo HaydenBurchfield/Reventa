@@ -1,3 +1,13 @@
+/* ── Theme: apply immediately to avoid flash ── */
+(function () {
+  const saved = localStorage.getItem('rv_theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute(
+    'data-theme',
+    (saved ? saved === 'dark' : prefersDark) ? 'dark' : 'light'
+  );
+})();
+  // ... rest of your existing main.js code
 /* ═══════════════════════════════════════════════════
    ReVènta — main.js
    Hamburger nav  ·  Product routing  ·  Page loader

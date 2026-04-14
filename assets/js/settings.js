@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ── Dark mode ── */
+  
   const html         = document.documentElement;
   const darkToggle   = document.getElementById('darkModeToggle');
+  console.log('toggle found:', darkToggle); // check this in DevTools
   const headerBtn    = document.getElementById('themeToggle');
   const themeIcon    = document.getElementById('themeIcon');
   const themeLabel   = document.getElementById('themeLabel');
