@@ -102,7 +102,7 @@ function buildUrl(array $overrides = []): string {
     <input type="text" name="q"
            value="<?= htmlspecialchars($filters['search'] ?? '') ?>"
            placeholder="Search items, brands, sellers…"
-           style="flex:1;font-family:var(--sans);font-size:12px;letter-spacing:.08em;border:1px solid #d0d0d0;padding:10px 16px;outline:none;border-radius:0;transition:border-color .2s;"
+           style="flex:1;font-family:var(--sans);font-size:12px;letter-spacing:.08em;border:1px solid var(--light);padding:10px 16px;outline:none;border-radius:0;transition:border-color .2s;"
            onfocus="this.style.borderColor='#0a0a0a'" onblur="this.style.borderColor='#d0d0d0'">
     <button type="submit" style="font-family:var(--sans);font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;background:var(--black);color:var(--white);border:none;padding:10px 20px;cursor:pointer;">Search</button>
   </form>
