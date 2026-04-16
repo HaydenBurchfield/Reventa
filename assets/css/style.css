@@ -14,7 +14,38 @@
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Montserrat', sans-serif;
 }
+  [data-theme="dark"] {
+  --white: #0a0a0a;
+  --off-white: #141414;
+  --black: #f5f4f2;
+  --mid: #9a9a9a;
+  --light: #2a2a2a;
+}
 
+/* Extra overrides that can't be handled by variables alone */
+[data-theme="dark"] nav {
+  background: rgba(10, 10, 10, 0.97);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .nav-mobile-menu {
+  background: #0a0a0a;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .marquee-strip {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .hero-cta {
+  border-color: var(--black);
+  color: var(--black);
+}
+
+[data-theme="dark"] .hero-cta:hover {
+  background: var(--black);
+  color: var(--white);
+}
 
 html, body {
   height: 100%;
@@ -247,7 +278,7 @@ nav {
 
 .marquee-track {
   display: inline-flex;
-  animation: marquee 22s linear infinite;
+  animation: marquee 52s linear infinite;
 }
 
 .marquee-track span {
@@ -322,23 +353,6 @@ nav {
   color: var(--black);
   text-decoration: none;
   transition: color 0.2s ease, transform 0.3s ease;
-}
-.category-sell-plus {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--serif);
-  font-size: 80px;
-  font-weight: 200;
-  color: rgba(255,255,255,0.15);
-  line-height: 1;
-  pointer-events: none;
-  transition: color 0.3s ease;
-}
-
-.category-card:hover .category-sell-plus {
-  color: rgba(255,255,255,0.3);
 }
 
 .nav-settings:hover {
@@ -516,10 +530,10 @@ footer {
 
 .footer-col h5 {
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgb(255 0 0 / 50%);
+  color: rgba(255,255,255,0.5);
   margin-bottom: 20px;
 }
 
@@ -528,7 +542,7 @@ footer {
   font-size: 12px;
   font-weight: 300;
   letter-spacing: 0.06em;
-  color: rgb(255 255 255 / 89%);
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
   margin-bottom: 10px;
   transition: color 0.2s;
