@@ -293,6 +293,6 @@ const ham = document.getElementById('navHamburger');
 const navMenu = document.getElementById('navMobileMenu');
 ham.addEventListener('click', () => { ham.classList.toggle('open'); navMenu.classList.toggle('open'); });
 </script>
-<script src="../js/main.js"></script>
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

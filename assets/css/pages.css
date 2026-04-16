@@ -430,7 +430,7 @@
 
 .profile-avatar-circle {
   width: 140px; height: 140px; border-radius: 50%;
-  background: var(--black); display: flex; align-items: center; justify-content: center;
+  background: black; display: flex; align-items: center; justify-content: center;
   border: 3px solid var(--white); box-shadow: 0 0 0 1.5px var(--light);
   margin-bottom: 20px; overflow: hidden; cursor: pointer; position: relative;
 }
@@ -454,7 +454,7 @@
 
 .profile-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 36px 0 0; }
 
-.profile-stat-label {font-size: 10px;font-weight: 300;letter-spacing: 0.18em;text-transform: uppercase;color: #000000;text-align: center;margin-bottom: 10px;}
+.profile-stat-label {font-size: 10px;font-weight: 300;letter-spacing: 0.18em;text-transform: uppercase;color:var(--mid);text-align: center;margin-bottom: 10px;}
 
 .profile-stat-value-row { text-align: center; }
 .profile-stat-value-row h1 { font-family: var(--serif); font-size: 32px; font-weight: 300; }
@@ -498,7 +498,7 @@
 
 .msg-sidebar {border-right: 1px solid rgb(0 0 0 / 18%);display: flex;flex-direction: column;overflow: hidden;}
 
-.msg-sidebar-header { padding: 20px 24px 16px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+.msg-sidebar-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--light); }
 
 .msg-sidebar-title {
   font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
@@ -560,13 +560,13 @@
 
 .msg-bubble { max-width: 62%; padding: 12px 16px; font-size: 13px; font-weight: 300; line-height: 1.6; border-radius: 2px; }
 .msg-bubble.them { background: #e8e6e2; color: var(--black); align-self: flex-start; border-radius: 2px 12px 12px 2px; }
-.msg-bubble.me { background: var(--black); color: var(--white); align-self: flex-end; border-radius: 12px 2px 2px 12px; }
+.msg-bubble.me { background: black; color: white; align-self: flex-end; border-radius: 12px 2px 2px 12px; }
 .msg-bubble-time { font-size: 9px; font-weight: 300; color: var(--mid); margin-top: 4px; }
 .msg-bubble.me .msg-bubble-time { text-align: right; color: rgba(255,255,255,0.5); }
 
-.msg-chat-input-row { display: flex; align-items: center; gap: 10px; padding: 16px 28px 20px; border-top: 1px solid rgba(0,0,0,0.07); flex-shrink: 0; }
+.msg-chat-input-row { display: flex; align-items: center; gap: 10px; padding: 16px 28px 20px; border-top: 1px solid var(--light); flex-shrink: 0; }
 
-.msg-input { flex: 1; font-family: var(--sans); font-size: 13px; font-weight: 300; letter-spacing: 0.03em; color: var(--black); border: 1px solid #d0d0d0; padding: 11px 16px; outline: none; transition: border-color 0.2s; border-radius: 0; }
+.msg-input { flex: 1; font-family: var(--sans); font-size: 13px; font-weight: 300; letter-spacing: 0.03em; color:black; border: 1px solid #d0d0d0; padding: 11px 16px; outline: none; transition: border-color 0.2s; border-radius: 0; }
 .msg-input:focus { border-color: var(--black); }
 
 .msg-send-btn {font-family: var(--sans);font-size: 10px;font-weight: 400;letter-spacing: 0.18em;text-transform: uppercase;color: var(--white);background: #ff0000;border: none;padding: 12px 22px;cursor: pointer;transition: opacity 0.2s;white-space: nowrap;}

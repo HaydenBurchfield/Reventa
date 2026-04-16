@@ -339,6 +339,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
   </div>
 
-</div><!-- /settings-wrap -->
+</div>
+<script src="../assets/js/settings.js"></script>
+<!-- /settings-wrap -->
 </body>
 </html>
