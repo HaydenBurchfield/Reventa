@@ -1,11 +1,15 @@
+
 /* ── Theme: apply immediately to avoid flash ── */
 (function () {
   const saved = localStorage.getItem('rv_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   document.documentElement.setAttribute(
     'data-theme',
-    (saved ? saved === 'dark' : prefersDark) ? 'dark' : 'light'
-  );
+    (saved ? saved === 'dark' : prefersDark) ? 'dark' : 'light')
+     if (new URLSearchParams(window.location.search).get('loggedout') === '1') {
+    localStorage.removeItem('rv_theme');
+    history.replaceState(null, '', window.location.pathname);}
+  ;
 })();
   // ... rest of your existing main.js code
 /* ═══════════════════════════════════════════════════

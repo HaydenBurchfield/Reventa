@@ -302,7 +302,7 @@ nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2px;
-  background: var(--light);
+  background: black;
 }
 
 .category-card {

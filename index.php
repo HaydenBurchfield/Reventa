@@ -6,6 +6,7 @@ session_start();
 $listingObj = new Listing();
 $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
