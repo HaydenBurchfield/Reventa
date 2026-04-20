@@ -40,7 +40,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
       <a href="pages/signup.php">Sign Up</a>
     <?php endif; ?>
   </div>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -60,7 +60,6 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
     <a href="pages/signup.php">Sign Up</a>
   <?php endif; ?>
 </div>
-<div class="nav-overlay" id="navOverlay"></div>
 
 <!-- ── HERO ── -->
 <div class="hero">
@@ -265,6 +264,14 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
 </footer>
 
 <script>
+// Hamburger
+const ham  = document.getElementById('navHamburger');
+const menu = document.getElementById('navMobileMenu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  menu.classList.toggle('open');
+});
+
 // Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });

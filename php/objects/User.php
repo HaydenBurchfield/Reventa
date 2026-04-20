@@ -62,6 +62,16 @@ class User {
         return $user;
     }
 
+    public function getUserByUsername($username) {
+        $conn  = $this->db->connect();
+        $stmt  = $conn->prepare("SELECT * FROM user WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $user = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
+
     public function populate($id) {
         $user = $this->getUserById($id);
         if (!$user) return false;

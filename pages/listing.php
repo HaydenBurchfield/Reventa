@@ -167,7 +167,9 @@ if (isset($_SESSION['user_id'])) {
         <?php endif; ?>
       </div>
       <div class="seller-info">
-        <h5>@<?= htmlspecialchars($item['seller_username']) ?></h5>
+        <a style="text-decoration: none; color: var(--black);" href="profile.php?user=<?= htmlspecialchars($item['seller_username']) ?>">
+          <h5>@<?= htmlspecialchars($item['seller_username']) ?></h5>
+        </a>
         <div style="font-size:11px;color:var(--mid);">
           <?= number_format($item['view_count'] ?? 0) ?> view<?= ($item['view_count']??0) !== 1 ? 's' : '' ?> ·
           Listed <?= date('M j, Y', strtotime($item['created_at'])) ?>

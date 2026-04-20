@@ -17,34 +17,30 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   /* ── 1. Hamburger / Mobile Menu ─────────────────── */
-  var btn     = document.getElementById('navHamburger');
-  var menu    = document.getElementById('navMobileMenu');
-  var overlay = document.getElementById('navOverlay');
-
-  function openMenu() {
-    btn.classList.add('open');
-    menu.classList.add('open');
-    if (overlay) overlay.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeMenu() {
-    btn.classList.remove('open');
-    menu.classList.remove('open');
-    if (overlay) overlay.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
-  }
+  var btn  = document.getElementById('navHamburger');
+  var menu = document.getElementById('navMobileMenu');
 
   if (btn && menu) {
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
-      menu.classList.contains('open') ? closeMenu() : openMenu();
+      var open = btn.classList.toggle('open');
+      menu.classList.toggle('open', open);
     });
 
-    if (overlay) overlay.addEventListener('click', closeMenu);
+    // Close when tapping outside
+    document.addEventListener('click', function (e) {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+      }
+    });
 
+    // Close when a nav link is followed
     menu.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', closeMenu);
+      a.addEventListener('click', function () {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+      });
     });
   }
 
