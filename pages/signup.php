@@ -106,8 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </div>
 
 <div class="auth-card">
-  <div class="auth-logo">Re<span>V</span>ènta</div>
-
   <?php if (!empty($message)): ?>
     <div class="auth-message <?= $messageType ?>"><?= htmlspecialchars($message) ?></div>
   <?php endif; ?>
