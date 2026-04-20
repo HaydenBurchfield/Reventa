@@ -1,34 +1,19 @@
 
-/* ── Theme: apply immediately to avoid flash ── */
 (function () {
-  const saved = localStorage.getItem('rv_theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.setAttribute(
-    'data-theme',
-    (saved ? saved === 'dark' : prefersDark) ? 'dark' : 'light')
-     if (new URLSearchParams(window.location.search).get('loggedout') === '1') {
+  if (new URLSearchParams(window.location.search).get('loggedout') === '1') {
     localStorage.removeItem('rv_theme');
-    history.replaceState(null, '', window.location.pathname);}
-  ;
-})();
-  // ... rest of your existing main.js code
-/* ═══════════════════════════════════════════════════
-   ReVènta — main.js
-   Hamburger nav  ·  Product routing  ·  Page loader
-═══════════════════════════════════════════════════ */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const html = document.documentElement;
-
-  function applyTheme(dark) {
-    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+    localStorage.setItem('rv_theme', 'light'); // ← force light after logout
+    history.replaceState(null, '', window.location.pathname);
   }
 
   const saved = localStorage.getItem('rv_theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute(
+    'data-theme',
+    (saved ? saved === 'dark' : prefersDark) ? 'dark' : 'light'
+  );
+})();
 
-  applyTheme(saved ? saved === 'dark' : prefersDark);
-});
 document.addEventListener('DOMContentLoaded', function () {
 
   /* ── 1. Hamburger / Mobile Menu ─────────────────── */

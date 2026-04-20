@@ -5,6 +5,13 @@ $_SESSION = array();
 if (isset($_COOKIE[session_name()])) {
     setcookie(session_name(), '', time()-3600, '/');
 }
-
-header("Location: ../../index.php?loggedout=1");
-exit;
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        localStorage.removeItem('rv_theme'); // ← your exact key
+        window.location.href = "../../index.php?loggedout=1";
+    </script>
+</head>
+</html>
