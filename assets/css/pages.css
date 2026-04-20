@@ -10,12 +10,30 @@
 }
 
 .auth-card {
-  background: var(--white);
+  background: white;
   width: 100%;
-  max-width: 460px;
+  max-width: 560px;
   padding: 56px 52px 52px;
   border: 1px solid rgba(0,0,0,0.07);
   margin: 24px 16px;
+}
+
+.auth-card .auth-message { width: 100%; }
+
+/* Two-column grid for the signup form fields */
+.auth-card form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 24px;
+}
+
+/* Fields that should span the full width */
+.auth-card form .auth-field:nth-child(1),   /* Full Name */
+.auth-card form .auth-field:nth-child(3),   /* Email */
+.auth-card form .auth-field:nth-child(7),   /* Address */
+.auth-card form .auth-links,
+.auth-card form .btn-auth {
+  grid-column: 1 / -1;
 }
 
 .auth-avatar {
@@ -81,7 +99,7 @@
   font-weight: 300;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mid);
+  color: #ff0000;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
@@ -602,7 +620,11 @@
    ══════════════════════════════════════ */
 @media (max-width: 767px) {
   .auth-body { align-items: flex-start; padding-top: 80px; }
-  .auth-card { padding: 36px 24px 32px; margin: 16px; }
+  .auth-card { padding: 36px 24px 32px; margin: 16px; max-width: 100%; }
+  .auth-card form { grid-template-columns: 1fr; }
+  .auth-card form .auth-field,
+  .auth-card form .auth-links,
+  .auth-card form .btn-auth { grid-column: 1 / -1; }
 
   .shop-header { padding: 20px 16px 0; }
   .shop-grid-wrap { padding: 16px 16px 56px; }

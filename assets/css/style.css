@@ -13,6 +13,7 @@
   --light: #d0d0d0;
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans: 'Montserrat', sans-serif;
+  --nav-h: 68px;
 }
   [data-theme="dark"] {
   --white: #0a0a0a;
@@ -148,18 +149,29 @@ nav {
 
 /* ── MOBILE MENU ── */
 .nav-mobile-menu {
-  display: none;
   position: fixed;
-  top: 60px; left: 0; right: 0;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
   background: var(--white);
   border-bottom: 1px solid rgba(0,0,0,0.08);
   flex-direction: column;
-  z-index: 99;
+  z-index: 98;
   padding: 8px 0;
   box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  /* hidden by default via transform, not display:none, for smooth animation */
+  display: flex;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;
 }
 
-.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
 
 .nav-mobile-menu a {
   font-family: var(--sans);
@@ -176,6 +188,16 @@ nav {
 
 .nav-mobile-menu a:last-child { border-bottom: none; }
 .nav-mobile-menu a:hover { background: var(--off-white); }
+
+/* Overlay to close menu on outside tap */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 97;
+  background: transparent;
+}
+.nav-overlay.open { display: block; }
 
 /* ── HERO ── */
 .hero {
@@ -593,6 +615,7 @@ footer {
    RESPONSIVE — MOBILE  (≤ 767px)
    ══════════════════════════════════════ */
 @media (max-width: 767px) {
+  :root { --nav-h: 60px; }
   nav { padding: 0 20px; height: 60px; }
   .nav-left, .nav-right { display: none; }
   .nav-hamburger { display: flex; }
