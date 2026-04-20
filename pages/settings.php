@@ -13,6 +13,7 @@ $message = "";
 $messageType = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+
     if ($_POST['action'] === 'change_password') {
         $current = $_POST['current_password'] ?? '';
         $new     = $_POST['new_password']     ?? '';
@@ -35,6 +36,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } else {
                 $message = "Failed to update password.";
                 $messageType = "error";
+            }
+        }
+    }
+
+    if ($_POST['action'] === 'edit_profile') {
+        $userObj->full_name    = trim($_POST['full_name']    ?? '');
+        $userObj->bio          = trim($_POST['bio']          ?? '');
+        $userObj->phone_number = trim($_POST['phone_number'] ?? '');
+        $userObj->adress       = trim($_POST['address']      ?? '');
+
+        if (!empty($_FILES['avatar']['tmp_name']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            $mime    = mime_content_type($_FILES['avatar']['tmp_name']);
+            if (in_array($mime, $allowed)) {
+                $uploadDir = '../uploads/avatars/';
+                if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+                $ext      = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+                $filename = 'avatar_' . $_SESSION['user_id'] . '_' . uniqid() . '.' . $ext;
+                if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $filename)) {
+                    $userObj->profile_picture = 'uploads/avatars/' . $filename;
+                }
+            }
+        }
+
+        if ($userObj->updateProfile()) {
+            $message = "Profile updated successfully.";
+            $messageType = "success";
+            $_SESSION['username'] = $userObj->username;
+        } else {
+            $message = "Failed to update profile.";
+            $messageType = "error";
+        }
+    }
+
+    if ($_POST['action'] === 'edit_account') {
+        $newUsername = trim($_POST['username'] ?? '');
+        $newEmail    = trim($_POST['email']    ?? '');
+
+        if (empty($newUsername) || empty($newEmail)) {
+            $message = "Username and email cannot be empty.";
+            $messageType = "error";
+        } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $message = "Please enter a valid email address.";
+            $messageType = "error";
+        } else {
+            $taken = $userObj->checkUsernameEmailTaken($newUsername, $newEmail, $_SESSION['user_id']);
+            if ($taken === 'username') {
+                $message = "That username is already taken.";
+                $messageType = "error";
+            } elseif ($taken === 'email') {
+                $message = "That email is already in use.";
+                $messageType = "error";
+            } else {
+                $userObj->username = $newUsername;
+                $userObj->email    = $newEmail;
+                if ($userObj->update()) {
+                    $_SESSION['username'] = $newUsername;
+                    $message = "Account updated successfully.";
+                    $messageType = "success";
+                } else {
+                    $message = "Failed to update account.";
+                    $messageType = "error";
+                }
             }
         }
     }
@@ -105,20 +169,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             <div class="account-since">Member since <?= date('F Y') ?></div>
           </div>
         </div>
-        <div class="sf-grid">
-          <div class="sf-row">
-            <label class="sf-label">Username</label>
-            <input class="sf-input" type="text" value="@<?= htmlspecialchars($userObj->username) ?>" readonly>
+        <form method="POST" action="settings.php">
+          <input type="hidden" name="action" value="edit_account">
+          <div class="sf-grid">
+            <div class="sf-row">
+              <label class="sf-label" for="username">Username</label>
+              <input class="sf-input" type="text" id="username" name="username"
+                     value="<?= htmlspecialchars($userObj->username) ?>" required>
+            </div>
+            <div class="sf-row">
+              <label class="sf-label" for="email">Email</label>
+              <input class="sf-input" type="email" id="email" name="email"
+                     value="<?= htmlspecialchars($userObj->email) ?>" required>
+            </div>
           </div>
-          <div class="sf-row">
-            <label class="sf-label">Email</label>
-            <input class="sf-input" type="email" value="<?= htmlspecialchars($userObj->email) ?>" readonly>
+          <div class="btn-row" style="margin-top:16px;">
+            <button type="submit" class="sf-btn">Save Account</button>
           </div>
-        </div>
-        <p class="sf-sublabel" style="margin-top:14px;">
-          To update your username or email, contact
-          <a href="mailto:support@reventa.com" style="color:var(--text);">support@reventa.com</a>.
-        </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Edit Profile ── -->
+  <div class="settings-group">
+    <div class="settings-group-label">Profile</div>
+    <div class="settings-card">
+      <div class="card-inner">
+        <form method="POST" action="settings.php" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="edit_profile">
+          <div class="sf-grid" style="margin-bottom:16px;">
+            <div class="sf-row">
+              <label class="sf-label" for="full_name">Full Name</label>
+              <input class="sf-input" type="text" id="full_name" name="full_name"
+                     value="<?= htmlspecialchars($userObj->full_name ?? '') ?>">
+            </div>
+            <div class="sf-row">
+              <label class="sf-label" for="phone_number">Phone</label>
+              <input class="sf-input" type="text" id="phone_number" name="phone_number"
+                     value="<?= htmlspecialchars($userObj->phone_number ?? '') ?>">
+            </div>
+          </div>
+          <div class="sf-row" style="margin-bottom:16px;">
+            <label class="sf-label" for="address">Address</label>
+            <input class="sf-input" type="text" id="address" name="address"
+                   value="<?= htmlspecialchars($userObj->adress ?? '') ?>">
+          </div>
+          <div class="sf-row" style="margin-bottom:16px;">
+            <label class="sf-label" for="bio">Bio</label>
+            <textarea class="sf-input" id="bio" name="bio"
+                      style="resize:vertical;min-height:80px;font-family:inherit;"
+            ><?= htmlspecialchars($userObj->bio ?? '') ?></textarea>
+          </div>
+          <div class="sf-row" style="margin-bottom:20px;">
+            <label class="sf-label" for="avatar">Profile Photo</label>
+            <input class="sf-input" type="file" id="avatar" name="avatar" accept="image/*"
+                   style="padding:8px 14px;">
+          </div>
+          <div class="btn-row">
+            <button type="submit" class="sf-btn">Save Changes</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -296,8 +407,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
   </div>
 
-
-
   <!-- ── Privacy ── -->
   <div class="settings-group">
     <div class="settings-group-label">Privacy</div>
@@ -339,8 +448,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
   </div>
 
-</div>
+</div><!-- /settings-wrap -->
 <script src="../assets/js/settings.js"></script>
-<!-- /settings-wrap -->
 </body>
 </html>

@@ -93,40 +93,6 @@ try {
     // Ratings table not yet created — degrade gracefully
 }
 
-// ── Own-profile POST handling ────────────────────────────────────────────────
-$message     = '';
-$messageType = '';
-
-if ($isOwn && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userObj->full_name    = trim($_POST['full_name']    ?? '');
-    $userObj->bio          = trim($_POST['bio']          ?? '');
-    $userObj->phone_number = trim($_POST['phone_number'] ?? '');
-    $userObj->adress       = trim($_POST['address']      ?? '');
-
-    if (!empty($_FILES['avatar']['tmp_name']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
-        $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        $mime    = mime_content_type($_FILES['avatar']['tmp_name']);
-        if (in_array($mime, $allowed)) {
-            $uploadDir = '../uploads/avatars/';
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-            $ext      = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-            $filename = 'avatar_' . $_SESSION['user_id'] . '_' . uniqid() . '.' . $ext;
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $filename)) {
-                $userObj->profile_picture = 'uploads/avatars/' . $filename;
-            }
-        }
-    }
-
-    if ($userObj->updateProfile()) {
-        $message     = 'Profile updated successfully.';
-        $messageType = 'success';
-        $_SESSION['username'] = $userObj->username;
-    } else {
-        $message     = 'Failed to update profile.';
-        $messageType = 'error';
-    }
-}
-
 // ── Listings ─────────────────────────────────────────────────────────────────
 $listingObj = new Listing();
 $listings   = $listingObj->getListingsBySeller($profileUserId);
@@ -139,8 +105,6 @@ $pageTitle = $isOwn
 
 // Helper: resolve cover photo URL
 function coverPhotoSrc(string $url): string {
-    // If it already starts with /, it's absolute from doc root — prefix with ../
-    // to go up one from pages/ to root. Avoid double-slash.
     $url = ltrim($url, '/');
     return '../' . $url;
 }
@@ -156,40 +120,6 @@ function coverPhotoSrc(string $url): string {
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/pages.css">
 <style>
-/* ── Own-profile form styles ─────────────────────────────────── */
-.profile-bio-input {
-  width:100%; font-family:var(--sans); font-size:13px; font-weight:300;
-  letter-spacing:.04em; color:var(--black); border:1px solid #d0d0d0;
-  padding:11px 14px; outline:none; resize:vertical; min-height:80px;
-  transition:border-color .2s; border-radius:0;
-}
-.profile-bio-input:focus { border-color:var(--black); }
-.profile-save-btn {
-  font-family:var(--sans); font-size:10px; font-weight:400; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--white); background:var(--black);
-  border:none; padding:13px 32px; cursor:pointer; transition:opacity .2s; margin-top:20px;
-}
-.profile-save-btn:hover { opacity:.75; }
-.profile-form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.profile-form-label {
-  font-size:9px; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--mid); margin-bottom:8px; display:block;
-}
-.profile-form-input {
-  width:100%; font-family:var(--sans); font-size:13px; font-weight:300;
-  color:var(--black); border:1px solid #d0d0d0; padding:11px 14px;
-  outline:none; border-radius:0; transition:border-color .2s;
-}
-.profile-form-input:focus { border-color:var(--black); }
-.edit-section { margin-top:40px; border-top:1px solid var(--light); padding-top:32px; }
-.edit-section-title { font-family:var(--serif); font-size:22px; font-weight:300; margin-bottom:24px; }
-.logout-link {
-  font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--mid); text-decoration:none; border-bottom:1px solid transparent;
-  transition:color .2s,border-color .2s;
-}
-.logout-link:hover { color:var(--black); border-color:var(--black); }
-
 /* ── Rating widget ───────────────────────────────────────────── */
 .rating-section {
   margin-top:32px; padding-top:28px; border-top:1px solid var(--light);
@@ -230,6 +160,13 @@ function coverPhotoSrc(string $url): string {
 }
 .rating-feedback.ok  { color:#1a7a40; }
 .rating-feedback.err { color:#c0392b; }
+
+.logout-link {
+  font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--mid); text-decoration:none; border-bottom:1px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+.logout-link:hover { color:var(--black); border-color:var(--black); }
 </style>
 </head>
 <body class="profile-body">
@@ -270,15 +207,6 @@ function coverPhotoSrc(string $url): string {
 </div>
 
 <div class="profile-wrap">
-
-  <?php if ($message): ?>
-    <div style="padding:10px 14px;font-size:12px;letter-spacing:.06em;border:1px solid;margin-bottom:24px;
-         color:<?= $messageType==='error'?'#c0392b':'#1a7a40' ?>;
-         border-color:<?= $messageType==='error'?'#c0392b':'#1a7a40' ?>;
-         background:<?= $messageType==='error'?'#fdf2f1':'#edf7f2' ?>;">
-      <?= htmlspecialchars($message) ?>
-    </div>
-  <?php endif; ?>
 
   <!-- ── Avatar + username ─────────────────────────────────────── -->
   <div class="profile-avatar-wrap">
@@ -366,8 +294,6 @@ function coverPhotoSrc(string $url): string {
       </div>
     <?php else: ?>
       <?php if ($loggedIn): ?>
-        <!-- Message button links to a listing page which creates the chat,
-             or just go to messages — easiest UX is to go to messages -->
         <div style="margin-top:10px;">
           <a href="messages.php"
              style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;
@@ -408,8 +334,6 @@ function coverPhotoSrc(string $url): string {
       <div class="profile-stat-value-row"
            style="font-family:var(--serif);font-size:14px;font-weight:300;">
         <?php
-          // Use birthday as proxy if created_at not on user table;
-          // fall back to birthday year or dash
           echo !empty($userObj->birthday) ? date('Y', strtotime($userObj->birthday)) : '—';
         ?>
       </div>
@@ -475,37 +399,6 @@ function coverPhotoSrc(string $url): string {
       </div>
     <?php endif; ?>
 
-  </div>
-  <?php endif; ?>
-
-  <!-- ── Own-profile edit form ─────────────────────────────────── -->
-  <?php if ($isOwn): ?>
-  <div class="edit-section">
-    <h2 class="edit-section-title">Edit Profile</h2>
-    <form method="POST" action="profile.php" enctype="multipart/form-data">
-      <div class="profile-form-row" style="margin-bottom:16px;">
-        <div>
-          <label class="profile-form-label">Full Name</label>
-          <input class="profile-form-input" type="text" name="full_name"
-                 value="<?= htmlspecialchars($userObj->full_name ?? '') ?>">
-        </div>
-        <div>
-          <label class="profile-form-label">Phone</label>
-          <input class="profile-form-input" type="text" name="phone_number"
-                 value="<?= htmlspecialchars($userObj->phone_number ?? '') ?>">
-        </div>
-      </div>
-      <div style="margin-bottom:16px;">
-        <label class="profile-form-label">Address</label>
-        <input class="profile-form-input" type="text" name="address"
-               value="<?= htmlspecialchars($userObj->adress ?? '') ?>">
-      </div>
-      <div style="margin-bottom:4px;">
-        <label class="profile-form-label">Bio</label>
-        <textarea class="profile-bio-input" name="bio"><?= htmlspecialchars($userObj->bio ?? '') ?></textarea>
-      </div>
-      <button type="submit" class="profile-save-btn">Save Changes</button>
-    </form>
   </div>
   <?php endif; ?>
 
