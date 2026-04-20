@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     } elseif ($password !== $confirmPassword) {
         $message = "Passwords do not match.";
         $messageType = "error";
+    } elseif (strlen($username) < 3 || strlen($username) > 20) {
+        $message = "Username must be between 3 and 20 characters.";
+        $messageType = "error";
     } elseif (strlen($password) < 6) {
         $message = "Password must be at least 6 characters.";
         $messageType = "error";
