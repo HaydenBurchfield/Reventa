@@ -8,7 +8,6 @@ $id = !empty($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) { header("Location: explore.php"); exit; }
 
 $listingObj = new Listing();
-$listingObj->id = $id;
 $item = $listingObj->getListingById($id);
 
 if (!$item) { header("Location: explore.php"); exit; }
@@ -94,7 +93,7 @@ if (isset($_SESSION['user_id'])) {
       <?php if (!empty($photos)): ?>
         <?php foreach ($photos as $i => $photo): ?>
           <div class="carousel-slide <?= $i===0?'active':'' ?>"
-               style="background: url('<?= strpos($photo['photo_url'], '/') === 0 ? htmlspecialchars($photo['photo_url']) : '/' . htmlspecialchars($photo['photo_url']) ?>') center/cover no-repeat;">
+               style="background: url('../<?= htmlspecialchars(ltrim($photo['photo_url'], '/')) ?>') center/cover no-repeat;">
           </div>
         <?php endforeach; ?>
       <?php else: ?>

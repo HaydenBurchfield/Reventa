@@ -157,7 +157,7 @@ function buildUrl(array $overrides = []): string {
           <div class="explore-card-image">
             <?php if (!empty($item['cover_photo'])): ?>
               <img style="width:100%;height:100%;object-fit:cover;display:block;"
-                   src="<?= htmlspecialchars($item['cover_photo']) ?>"
+                   src="../<?= htmlspecialchars(ltrim($item['cover_photo'], '/')) ?>"
                    alt="<?= htmlspecialchars($item['name']) ?>"
                    loading="lazy">
             <?php else: ?>

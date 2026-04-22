@@ -8,7 +8,7 @@ $catObj    = new Category();
 $allCats   = $catObj->getAllCategories();
 $menCatId  = null;
 foreach ($allCats as $c) {
-    if (stripos($c->name, 'men') !== false && stripos($c->name, 'women') === false && stripos($c->name, 'kid') === false) {
+    if (stripos($c->name, 'kid') !== false) {
         $menCatId = $c->id;
         break;
     }

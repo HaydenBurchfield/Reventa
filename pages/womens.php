@@ -8,7 +8,7 @@ $catObj    = new Category();
 $allCats   = $catObj->getAllCategories();
 $menCatId  = null;
 foreach ($allCats as $c) {
-    if (stripos($c->name, 'men') !== false && stripos($c->name, 'women') === false && stripos($c->name, 'kid') === false) {
+    if (stripos($c->name, 'women') !== false) {
         $menCatId = $c->id;
         break;
     }
@@ -59,8 +59,8 @@ $listings   = $listingObj->getListings([
 <div class="nav-mobile-menu" id="navMobileWomenu">
   <a href="../index.php">Home</a>
   <a href="explore.php">Explore</a>
+  <a href="mens.php">Men</a>
   <a href="womens.php">Women</a>
-  <a href="wowomens.php">Women</a>
   <a href="kids.php">Kids</a>
   <a href="sell.php">Sell+</a>
   <?php if (isset($_SESSION['user_id'])): ?>
