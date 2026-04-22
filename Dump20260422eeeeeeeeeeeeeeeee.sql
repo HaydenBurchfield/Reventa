@@ -26,7 +26,7 @@ CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Test'),(2,'Electronics'),(3,'Clothing'),(4,'Furniture'),(5,'Books'),(6,'Sports'),(7,'Toys'),(8,'Vehicles'),(9,'Other');
+INSERT INTO `category` VALUES (1,'Men\'s Clothing'),(2,'Women\'s Clothing'),(3,'Unisex Clothing'),(4,'Shoes'),(5,'Sneakers'),(6,'Accessories'),(7,'Jewelry'),(8,'Bags & Purses'),(9,'Vintage'),(10,'Streetwear'),(11,'Designer'),(12,'Y2K'),(13,'Outerwear'),(14,'Hoodies & Sweatshirts'),(15,'T-Shirts'),(16,'Jeans & Pants'),(17,'Shorts'),(18,'Dresses'),(19,'Skirts'),(20,'Activewear'),(21,'Swimwear'),(22,'Hats & Caps'),(23,'Sunglasses'),(24,'Watches'),(25,'Beauty & Makeup'),(26,'Fragrance'),(27,'Tech & Gadgets'),(28,'Home Decor'),(29,'Art'),(30,'Collectibles'),(31,'Books'),(32,'Music & Vinyl'),(33,'Games'),(34,'Other');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `chat` (
   CONSTRAINT `chat_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listing` (`id`) ON DELETE SET NULL,
   CONSTRAINT `chat_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `chat_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,6 @@ CREATE TABLE `chat` (
 
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-INSERT INTO `chat` VALUES (1,2,2,1,'2026-03-11 13:40:22'),(2,1,2,1,'2026-03-11 13:41:12'),(5,1,6,1,'2026-03-16 13:44:53'),(6,3,6,1,'2026-03-16 13:52:47'),(7,1,7,1,'2026-04-09 11:53:44'),(8,3,7,1,'2026-04-09 11:58:47'),(9,2,8,1,'2026-04-16 12:04:39'),(10,2,9,1,'2026-04-16 13:45:16'),(11,3,9,1,'2026-04-16 13:51:51'),(12,8,9,7,'2026-04-16 14:02:34');
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +117,7 @@ CREATE TABLE `listing` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `listing_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +126,7 @@ CREATE TABLE `listing` (
 
 LOCK TABLES `listing` WRITE;
 /*!40000 ALTER TABLE `listing` DISABLE KEYS */;
-INSERT INTO `listing` VALUES (1,'Test','5','Test',3,1,NULL,0,'2026-03-04 14:11:00',3,NULL),(2,'hayden','5','Test',2,1,NULL,0,'2026-03-04 14:11:43',3,NULL),(3,'Test','5','Test',3,1,NULL,0,'2026-03-11 13:41:46',2,NULL),(4,'Test','5','test',2,3,NULL,1,'2026-03-11 13:52:07',1,NULL),(5,'hayden','123','312',2,4,NULL,0,'2026-03-12 12:17:21',3,NULL),(6,'ewae','123','',3,4,NULL,0,'2026-03-12 13:43:13',NULL,NULL),(7,'ewa','0.06','',3,7,NULL,1,'2026-04-09 11:58:59',2,3),(8,'Pipe','5','Test',2,7,NULL,0,'2026-04-09 12:30:15',2,4);
+INSERT INTO `listing` VALUES (10,'Boots','150','My Boots',5,11,NULL,0,'2026-04-22 12:12:53',4,8);
 /*!40000 ALTER TABLE `listing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +180,6 @@ CREATE TABLE `listing_like` (
 
 LOCK TABLES `listing_like` WRITE;
 /*!40000 ALTER TABLE `listing_like` DISABLE KEYS */;
-INSERT INTO `listing_like` VALUES (6,1,'2026-03-17 12:13:47'),(6,2,'2026-03-17 12:13:54'),(6,3,'2026-03-17 12:13:57'),(7,8,'2026-04-09 13:57:11');
 /*!40000 ALTER TABLE `listing_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +199,7 @@ CREATE TABLE `listing_photo` (
   PRIMARY KEY (`id`),
   KEY `listing_id` (`listing_id`),
   CONSTRAINT `listing_photo_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listing` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +208,7 @@ CREATE TABLE `listing_photo` (
 
 LOCK TABLES `listing_photo` WRITE;
 /*!40000 ALTER TABLE `listing_photo` DISABLE KEYS */;
-INSERT INTO `listing_photo` VALUES (1,2,'/uploads/listings/listing_2_69a883ef4859c7.94718400.png',0,'2026-03-04 14:11:43'),(2,3,'/uploads/listings/listing_3_69b1a95a7e3618.30695273.png',0,'2026-03-11 13:41:46'),(3,4,'/Reventa/uploads/listings/listing_4_69b1abc7706808.13246320.png',0,'2026-03-11 13:52:07'),(4,5,'/Reventa/uploads/listings/listing_5_69b2e711c11907.37696150.png',0,'2026-03-12 12:17:21'),(5,5,'/Reventa/uploads/listings/listing_5_69b2e711c210a5.49273576.png',1,'2026-03-12 12:17:21'),(6,5,'/Reventa/uploads/listings/listing_5_69b2e711c2e010.02761825.jpg',2,'2026-03-12 12:17:21'),(7,5,'/Reventa/uploads/listings/listing_5_69b2e711c3cb54.38967527.jpg',3,'2026-03-12 12:17:21'),(8,6,'/Reventa/uploads/listings/listing_6_69b2fb31abbf76.27024397.jpg',0,'2026-03-12 13:43:13');
+INSERT INTO `listing_photo` VALUES (10,10,'/uploads/listings/listing_69e8f3854436e.webp',0,'2026-04-22 12:12:53');
 /*!40000 ALTER TABLE `listing_photo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +239,6 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,1,2,'Hi! I\'d like to buy this. Is it still available?','2026-03-11 13:40:42'),(2,1,1,'t','2026-03-11 13:40:48'),(3,2,2,'Hi! I\'d like to buy this. Is it still available?','2026-03-11 13:41:12'),(4,2,1,'Test','2026-03-11 13:41:22'),(7,5,6,'ewaea','2026-03-16 13:44:53'),(8,5,6,'ewaea','2026-03-16 13:52:39'),(9,6,6,'Hi! I\'d like to buy this. Is it still available?','2026-03-16 13:52:47'),(10,5,6,'aaaaaaaaaaaaaaaa','2026-03-17 13:31:41'),(11,5,6,'a','2026-03-17 13:31:43'),(12,5,6,'a','2026-03-17 13:31:43'),(13,5,6,'a','2026-03-17 13:31:44'),(14,5,6,'a','2026-03-17 13:31:45'),(15,5,6,'a','2026-03-17 13:31:45'),(16,5,6,'a','2026-03-17 13:31:46'),(17,5,6,'a','2026-03-17 13:31:47'),(18,5,6,'a','2026-03-17 13:31:47'),(19,5,6,'a','2026-03-17 13:31:48'),(20,5,6,'a','2026-03-17 13:31:49'),(21,5,6,'a','2026-03-17 13:31:50'),(22,5,6,'a','2026-03-17 13:31:51'),(23,5,6,'a','2026-03-17 13:31:52'),(24,5,6,'a','2026-03-17 13:31:53'),(25,5,6,'a','2026-03-17 13:31:59'),(26,7,7,'tt','2026-04-09 11:53:48'),(27,9,8,'yo','2026-04-16 12:04:45');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +259,7 @@ CREATE TABLE `seller_ratings` (
   UNIQUE KEY `uq_seller_rater` (`seller_id`,`rater_id`),
   KEY `idx_seller_id` (`seller_id`),
   KEY `idx_rater_id` (`rater_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +317,7 @@ CREATE TABLE `user` (
   `bio` varchar(300) DEFAULT NULL,
   `gender` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -329,7 +326,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'26burchfieldh@mydacc.org','6146146144','2026-03-06 00:00:00','Hayden','Hayden Burchfield','','$2y$10$4a1nfauUiHYxkQoOwPJgiuvG17MsyE7c9CKspQgHAnHWnXQXTORMC',0,NULL,'/uploads/avatars/avatar_1_69b19ee9acc5f.png','Test',NULL),(2,'bob@bob.com','0000000000','2025-04-15 00:00:00','Bob','hayden B','132 road','$2y$10$mLQ2nP1vAeqDQP7o7.siJOs72CCYBPvDeuJ4IR5F7a15RHH.eIxNu',0,NULL,NULL,NULL,'Male'),(3,'test@test.com','6146146144','2026-03-19 00:00:00','test','Test','test','$2y$10$Z4lQyXw4c6PDDhb/mRvDr.TzIs3Srk5O5TefWvkrRiqr77/rDdBWe',0,NULL,'/Reventa/uploads/avatars/avatar_3_1773251859.png','','Male'),(5,'test@test.com',NULL,NULL,NULL,NULL,NULL,'$2y$10$ow36GfUWkaAjbTpEbZtRZupc7CmORdrdDwK005iaVbADK0ppu.lTy',NULL,NULL,NULL,NULL,NULL),(6,'26burchfieldh@mydacc.orgee','6146146144','2026-03-11 00:00:00','Wowwwwwwww','Hayden Burchfield','test 1234','$2y$10$tbNOuXTZjrmlc6wtBAzka..GAyVIm6aViW9lhr.nbpP4GREad1z86',2,NULL,NULL,NULL,'Male'),(7,'26burchfieldh@mydacc.orgewaewaeaw','6146146144','2026-04-15 00:00:00','weaeaeaw','Hayden Burchfield','test 1234','$2y$10$PQLJYlP2PDK7x3g9v6aNT.POJ/QOsdsG87XjzJXkDKEWtK9Ntnw/a',17,NULL,'uploads/avatars/avatar_7_69d7d36742bc4.png','','Other'),(8,'bob@bob.comeeee','0000000000','2026-04-21 00:00:00','Bobeeeeeeeee','hayden B','132 road','$2y$10$2yBxRZgHRp2GI5QyR04J4eEspsvVZNjL1SnxZcReDJgV2Db23vAXe',5,NULL,NULL,NULL,'Male'),(9,'26burchfieldh@mydacc.orgeeee','6146146144','2026-04-13 00:00:00','26burc','Hayden Burchfield','test 1234','$2y$10$75auO7VSNbjdakHiyF/exuGx0Gpf6Bg9yiRsE.9OyJCfU9gFkgcQi',18,NULL,NULL,NULL,'Female');
+INSERT INTO `user` VALUES (11,'26burchfieldh@mydacc.org','6146146144','2026-04-30 00:00:00','hayden','Hayden Burchfield','test 1234','$2y$10$WHGu3Ifn8XpVr/RB2Nk8JOzOgwmLsjFvIhDHGrVZZ678PtDUNkaV.',36,NULL,'uploads/avatars/avatar_11_69e8f36da9c21.jpg','','Female');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -342,4 +339,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-20 12:05:25
+-- Dump completed on 2026-04-22 13:12:26
