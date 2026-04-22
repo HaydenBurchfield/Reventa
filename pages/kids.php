@@ -58,10 +58,10 @@ $listings   = $listingObj->getListings([
 <div class="nav-mobile-menu" id="navMobileKidsu">
   <a href="../index.php">Home</a>
   <a href="explore.php">Explore</a>
-  <a href="pages/mens.php">Men</a>
-  <a href="pages/womens.php">Women</a>
-  <a href="pages/kids.php">Kids</a>
-  <a href="pages/sell.php">Sell+</a>
+  <a href="mens.php">Men</a>
+  <a href="womens.php">Women</a>
+  <a href="kids.php">Kids</a>
+  <a href="sell.php">Sell+</a>
   <?php if (isset($_SESSION['user_id'])): ?>
     <a href="profile.php">Profile</a>
     <a href="messages.php">Messages</a>

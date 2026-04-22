@@ -45,6 +45,154 @@ if (isset($_SESSION['user_id'])) {
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="stylesheet" href="../assets/css/pages.css">
+<style>
+.carousel-slide { overflow: hidden; }
+.carousel-slide img { width:100%;height:100%;object-fit:cover;display:block; }
+
+/* ── Guarantee the two-column product layout ── */
+.product-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 48px auto;
+  padding: 0 32px;
+}
+
+.product-carousel {
+  flex: 0 0 auto;
+  width: 48%;
+  max-width: 560px;
+  position: relative;
+}
+
+.product-carousel-track {
+  width: 100%;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+  background: #f2f0ed;
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.carousel-slide.active { opacity: 1; }
+
+.product-details {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-top: 8px;
+}
+
+/* Arrows & dots */
+.carousel-arrow {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: none; cursor: pointer;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.carousel-arrow.prev { left: 12px; }
+.carousel-arrow.next { right: 12px; }
+
+.carousel-dots {
+  position: absolute; bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 2;
+}
+.carousel-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  border: none; background: rgba(10,10,10,0.3); cursor: pointer; padding: 0;
+}
+.carousel-dot.active { background: #0a0a0a; }
+
+/* Detail typography */
+.product-brand {
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: #888; margin: 0 0 8px;
+}
+.product-name {
+  font-family: var(--serif, 'Cormorant Garamond', serif);
+  font-size: 32px; font-weight: 300; margin: 0 0 20px; line-height: 1.2;
+}
+.product-detail-price {
+  font-size: 22px; font-weight: 300; letter-spacing: .04em; margin: 0 0 12px;
+}
+.product-condition-tag {
+  display: inline-block; font-size: 9px; letter-spacing: .16em;
+  text-transform: uppercase; border: 1px solid #d0d0d0;
+  padding: 4px 10px; margin-bottom: 24px; color: #555;
+}
+
+/* Buttons */
+.btn-buy {
+  font-family: var(--sans, 'Montserrat', sans-serif);
+  font-size: 10px; font-weight: 400; letter-spacing: .2em; text-transform: uppercase;
+  background: #0a0a0a; color: #fff; border: none;
+  padding: 14px 28px; cursor: pointer; width: 100%; box-sizing: border-box;
+  transition: opacity .2s;
+}
+.btn-buy:hover { opacity: .75; }
+
+.btn-wish {
+  font-family: var(--sans, 'Montserrat', sans-serif);
+  font-size: 10px; font-weight: 400; letter-spacing: .16em; text-transform: uppercase;
+  background: transparent; color: #0a0a0a;
+  border: 1px solid #0a0a0a; padding: 12px 28px; cursor: pointer;
+  width: 100%; box-sizing: border-box; margin-top: 8px; transition: all .2s;
+}
+.btn-wish:hover { background: #0a0a0a; color: #fff; }
+
+/* Seller card */
+.seller-card {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 28px; padding: 16px 0;
+  border-top: 1px solid #e8e6e2; border-bottom: 1px solid #e8e6e2;
+}
+.seller-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: #0a0a0a; overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.seller-avatar img { width:100%; height:100%; object-fit:cover; }
+.seller-info h5 { font-size: 12px; font-weight: 500; letter-spacing: .06em; margin: 0 0 2px; }
+
+/* Description accordion */
+.product-desc-block { margin-top: 20px; }
+.product-desc-toggle {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; background: none; border: none; border-top: 1px solid #e8e6e2;
+  padding: 14px 0; cursor: pointer;
+  font-family: var(--sans, 'Montserrat', sans-serif);
+  font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #0a0a0a;
+}
+.product-desc-toggle .chevron { transition: transform .2s; display: inline-block; }
+.product-desc-toggle.open .chevron { transform: rotate(90deg); }
+.product-desc-text {
+  font-size: 13px; line-height: 1.7; color: #444;
+  max-height: 0; overflow: hidden; transition: max-height .3s ease;
+}
+.product-desc-text.open { max-height: 600px; padding-bottom: 16px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-layout {
+    flex-direction: column;
+    padding: 0 16px;
+    margin: 24px auto;
+    gap: 24px;
+  }
+  .product-carousel { width: 100%; max-width: 100%; }
+  .product-name { font-size: 24px; }
+}
+</style>
 </head>
 <body class="product-body">
 
@@ -91,13 +239,23 @@ if (isset($_SESSION['user_id'])) {
     <div class="product-carousel-track">
       <?php $photos = $item['photos'] ?? []; ?>
       <?php if (!empty($photos)): ?>
-        <?php foreach ($photos as $i => $photo): ?>
-          <div class="carousel-slide <?= $i===0?'active':'' ?>"
-               style="background: url('../<?= htmlspecialchars(ltrim($photo['photo_url'], '/')) ?>') center/cover no-repeat;">
+        <?php foreach ($photos as $i => $photo):
+          // Normalize photo URL: strip leading slash, then prepend ../
+          $photoPath = ltrim($photo['photo_url'], '/');
+          // If path already starts with 'uploads/' just prepend ../
+          // If it starts with something else (absolute server path), use as-is
+          $photoSrc = '../' . $photoPath;
+        ?>
+          <div class="carousel-slide <?= $i===0?'active':'' ?>">
+            <img src="<?= htmlspecialchars($photoSrc) ?>"
+                 alt="<?= htmlspecialchars($item['name']) ?>"
+                 style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
         <?php endforeach; ?>
       <?php else: ?>
-        <div class="carousel-slide active" style="background: linear-gradient(145deg,#e0ddd6 0%,#c8c5be 100%);"></div>
+        <div class="carousel-slide active" style="background: linear-gradient(145deg,#e0ddd6 0%,#c8c5be 100%);display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--serif);font-size:14px;letter-spacing:.1em;color:#9a9890;text-transform:uppercase;">No Photo</span>
+        </div>
       <?php endif; ?>
     </div>
 

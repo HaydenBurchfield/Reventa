@@ -181,7 +181,7 @@ $featured   = $listingObj->getListings(['sort' => 'newest', 'limit' => 4]);
           <div class="product-image">
             <?php if (!empty($item['cover_photo'])): ?>
               <img class="product-image-inner"
-                   src="<?= htmlspecialchars($item['cover_photo']) ?>"
+                   src="<?= htmlspecialchars(ltrim($item['cover_photo'], '/')) ?>"
                    alt="<?= htmlspecialchars($item['name']) ?>"
                    loading="lazy"
                    style="object-fit:cover;width:100%;height:100%;display:block;">

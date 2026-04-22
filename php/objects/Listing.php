@@ -20,12 +20,16 @@ class Listing {
         $this->conn = $this->db->getConnection();
     }
 
+    /** Normalize a stored photo path → always no leading slash */
+    public static function normalizePath(?string $path): string {
+        return ltrim($path ?? '', '/');
+    }
+
     public function addView() {
         $sql  = "UPDATE `reventa`.`listing` SET `view_count` = `view_count` + 1 WHERE (`id` = ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $this->id);
         $success = $stmt->execute();
-        if ($success) $this->id = $stmt->insert_id;
         $stmt->close();
         return $success;
     }
@@ -53,10 +57,8 @@ class Listing {
     }
 
     public function addPhoto($listingId, $photoUrl, $sortOrder = 0) {
-        // Normalize: always store with a leading slash for consistency
-        if ($photoUrl && strpos($photoUrl, '/') !== 0) {
-            $photoUrl = '/' . $photoUrl;
-        }
+        // Normalize: always store WITHOUT a leading slash so callers prepend their own prefix
+        $photoUrl = ltrim($photoUrl, '/');
         $sql  = "INSERT INTO listing_photo (listing_id, photo_url, sort_order) VALUES (?,?,?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("isi", $listingId, $photoUrl, $sortOrder);
