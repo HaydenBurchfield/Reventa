@@ -162,6 +162,24 @@ class User {
         return $users;
     }
 
+    public function checkUsernameEmailTaken($username, $email, $excludeUserId) {
+        $conn = $this->db->connect();
+
+        $stmt = $conn->prepare("SELECT id FROM user WHERE username = ? AND id != ?");
+        $stmt->bind_param("si", $username, $excludeUserId);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) { $stmt->close(); return 'username'; }
+        $stmt->close();
+
+        $stmt = $conn->prepare("SELECT id FROM user WHERE email = ? AND id != ?");
+        $stmt->bind_param("si", $email, $excludeUserId);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) { $stmt->close(); return 'email'; }
+        $stmt->close();
+
+        return false;
+    }
+
     public static function searchuser($searchTerm) {
         $db   = new DatabaseConnection();
         $conn = $db->connect();
