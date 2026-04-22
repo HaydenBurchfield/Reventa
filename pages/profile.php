@@ -4,6 +4,32 @@ require_once '../php/objects/Listing.php';
 require_once '../php/Utils/DatabaseConnection.php';
 session_start();
 
+// ── Handle avatar upload from profile page ─────────────────────
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_FILES['avatar']['tmp_name'])) {
+    if (!isset($_SESSION['user_id'])) { header("Location: login.php"); exit; }
+
+    $userUpload = new User();
+    $userUpload->populate($_SESSION['user_id']);
+
+    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    $mime    = mime_content_type($_FILES['avatar']['tmp_name']);
+
+    if (in_array($mime, $allowed) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../uploads/avatars/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+        $ext      = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+        $filename = 'avatar_' . $_SESSION['user_id'] . '_' . uniqid() . '.' . $ext;
+
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadDir . $filename)) {
+            $userUpload->profile_picture = 'uploads/avatars/' . $filename;
+            $userUpload->updateProfile();
+        }
+    }
+
+    header("Location: profile.php");
+    exit;
+}
+
 $db   = new DatabaseConnection();
 $conn = $db->getConnection();
 

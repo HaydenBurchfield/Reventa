@@ -221,11 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                       style="resize:vertical;min-height:80px;font-family:inherit;"
             ><?= htmlspecialchars($userObj->bio ?? '') ?></textarea>
           </div>
-          <div class="sf-row" style="margin-bottom:20px;">
-            <label class="sf-label" for="avatar">Profile Photo</label>
-            <input class="sf-input" type="file" id="avatar" name="avatar" accept="image/*"
-                   style="padding:8px 14px;">
-          </div>
+          
           <div class="btn-row">
             <button type="submit" class="sf-btn">Save Changes</button>
           </div>
