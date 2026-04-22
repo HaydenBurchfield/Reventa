@@ -113,13 +113,28 @@ class User {
         return $success;
     }
 
-    public function update() {
+    // Updates only username, email, and state — never touches the password.
+    public function updateAccount() {
+        if (!$this->id) return false;
+        $conn = $this->db->connect();
+        $sql  = "UPDATE user SET username=?, email=?, state_id=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) { error_log("updateAccount prepare failed: " . $conn->error); return false; }
+        $stmt->bind_param("ssii", $this->username, $this->email, $this->state, $this->id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
+    }
+
+    // Updates only the password. Pass the plain-text new password in $this->password.
+    public function updatePassword() {
         if (!$this->id) return false;
         $conn           = $this->db->connect();
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql  = "UPDATE user SET username=?, email=?, password=?, state_id=? WHERE id=?";
+        $sql  = "UPDATE user SET password=? WHERE id=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssii", $this->username, $this->email, $hashedPassword, $this->state, $this->id);
+        if (!$stmt) { error_log("updatePassword prepare failed: " . $conn->error); return false; }
+        $stmt->bind_param("si", $hashedPassword, $this->id);
         $success = $stmt->execute();
         $stmt->close();
         return $success;

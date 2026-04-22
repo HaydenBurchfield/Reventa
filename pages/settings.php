@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $messageType = "error";
         } else {
             $userObj->password = $new;
-            if ($userObj->update()) {
+            if ($userObj->updatePassword()) {
                 $message = "Password updated successfully.";
                 $messageType = "success";
             } else {
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } else {
                 $userObj->username = $newUsername;
                 $userObj->email    = $newEmail;
-                if ($userObj->update()) {
+                if ($userObj->updateAccount()) {
                     $_SESSION['username'] = $newUsername;
                     $message = "Account updated successfully.";
                     $messageType = "success";
@@ -221,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                       style="resize:vertical;min-height:80px;font-family:inherit;"
             ><?= htmlspecialchars($userObj->bio ?? '') ?></textarea>
           </div>
-          
+
           <div class="btn-row">
             <button type="submit" class="sf-btn">Save Changes</button>
           </div>
